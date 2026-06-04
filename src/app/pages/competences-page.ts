@@ -1,0 +1,73 @@
+import { Component, OnInit, ElementRef, QueryList, ViewChildren, signal } from '@angular/core';
+
+interface SkillBar { name: string; percent: number; color: string; }
+interface SkillGroup { title: string; icon: string; skills: SkillBar[]; }
+
+@Component({
+  selector: 'app-competences-page',
+  imports: [],
+  templateUrl: './competences-page.html',
+  styleUrl: './competences-page.scss',
+})
+export class CompetencesPage implements OnInit {
+  @ViewChildren('reveal') revealEls!: QueryList<ElementRef>;
+  barsVisible = signal(false);
+
+  skillGroups: SkillGroup[] = [
+    {
+      title: 'Langages', icon: '</>', skills: [
+        { name: 'C', percent: 80, color: 'purple' },
+        { name: 'Java', percent: 75, color: 'purple' },
+        { name: 'Python', percent: 65, color: 'purple' },
+        { name: 'C#', percent: 60, color: 'purple' },
+        { name: 'SQL / PL-SQL', percent: 65, color: 'purple' },
+        { name: 'Assembleur MIPS32', percent: 45, color: 'purple' },
+      ],
+    },
+    {
+      title: 'Développement Web', icon: '🌐', skills: [
+        { name: 'HTML / CSS', percent: 75, color: 'cyan' },
+        { name: 'PHP', percent: 50, color: 'cyan' },
+        { name: 'Node.js', percent: 55, color: 'cyan' },
+        { name: 'React', percent: 55, color: 'cyan' },
+        { name: 'MySQL', percent: 65, color: 'cyan' },
+      ],
+    },
+    {
+      title: 'Systèmes & Outils', icon: '⚙', skills: [
+        { name: 'Git / GitHub', percent: 80, color: 'pink' },
+        { name: 'BASH', percent: 60, color: 'pink' },
+        { name: 'Administration Système', percent: 55, color: 'pink' },
+        { name: 'Linux', percent: 60, color: 'pink' },
+      ],
+    },
+  ];
+
+  languages = [
+    { name: 'Vietnamien', level: 'Langue maternelle', percent: 100, flag: '🇻🇳' },
+    { name: 'Français', level: 'Courant', percent: 95, flag: '🇫🇷' },
+    { name: 'Anglais', level: 'Niveau B1', percent: 55, flag: '🇬🇧' },
+  ];
+
+  softSkills = ['Travail d\'équipe', 'Curiosité', 'Adaptabilité', 'Rigueur', 'Autonomie'];
+
+  ngOnInit() {
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+    );
+    const barsObserver = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { this.barsVisible.set(true); barsObserver.disconnect(); }
+      }),
+      { threshold: 0.2 }
+    );
+    setTimeout(() => {
+      this.revealEls.forEach(el => observer.observe(el.nativeElement));
+      const first = document.querySelector('.skills-grid-section');
+      if (first) barsObserver.observe(first);
+    });
+  }
+}

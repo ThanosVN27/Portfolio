@@ -1,0 +1,68 @@
+<section class="comp-hero">
+  <div class="container">
+    <div class="section-tag">03 — Compétences</div>
+    <h1>Mon <span class="gradient-text">stack</span></h1>
+    <p class="comp-intro">Langages, outils et technologies maîtrisés durant mon BUT Informatique.</p>
+  </div>
+</section>
+
+<section class="skills-grid-section">
+  <div class="container">
+    <div class="skill-groups">
+      @for (group of skillGroups; track group.title) {
+        <div class="skill-group glass reveal" #reveal>
+          <div class="group-header">
+            <span class="group-icon">{{ group.icon }}</span>
+            <h3 class="group-title">{{ group.title }}</h3>
+          </div>
+          <div class="skill-bars">
+            @for (skill of group.skills; track skill.name) {
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-name">{{ skill.name }}</span>
+                  <span class="skill-percent">{{ skill.percent }}%</span>
+                </div>
+                <div class="skill-track">
+                  <div class="skill-fill"
+                    [class]="'fill-' + skill.color"
+                    [style.width]="barsVisible() ? skill.percent + '%' : '0%'">
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="soft-skills-section reveal" #reveal>
+      <h3 class="group-title-inline">🧠 Soft skills</h3>
+      <div class="soft-tags">
+        @for (s of softSkills; track s) {
+          <span class="soft-tag">{{ s }}</span>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lang-section">
+  <div class="container">
+    <div class="section-tag reveal" #reveal>Langues</div>
+    <h2 class="section-title reveal" #reveal>Mes <span class="gradient-text">langues</span></h2>
+    <div class="lang-grid">
+      @for (lang of languages; track lang.name) {
+        <div class="lang-card glass reveal" #reveal>
+          <div class="lang-flag">{{ lang.flag }}</div>
+          <div class="lang-info">
+            <h3>{{ lang.name }}</h3>
+            <p>{{ lang.level }}</p>
+          </div>
+          <div class="lang-bar-wrap">
+            <div class="lang-bar" [style.width]="barsVisible() ? lang.percent + '%' : '0%'"></div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

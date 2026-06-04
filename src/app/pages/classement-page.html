@@ -1,0 +1,46 @@
+<section class="rank-hero">
+  <div class="container">
+    <div class="section-tag">🎬 Culture</div>
+    <h1>Mes <span class="gradient-text">classements</span></h1>
+    <p class="rank-intro">Films, séries et anime que j'ai regardés — classés par note personnelle.</p>
+    <div class="tier-legend">
+      <span class="tier-pill tier-s">S — Incontournable</span>
+      <span class="tier-pill tier-a">A — Excellent</span>
+      <span class="tier-pill tier-b">B — Bien</span>
+      <span class="tier-pill tier-c">C — Moyen</span>
+    </div>
+  </div>
+</section>
+
+<section class="rank-body">
+  <div class="container">
+    <div class="filters">
+      @for (f of filters; track f) {
+        <button class="filter-btn" [class.active]="activeFilter() === f" (click)="setFilter(f)">{{ f }}</button>
+      }
+    </div>
+
+    <div class="rank-grid">
+      @for (entry of filtered(); track entry.title) {
+        <div class="rank-card glass">
+          <div class="rank-top">
+            <span class="rank-tier" [class]="tierClass(entry.score)">{{ tierLabel(entry.score) }}</span>
+            <span class="rank-emoji">{{ entry.emoji }}</span>
+          </div>
+          <h3 class="rank-title">{{ entry.title }}</h3>
+          <span class="rank-year">{{ entry.year }}</span>
+          <div class="rank-bottom">
+            <span class="rank-cat">{{ entry.category }}</span>
+            <div class="rank-score">
+              <span class="score-num">{{ entry.score }}</span>
+              <span class="score-denom">/10</span>
+            </div>
+          </div>
+          <div class="score-bar">
+            <div class="score-fill" [class]="tierClass(entry.score)" [style.width]="(entry.score * 10) + '%'"></div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
