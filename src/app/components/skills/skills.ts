@@ -16,10 +16,11 @@ export class Skills implements OnInit {
   @ViewChildren('reveal') revealEls!: QueryList<ElementRef>;
 
   categories: SkillCategory[] = [
-    { icon: '</>', title: 'Frontend', tags: ['HTML / CSS', 'JavaScript', 'React', 'Angular', 'TypeScript'] },
-    { icon: '⚙', title: 'Backend', tags: ['Python', 'Node.js', 'SQL', 'REST API'] },
-    { icon: '🌐', title: 'Outils', tags: ['Git / GitHub', 'Docker', 'Linux', 'VS Code'] },
-    { icon: '🧠', title: 'Soft skills', tags: ['Travail d\'équipe', 'Curiosité', 'Adaptabilité', 'Autonomie'] },
+    { icon: '</>', title: 'Langages', tags: ['Python', 'Java', 'C', 'C#', 'SQL', 'Assembleur', 'MIPS32'] },
+    { icon: '🌐', title: 'Développement Web', tags: ['HTML / CSS', 'PHP', 'Node.js', 'React'] },
+    { icon: '🗄', title: 'Bases de données', tags: ['MySQL', 'PL/SQL'] },
+    { icon: '⚙', title: 'Systèmes & Outils', tags: ['BASH', 'Administration Système', 'Git / GitHub'] },
+    { icon: '🧠', title: 'Soft skills', tags: ['Travail d\'équipe', 'Curiosité', 'Adaptabilité', 'Rigueur'] },
   ];
 
   ngOnInit() {
