@@ -1,7 +1,9 @@
 import { Component, HostListener, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
@@ -10,20 +12,8 @@ export class Navbar {
   menuOpen = signal(false);
 
   @HostListener('window:scroll')
-  onScroll() {
-    this.scrolled.set(window.scrollY > 50);
-  }
+  onScroll() { this.scrolled.set(window.scrollY > 50); }
 
-  toggleMenu() {
-    this.menuOpen.update(v => !v);
-  }
-
-  closeMenu() {
-    this.menuOpen.set(false);
-  }
-
-  scrollTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    this.closeMenu();
-  }
+  toggleMenu() { this.menuOpen.update(v => !v); }
+  closeMenu() { this.menuOpen.set(false); }
 }

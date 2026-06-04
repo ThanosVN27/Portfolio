@@ -1,0 +1,101 @@
+<!-- BIO -->
+<section class="bio-section">
+  <div class="container">
+    <div class="section-tag reveal" #reveal>01 — À propos</div>
+    <h2 class="section-title reveal" #reveal>Qui suis-je <span class="gradient-text">?</span></h2>
+    <div class="about-grid">
+      <div class="about-text reveal" #reveal>
+        <p>Étudiant passionné par le <strong>développement logiciel</strong> et les systèmes informatiques. Sérieux, curieux et rigoureux, je possède une bonne capacité d'adaptation et j'apprécie le travail en équipe à travers des projets techniques variés.</p>
+        <p>Je cherche à renforcer mes compétences pratiques dans un cadre professionnel. En dehors du code, je suis passionné de <strong>sport</strong> et de <strong>jeux vidéo</strong>.</p>
+        <div class="about-stats">
+          <div class="stat"><span class="stat-number">6+</span><span class="stat-label">Projets réalisés</span></div>
+          <div class="stat"><span class="stat-number">3</span><span class="stat-label">Années d'études</span></div>
+          <div class="stat"><span class="stat-number">∞</span><span class="stat-label">Curiosité</span></div>
+        </div>
+      </div>
+      <div class="about-card glass reveal" #reveal>
+        <div class="about-avatar"><span>TL</span></div>
+        <div class="about-info">
+          <div class="info-item"><span class="info-label">Formation</span><span class="info-value">BUT Informatique 2e année</span></div>
+          <div class="info-item"><span class="info-label">École</span><span class="info-value">IUT Robert Schumann</span></div>
+          <div class="info-item"><span class="info-label">Localisation</span><span class="info-value">Strasbourg</span></div>
+          <div class="info-item"><span class="info-label">Disponible</span><span class="info-value available">Oui — Stage / Alternance</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <div class="container">
+    <div class="section-tag reveal" #reveal>02 — Formation</div>
+    <h2 class="section-title reveal" #reveal>Mon <span class="gradient-text">parcours</span></h2>
+    <div class="timeline">
+      @for (item of timeline; track item.year) {
+        <div class="timeline-item reveal" #reveal>
+          <div class="timeline-dot" [class.current]="item.current"></div>
+          <div class="timeline-content glass">
+            <span class="timeline-year">{{ item.year }}</span>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.school }}</p>
+            @if (item.current) { <span class="badge-current">En cours</span> }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section">
+  <div class="container">
+    <div class="section-tag reveal" #reveal>03 — Compétences</div>
+    <h2 class="section-title reveal" #reveal>Mon <span class="gradient-text">stack</span></h2>
+    <div class="skill-groups">
+      @for (group of skillGroups; track group.title) {
+        <div class="skill-group reveal" #reveal>
+          <h3 class="group-title">{{ group.title }}</h3>
+          <div class="skill-bars">
+            @for (skill of group.skills; track skill.name) {
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-name">{{ skill.name }}</span>
+                  <span class="skill-percent">{{ skill.percent }}%</span>
+                </div>
+                <div class="skill-track">
+                  <div class="skill-fill"
+                    [style.width]="barsVisible() ? skill.percent + '%' : '0%'"
+                    [style.background]="skill.color === '#7c6fff' ? 'linear-gradient(90deg,#7c6fff,#a78bfa)' : 'linear-gradient(90deg,#00d4ff,#38bdf8)'">
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section class="lang-section">
+  <div class="container">
+    <div class="section-tag reveal" #reveal>04 — Langues</div>
+    <h2 class="section-title reveal" #reveal>Mes <span class="gradient-text">langues</span></h2>
+    <div class="lang-grid">
+      @for (lang of languages; track lang.name) {
+        <div class="lang-card glass reveal" #reveal>
+          <div class="lang-flag">{{ lang.flag }}</div>
+          <div class="lang-info">
+            <h3>{{ lang.name }}</h3>
+            <p>{{ lang.level }}</p>
+          </div>
+          <div class="lang-bar-wrap">
+            <div class="lang-bar" [style.width]="barsVisible() ? lang.percent + '%' : '0%'"></div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

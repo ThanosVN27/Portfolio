@@ -48,7 +48,8 @@ nav {
       transition: var(--transition);
     }
 
-    &:hover { color: var(--text); &::after { width: 100%; } }
+    &:hover, &.active { color: var(--text); &::after { width: 100%; } }
+    &.active { color: var(--accent); }
   }
 
   &.open {
