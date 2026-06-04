@@ -1,0 +1,27 @@
+<section id="projects">
+  <div class="container">
+    <div class="section-tag reveal" #reveal>03 — Projets</div>
+    <h2 class="section-title reveal" #reveal>Mes <span class="gradient-text">réalisations</span></h2>
+    <div class="projects-grid">
+      @for (project of projects; track project.num) {
+        <article class="project-card glass reveal" #reveal>
+          <div class="project-header">
+            <span class="project-number">{{ project.num }}</span>
+            <div class="project-links">
+              <a [href]="project.github" title="GitHub">◆</a>
+              <a [href]="project.demo" title="Live demo">↗</a>
+            </div>
+          </div>
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.description }}</p>
+          <div class="project-tags">
+            <span class="tag tag-accent">{{ project.accentTag }}</span>
+            @for (tag of project.tags; track tag) {
+              <span class="tag">{{ tag }}</span>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

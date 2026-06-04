@@ -1,0 +1,12 @@
+<nav [class.scrolled]="scrolled()">
+  <div class="nav-logo" (click)="scrollTo('hero')">YN<span class="dot">.</span></div>
+  <ul class="nav-links" [class.open]="menuOpen()">
+    <li><a (click)="scrollTo('about')">À propos</a></li>
+    <li><a (click)="scrollTo('skills')">Compétences</a></li>
+    <li><a (click)="scrollTo('projects')">Projets</a></li>
+    <li><a (click)="scrollTo('contact')">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" (click)="toggleMenu()" aria-label="menu">
+    {{ menuOpen() ? '✕' : '☰' }}
+  </button>
+</nav>

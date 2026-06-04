@@ -1,0 +1,19 @@
+<section id="skills">
+  <div class="container">
+    <div class="section-tag reveal" #reveal>02 — Compétences</div>
+    <h2 class="section-title reveal" #reveal>Mon <span class="gradient-text">stack</span></h2>
+    <div class="skills-grid">
+      @for (cat of categories; track cat.title) {
+        <div class="skill-category glass reveal" #reveal>
+          <div class="skill-icon">{{ cat.icon }}</div>
+          <h3>{{ cat.title }}</h3>
+          <div class="skill-tags">
+            @for (tag of cat.tags; track tag) {
+              <span class="tag">{{ tag }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,87 @@
+section { background: var(--bg-2); }
+
+.contact-intro { color: var(--text-muted); font-size: 1.05rem; max-width: 520px; margin-bottom: 56px; }
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+  align-items: start;
+}
+
+.contact-form { padding: 40px; }
+
+.form-group {
+  margin-bottom: 24px;
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: var(--font);
+    transition: var(--transition);
+    resize: vertical;
+    outline: none;
+
+    &:focus {
+      border-color: var(--accent);
+      background: rgba(124, 111, 255, 0.06);
+      box-shadow: 0 0 0 3px rgba(124, 111, 255, 0.1);
+    }
+
+    &::placeholder { color: var(--text-muted); opacity: 0.6; }
+  }
+}
+
+.btn-full {
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: 0 0 24px rgba(124, 111, 255, 0.35);
+  transition: var(--transition);
+
+  &:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(124, 111, 255, 0.55); }
+
+  &.sent {
+    background: linear-gradient(135deg, #4ade80, #22d3ee);
+    box-shadow: 0 0 24px rgba(74, 222, 128, 0.35);
+    pointer-events: none;
+  }
+}
+
+.contact-links { display: flex; flex-direction: column; gap: 16px; }
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  text-decoration: none;
+  transition: var(--transition);
+  &:hover { border-color: rgba(124, 111, 255, 0.3); transform: translateX(4px); }
+}
+
+.contact-link-icon { font-size: 1.3rem; min-width: 32px; text-align: center; color: var(--accent); }
+.contact-link-label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.contact-link-value { display: block; font-size: 0.9rem; color: var(--text); font-weight: 500; }
+
+@media (max-width: 900px) {
+  .contact-layout { grid-template-columns: 1fr; }
+  .contact-links { flex-direction: row; flex-wrap: wrap; }
+  .contact-link { flex: 1 1 200px; }
+}
+
+@media (max-width: 420px) { .contact-form { padding: 24px; } }
