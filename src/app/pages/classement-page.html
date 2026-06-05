@@ -22,7 +22,7 @@
       </div>
       <div class="toolbar-actions">
         <button class="btn-reset" (click)="resetAll()" title="Réinitialiser">↺</button>
-        <button class="btn-add" (click)="openModal()">+ Ajouter</button>
+        <button class="btn-add" (click)="openAdd()">+ Ajouter</button>
       </div>
     </div>
 
@@ -46,33 +46,39 @@
       </div>
     </div>
 
+    <!-- Grid -->
     <div class="rank-grid">
       @for (entry of filtered(); track entry.id; let i = $index) {
-        <div class="rank-card glass" [style.--cat-color]="catColor(entry.category)" [style.animation-delay]="(i * 45) + 'ms'">
-          <button class="delete-btn" (click)="removeEntry(entry.id)" title="Supprimer">✕</button>
+        <div class="rank-card" [style.--cat-color]="catColor(entry.category)" [style.animation-delay]="(i * 40) + 'ms'">
 
           <!-- Poster -->
-          <div class="card-poster">
+          <div class="poster-wrap">
+            <div class="poster-fallback">{{ entry.emoji }}</div>
             @if (entry.poster) {
               <img [src]="entry.poster" [alt]="entry.title" (error)="onImgError($event)" loading="lazy" />
             }
-            <div class="poster-fallback">{{ entry.emoji }}</div>
-            <span class="rank-tier" [class]="tierClass(entry.score)">{{ tierLabel(entry.score) }}</span>
           </div>
 
-          <!-- Info -->
-          <div class="card-info">
-            <h3 class="rank-title">{{ entry.title }}</h3>
-            <div class="card-meta">
-              <span class="rank-year">{{ entry.year }}</span>
-              <span class="rank-cat">{{ entry.category }}</span>
-            </div>
-            <div class="card-score">
+          <!-- Overlay info at bottom -->
+          <div class="card-overlay">
+            <span class="rank-tier" [class]="tierClass(entry.score)">{{ tierLabel(entry.score) }}</span>
+            <div class="overlay-body">
+              <h3>{{ entry.title }}</h3>
+              <div class="card-meta">
+                <span class="rank-year">{{ entry.year }}</span>
+                <span class="rank-cat" [style.color]="catColor(entry.category)">{{ entry.category }}</span>
+                <span class="score-badge" [class]="tierClass(entry.score)">{{ entry.score }}</span>
+              </div>
               <div class="score-bar">
                 <div class="score-fill" [class]="tierClass(entry.score)" [style.width]="(entry.score * 10) + '%'"></div>
               </div>
-              <span class="score-num">{{ entry.score }}<span class="score-denom">/10</span></span>
             </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="card-actions">
+            <button class="act-btn edit-btn" (click)="openEdit(entry)" title="Modifier">✎</button>
+            <button class="act-btn del-btn" (click)="removeEntry(entry.id)" title="Supprimer">✕</button>
           </div>
         </div>
       }
@@ -89,7 +95,7 @@
   <div class="modal-overlay" (click)="closeModal()">
     <div class="modal glass" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h2>Ajouter une entrée</h2>
+        <h2>{{ isEditing() ? 'Modifier' : 'Ajouter' }}</h2>
         <button class="modal-close" (click)="closeModal()">✕</button>
       </div>
       <div class="form-group">
@@ -123,7 +129,9 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" (click)="closeModal()">Annuler</button>
-        <button class="btn btn-primary" (click)="addEntry()" [disabled]="!newEntry.title.trim()">Ajouter</button>
+        <button class="btn btn-primary" (click)="submitForm()" [disabled]="!newEntry.title.trim()">
+          {{ isEditing() ? 'Sauvegarder' : 'Ajouter' }}
+        </button>
       </div>
     </div>
   </div>
