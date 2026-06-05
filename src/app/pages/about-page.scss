@@ -108,8 +108,14 @@
   .games-grid { grid-template-columns: repeat(2, 1fr); }
   .goals-grid { grid-template-columns: repeat(2, 1fr); }
 }
+@media (max-width: 768px) {
+  .bio-section { padding: 100px 0 60px; }
+  .gaming-section, .goals-section, .timeline-section { padding: 60px 0; }
+}
 @media (max-width: 640px) {
   .about-stats { flex-direction: column; gap: 20px; }
   .games-grid { grid-template-columns: repeat(2, 1fr); }
   .goals-grid { grid-template-columns: 1fr; }
+  .timeline { padding-left: 28px; }
+  .timeline-content { padding: 18px 20px; }
 }

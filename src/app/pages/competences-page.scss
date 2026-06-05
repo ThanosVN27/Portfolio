@@ -69,4 +69,13 @@
 .lang-bar { height: 100%; background: linear-gradient(90deg, #ff6b9d, #ff9a5c); border-radius: 2px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
 
 @media (max-width: 900px) { .skill-groups { grid-template-columns: 1fr 1fr; } .lang-grid { grid-template-columns: 1fr; } }
-@media (max-width: 600px) { .skill-groups { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+  .comp-hero { padding: 100px 0 40px; }
+  .skills-grid-section { padding: 40px 0 60px; }
+  .lang-section { padding: 40px 0 80px; }
+  .lang-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .skill-groups { grid-template-columns: 1fr; }
+  .lang-grid { grid-template-columns: 1fr; }
+}

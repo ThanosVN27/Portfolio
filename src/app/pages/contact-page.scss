@@ -41,3 +41,9 @@ input, textarea {
 .contact-link-value { display: block; font-size: 0.9rem; font-weight: 500; margin-top: 2px; }
 
 @media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+  .contact-hero { padding: 100px 0 40px; }
+  .contact-body { padding: 40px 0 80px; }
+  .contact-form { padding: 20px; }
+  .contact-layout { gap: 32px; }
+}

@@ -1,7 +1,7 @@
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,6 +21,10 @@ nav {
   font-weight: 800;
   letter-spacing: -0.02em;
   cursor: pointer;
+  text-decoration: none;
+  color: var(--text);
+  z-index: 1001;
+  position: relative;
 }
 
 .dot { color: var(--accent); }
@@ -51,19 +55,6 @@ nav {
     &:hover, &.active { color: var(--text); &::after { width: 100%; } }
     &.active { color: var(--accent); }
   }
-
-  &.open {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    inset: 0;
-    background: var(--bg);
-    align-items: center;
-    justify-content: center;
-    gap: 32px;
-    font-size: 1.4rem;
-    z-index: 99;
-  }
 }
 
 .nav-toggle {
@@ -73,10 +64,64 @@ nav {
   color: var(--text);
   font-size: 1.4rem;
   cursor: pointer;
-  z-index: 100;
+  position: relative;
+  z-index: 1001;
 }
 
-@media (max-width: 640px) {
+/* Mobile menu overlay — outside nav stacking context */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--bg);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: menuIn 0.22s ease;
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+    padding: 0;
+    margin: 0;
+  }
+
+  a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--gradient);
+      transition: var(--transition);
+    }
+
+    &:hover, &.active {
+      color: var(--text);
+      &::after { width: 100%; }
+    }
+    &.active { color: var(--accent); }
+  }
+}
+
+@keyframes menuIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (max-width: 768px) {
   nav { padding: 16px 24px; &.scrolled { padding: 12px 24px; } }
   .nav-links { display: none; }
   .nav-toggle { display: block; }
