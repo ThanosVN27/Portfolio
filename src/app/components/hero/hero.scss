@@ -1,19 +1,26 @@
 section {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; text-align: center;
   padding: 0 !important;
-  background: linear-gradient(180deg, #080918 0%, #0c0d20 100%);
+  background: linear-gradient(135deg, #080918 0%, #0d0c24 50%, #080c1a 100%);
 }
 
-.hero-canvas {
-  position: absolute; inset: 0;
-  width: 100% !important; height: 100% !important;
-  pointer-events: none;
+.hero-bg { position: absolute; inset: 0; pointer-events: none; }
+
+.orb {
+  position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35;
+  animation: float 10s ease-in-out infinite;
+}
+.orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, #7c6fff 0%, transparent 70%); top: -200px; left: -150px; }
+.orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, #00d4ff 0%, transparent 70%); bottom: -150px; right: -100px; animation-delay: -4s; }
+.orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, #ff6b9d 0%, transparent 70%); top: 40%; left: 55%; transform: translate(-50%,-50%); animation-delay: -7s; }
+.orb-4 { width: 250px; height: 250px; background: radial-gradient(circle, #00d4ff 0%, transparent 70%); top: 10%; right: 10%; opacity: 0.2; animation-delay: -2s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  33%       { transform: translateY(-24px) scale(1.04); }
+  66%       { transform: translateY(14px) scale(0.97); }
 }
 
 .hero-content { position: relative; z-index: 1; max-width: 800px; padding: 0 24px; }
@@ -31,21 +38,15 @@ h1 {
 }
 
 .hero-typing {
-  font-size: clamp(1rem, 2.5vw, 1.3rem); color: var(--accent); font-family: var(--mono);
+  font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--accent); font-family: var(--mono);
   margin-bottom: 16px; min-height: 2em;
   opacity: 0; animation: fadeUp 0.8s 0.55s forwards;
 }
-
-.cursor {
-  animation: blink 1s step-end infinite;
-  color: var(--accent-2);
-}
-
+.cursor { animation: blink 1s step-end infinite; color: var(--accent-2); }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
 .hero-subtitle {
-  font-size: clamp(0.95rem, 2vw, 1.1rem); color: var(--text-muted);
-  margin-bottom: 40px;
+  font-size: clamp(0.95rem, 2vw, 1.1rem); color: var(--text-muted); margin-bottom: 40px;
   opacity: 0; animation: fadeUp 0.8s 0.7s forwards;
 }
 
@@ -57,11 +58,9 @@ h1 {
 .hero-scroll {
   position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
   opacity: 0; animation: fadeIn 1s 1.3s forwards;
-
   span {
     display: block; width: 20px; height: 32px;
     border: 2px solid var(--border); border-radius: 10px; position: relative;
-
     &::after {
       content: ''; position: absolute; top: 4px; left: 50%;
       transform: translateX(-50%); width: 3px; height: 6px;

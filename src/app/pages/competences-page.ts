@@ -27,9 +27,11 @@ export class CompetencesPage implements OnInit {
     {
       title: 'Développement Web', icon: '🌐', skills: [
         { name: 'HTML / CSS', percent: 75, color: 'cyan' },
-        { name: 'PHP', percent: 50, color: 'cyan' },
-        { name: 'Node.js', percent: 55, color: 'cyan' },
+        { name: 'Angular', percent: 60, color: 'cyan' },
+        { name: 'TypeScript', percent: 60, color: 'cyan' },
         { name: 'React', percent: 55, color: 'cyan' },
+        { name: 'Node.js', percent: 55, color: 'cyan' },
+        { name: 'PHP', percent: 50, color: 'cyan' },
         { name: 'MySQL', percent: 65, color: 'cyan' },
       ],
     },
