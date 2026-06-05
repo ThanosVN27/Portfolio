@@ -15,7 +15,7 @@ const T = 'https://image.tmdb.org/t/p/w300';
   styleUrl: './classement-page.scss',
 })
 export class ClassementPage implements OnInit {
-  private readonly STORAGE_KEY = 'portfolio-classement-v9';
+  private readonly STORAGE_KEY = 'portfolio-classement-v10';
 
   activeFilter = signal('Tout');
   showModal = signal(false);
@@ -62,42 +62,42 @@ export class ClassementPage implements OnInit {
     { id: 'd31', title: 'The Witcher',                      year: 2019, score: 7.5, category: 'Séries', emoji: '🗡️', poster: `${T}/7vjaCdMw15FEbXyLQTVa04URsPm.jpg` },
     // Marvel — Phase 1 (manquants)
     { id: 'd32', title: 'The Incredible Hulk',                          year: 2008, score: 7,   category: 'Marvel', emoji: '💚', poster: `${T}/gKzYx79y0AQTL4UAk1cBQJ3nvrm.jpg` },
-    { id: 'd33', title: 'Iron Man 2',                                    year: 2010, score: 7.5, category: 'Marvel', emoji: '🤖', poster: `${T}/6WBeq4tVGHEPVfkdcE6XS8Lgj9L.jpg` },
-    { id: 'd34', title: 'Thor',                                          year: 2011, score: 7.5, category: 'Marvel', emoji: '⚡', poster: `${T}/prSfAi1xGrhLQNxVSUFh61Dwd3O.jpg` },
-    { id: 'd35', title: 'Captain America: The First Avenger',            year: 2011, score: 8,   category: 'Marvel', emoji: '🛡️', poster: `${T}/vSNxAJTerdIFJpvAFeitNQHWR0U.jpg` },
+    { id: 'd33', title: 'Iron Man 2',                                    year: 2010, score: 7.5, category: 'Marvel', emoji: '🤖', poster: `${T}/6WBeq4fCfn7AN0o21W9qNcRF2l9.jpg` },
+    { id: 'd34', title: 'Thor',                                          year: 2011, score: 7.5, category: 'Marvel', emoji: '⚡', poster: `${T}/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg` },
+    { id: 'd35', title: 'Captain America: The First Avenger',            year: 2011, score: 8,   category: 'Marvel', emoji: '🛡️', poster: `${T}/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg` },
     // Marvel — Phase 2 (manquants)
     { id: 'd36', title: 'Iron Man 3',                                    year: 2013, score: 7,   category: 'Marvel', emoji: '🤖', poster: `${T}/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg` },
-    { id: 'd37', title: 'Thor: The Dark World',                          year: 2013, score: 6.5, category: 'Marvel', emoji: '⚡', poster: `${T}/ByDf0zjLSumz1MP3B0LMEJ8RDTG.jpg` },
-    { id: 'd38', title: 'Captain America: The Winter Soldier',           year: 2014, score: 9,   category: 'Marvel', emoji: '🛡️', poster: `${T}/5TQ6YDmymBpnF005OyoB7ohZps9.jpg` },
+    { id: 'd37', title: 'Thor: The Dark World',                          year: 2013, score: 6.5, category: 'Marvel', emoji: '⚡', poster: `${T}/wp6OxE4poJ4G7c0U2ZIXasTSMR7.jpg` },
+    { id: 'd38', title: 'Captain America: The Winter Soldier',           year: 2014, score: 9,   category: 'Marvel', emoji: '🛡️', poster: `${T}/tVFRpFw3xTedgPGqxW0AOI8Qhh0.jpg` },
     { id: 'd39', title: 'Avengers: Age of Ultron',                       year: 2015, score: 8,   category: 'Marvel', emoji: '🤖', poster: `${T}/4ssDuvEDkSArWEdyBl2X5EHvYKU.jpg` },
-    { id: 'd40', title: 'Ant-Man',                                       year: 2015, score: 8,   category: 'Marvel', emoji: '🐜', poster: `${T}/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg` },
+    { id: 'd40', title: 'Ant-Man',                                       year: 2015, score: 8,   category: 'Marvel', emoji: '🐜', poster: `${T}/rQRnQfUl3kfp78nCWq8Ks04vnq1.jpg` },
     // Marvel — Phase 3 (manquants)
-    { id: 'd41', title: 'Doctor Strange',                                year: 2016, score: 8.5, category: 'Marvel', emoji: '🔮', poster: `${T}/uGBVl3bFEA7td2nkQcduAbs4JLQ.jpg` },
-    { id: 'd42', title: 'Guardians of the Galaxy Vol. 2',                year: 2017, score: 8,   category: 'Marvel', emoji: '🌌', poster: `${T}/y4MBh0EjBlMuOzv9axM4j4yRops.jpg` },
-    { id: 'd43', title: 'Spider-Man: Homecoming',                        year: 2017, score: 8,   category: 'Marvel', emoji: '🕷️', poster: `${T}/c24sv2weTHPsmDa7jEMN0kPaKNe.jpg` },
+    { id: 'd41', title: 'Doctor Strange',                                year: 2016, score: 8.5, category: 'Marvel', emoji: '🔮', poster: `${T}/xf8PbyQcR5ucXErmZNzdKR0s8ya.jpg` },
+    { id: 'd42', title: 'Guardians of the Galaxy Vol. 2',                year: 2017, score: 8,   category: 'Marvel', emoji: '🌌', poster: `${T}/y4MBh0EjBlMuOzv9axM4qJlmhzz.jpg` },
+    { id: 'd43', title: 'Spider-Man: Homecoming',                        year: 2017, score: 8,   category: 'Marvel', emoji: '🕷️', poster: `${T}/c24sv2weTHPsmDa7jEMN0m2P3RT.jpg` },
     { id: 'd44', title: 'Black Panther',                                 year: 2018, score: 8.5, category: 'Marvel', emoji: '🐾', poster: `${T}/uxzzxijgPIY7slzFvMotPv8wjKA.jpg` },
-    { id: 'd45', title: 'Ant-Man and the Wasp',                          year: 2018, score: 7.5, category: 'Marvel', emoji: '🐜', poster: `${T}/syFHy6UW3r13tB8vhPtG2OJeT3Y.jpg` },
+    { id: 'd45', title: 'Ant-Man and the Wasp',                          year: 2018, score: 7.5, category: 'Marvel', emoji: '🐜', poster: `${T}/cFQEO687n1K6umXbInzocxcnAQz.jpg` },
     { id: 'd46', title: 'Captain Marvel',                                year: 2019, score: 7,   category: 'Marvel', emoji: '⭐', poster: `${T}/AtsgWhDnHTq68L0lLsUrCnM7TjG.jpg` },
-    { id: 'd47', title: 'Spider-Man: Far From Home',                     year: 2019, score: 7.5, category: 'Marvel', emoji: '🕷️', poster: `${T}/lcq8dVxeeOqHvvgcte707K0KjA3.jpg` },
+    { id: 'd47', title: 'Spider-Man: Far From Home',                     year: 2019, score: 7.5, category: 'Marvel', emoji: '🕷️', poster: `${T}/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg` },
     // Marvel — Phase 4 (manquants)
-    { id: 'd48', title: 'Black Widow',                                   year: 2021, score: 7.5, category: 'Marvel', emoji: '🕷️', poster: `${T}/qAZ0pzat24kLdO3tRB8Bm0VxRDd.jpg` },
-    { id: 'd49', title: 'Shang-Chi and the Legend of the Ten Rings',     year: 2021, score: 8,   category: 'Marvel', emoji: '🥊', poster: `${T}/1BIoJGKbXjdFDAqUEiA2VHqkK1Z.jpg` },
-    { id: 'd50', title: 'Eternals',                                      year: 2021, score: 7,   category: 'Marvel', emoji: '✨', poster: `${T}/6TPZSJ06OEXeelx1U1VIAt0j9Ry.jpg` },
-    { id: 'd51', title: 'Doctor Strange in the Multiverse of Madness',   year: 2022, score: 7.5, category: 'Marvel', emoji: '🔮', poster: `${T}/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg` },
+    { id: 'd48', title: 'Black Widow',                                   year: 2021, score: 7.5, category: 'Marvel', emoji: '🕷️', poster: `${T}/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg` },
+    { id: 'd49', title: 'Shang-Chi and the Legend of the Ten Rings',     year: 2021, score: 8,   category: 'Marvel', emoji: '🥊', poster: `${T}/9f2Q0U3IOsLgrI2HkvldwSABZy5.jpg` },
+    { id: 'd50', title: 'Eternals',                                      year: 2021, score: 7,   category: 'Marvel', emoji: '✨', poster: `${T}/lFByFSLV5WDJEv3KabbdAF959F2.jpg` },
+    { id: 'd51', title: 'Doctor Strange in the Multiverse of Madness',   year: 2022, score: 7.5, category: 'Marvel', emoji: '🔮', poster: `${T}/ddJcSKbcp4rKZTmuyWaMhuwcfMz.jpg` },
     { id: 'd52', title: 'Thor: Love and Thunder',                        year: 2022, score: 6.5, category: 'Marvel', emoji: '⚡', poster: `${T}/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg` },
-    { id: 'd53', title: 'Black Panther: Wakanda Forever',                year: 2022, score: 7.5, category: 'Marvel', emoji: '🐾', poster: `${T}/sv1xJUazXoQuIDTqnKPWJPMSj8M.jpg` },
+    { id: 'd53', title: 'Black Panther: Wakanda Forever',                year: 2022, score: 7.5, category: 'Marvel', emoji: '🐾', poster: `${T}/sv1xJUazXeYqALzczSZ3O6nkH75.jpg` },
     // Marvel — Phase 5 (manquants)
-    { id: 'd54', title: 'Ant-Man and the Wasp: Quantumania',             year: 2023, score: 6,   category: 'Marvel', emoji: '🐜', poster: `${T}/ngl2FKBlU4fhbdsrtdom9LVLBXw.jpg` },
+    { id: 'd54', title: 'Ant-Man and the Wasp: Quantumania',             year: 2023, score: 6,   category: 'Marvel', emoji: '🐜', poster: `${T}/qnqGbB22YJ7dSs4o6M7exTpNxPz.jpg` },
     { id: 'd55', title: 'Guardians of the Galaxy Vol. 3',                year: 2023, score: 9,   category: 'Marvel', emoji: '🌌', poster: `${T}/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg` },
-    { id: 'd56', title: 'The Marvels',                                   year: 2023, score: 6.5, category: 'Marvel', emoji: '⭐', poster: `${T}/Ag3D9qXjhJ2FUkrlJ0Cv1pgxqYQ.jpg` },
+    { id: 'd56', title: 'The Marvels',                                   year: 2023, score: 6.5, category: 'Marvel', emoji: '⭐', poster: `${T}/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg` },
     { id: 'd57', title: 'Deadpool & Wolverine',                          year: 2024, score: 8.5, category: 'Marvel', emoji: '💥', poster: `${T}/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg` },
     // Marvel — Phase 6
     { id: 'd58', title: 'Captain America: Brave New World',              year: 2025, score: 7,   category: 'Marvel', emoji: '🛡️', poster: `${T}/pzIddUEMWhWzfvLI3TwxUG2wGoi.jpg` },
-    { id: 'd59', title: 'Thunderbolts*',                                 year: 2025, score: 7.5, category: 'Marvel', emoji: '⚡', poster: `${T}/m7pl7JGeBH8VKflOEAj1KcD0Rsh.jpg` },
+    { id: 'd59', title: 'Thunderbolts*',                                 year: 2025, score: 7.5, category: 'Marvel', emoji: '⚡', poster: `${T}/hqcexYHbiTBfDIdDWxrxPtVndBX.jpg` },
     // Anime — nouveaux
-    { id: 'd60', title: 'Solo Leveling',                                 year: 2024, score: 9.5, category: 'Anime',  emoji: '⚔️', poster: `${T}/oMBIEMPzFNimaSMJHFbJWJw8sSo.jpg` },
-    { id: 'd61', title: 'Solo Leveling: Arise from the Shadow',          year: 2025, score: 9,   category: 'Anime',  emoji: '⚔️', poster: `` },
-    { id: 'd62', title: 'Pokémon',                                       year: 1997, score: 8.5, category: 'Anime',  emoji: '⚡', poster: `${T}/rDsAECsEeNJBovmm17VBW6jKLnU.jpg` },
+    { id: 'd60', title: 'Solo Leveling',                                 year: 2024, score: 9.5, category: 'Anime',  emoji: '⚔️', poster: `${T}/geCRueV3ElhRTr0xtJuEWJt6dJ1.jpg` },
+    { id: 'd61', title: 'Solo Leveling: Arise from the Shadow',          year: 2025, score: 9,   category: 'Anime',  emoji: '⚔️', poster: `${T}/geCRueV3ElhRTr0xtJuEWJt6dJ1.jpg` },
+    { id: 'd62', title: 'Pokémon',                                       year: 1997, score: 8.5, category: 'Anime',  emoji: '⚡', poster: `${T}/lP4zwr0F7hWTbAFltfoFTc2AxRG.jpg` },
   ];
 
   ngOnInit() {
