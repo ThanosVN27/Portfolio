@@ -2,7 +2,40 @@
   "permissions": {
     "allow": [
       "Bash(git commit -m ' *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "WebFetch(domain:www.themoviedb.org)",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/271110\")",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/118340\")",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/68721\")",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/505996\")",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/297802\")",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/209112\")",
+      "Bash(curl -s \"https://www.themoviedb.org/tv/46260\")",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/1726\")",
+      "Bash(curl -s \"https://www.themoviedb.org/tv/46298\")",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/24428\")",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/271110\" > /tmp/cap.html 2>&1 && head -100 /tmp/cap.html | grep -i \"image\\\\|poster\")",
+      "Read(//tmp/**)",
+      "Bash(curl -s \"https://www.themoviedb.org/tv/46260\" > /tmp/naruto.html 2>&1 && head -100 /tmp/naruto.html | grep -i \"image\\\\|poster\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/271110\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/118340\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/68721\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/505996\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/297802\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/209112\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/1726\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/24428\")",
+      "Bash(curl -v -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/271110\")",
+      "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/68721\")",
+      "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/505996\")",
+      "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/297802\")",
+      "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/209112\")",
+      "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/1726\")",
+      "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/24428\")",
+      "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/tv/46298\")"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
     ]
   }
 }

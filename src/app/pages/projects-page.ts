@@ -57,6 +57,11 @@ export class ProjectsPage {
       description: 'Application Android de gestion de bibliothèque. Consultation de livres et auteurs via une API REST distante. Ajout et suppression de livres/auteurs. Projet SAE 2e année.',
       tags: ['Android Studio', 'API REST', 'Java'], accentTag: 'Android', github: '#',
     },
+    {
+      num: '09', title: 'Society Tycoon',
+      description: 'Jeu de simulation éducatif 2D : piloter la transition d\'une société agricole vers une société technologique sur 15 ans. Gérer l\'éducation, l\'économie et éviter le chômage des diplômés (NEET) via une application web performante.',
+      tags: ['SVG procédural', 'Simulation', 'Éducatif'], accentTag: 'React', github: '#',
+    },
   ];
 
   filtered = computed(() => {
