@@ -15,7 +15,7 @@ const T = 'https://image.tmdb.org/t/p/w300';
   styleUrl: './classement-page.scss',
 })
 export class ClassementPage implements OnInit {
-  private readonly STORAGE_KEY = 'portfolio-classement-v6';
+  private readonly STORAGE_KEY = 'portfolio-classement-v7';
 
   activeFilter = signal('Tout');
   showModal = signal(false);
@@ -47,8 +47,8 @@ export class ClassementPage implements OnInit {
     { id: 'd16', title: 'Fullmetal Alchemist: Brotherhood', year: 2009, score: 10,  category: 'Anime',  emoji: '⚗️', poster: `${T}/5ZFUEOULaVml7pQuXxhpR2SmVUw.jpg` },
     { id: 'd17', title: 'Attack on Titan',                  year: 2013, score: 9.5, category: 'Anime',  emoji: '⚔️', poster: `${T}/cEnxvrGIGwLz7ZfCx3g8oULJxrr.jpg` },
     { id: 'd18', title: 'Death Note',                       year: 2006, score: 9.5, category: 'Anime',  emoji: '📓', poster: `${T}/tCZFfYTIwrR7n94J6G14Y4hAFU6.jpg` },
-    { id: 'd19', title: 'Demon Slayer',                     year: 2019, score: 9,   category: 'Anime',  emoji: '🌊', poster: `${T}/i2EEr2uBvRlAwJ8d8zTG2Y19mIa.jpg` },
-    { id: 'd20', title: 'Dragon Ball Z',                    year: 1989, score: 8.5, category: 'Anime',  emoji: '💥', poster: `${T}/cTTndFo0wEFiylqLTdmfjtnGqFj.jpg` },
+    { id: 'd19', title: 'Demon Slayer',                     year: 2019, score: 9,   category: 'Anime',  emoji: '🌊', poster: `${T}/4RuJf3ufe8DgQVycdyMZrJHGK1s.jpg` },
+    { id: 'd20', title: 'Dragon Ball Z',                    year: 1989, score: 8.5, category: 'Anime',  emoji: '💥', poster: `${T}/qNmSRIUsnRsDgm6Lqmc9F9Ye7Jb.jpg` },
     { id: 'd21', title: 'Naruto',                           year: 2002, score: 8,   category: 'Anime',  emoji: '🍃', poster: `${T}/mLoI2Zto2JYUvSB8PpqvZIV7vWj.jpg` },
     { id: 'd22', title: 'My Hero Academia',                 year: 2016, score: 8,   category: 'Anime',  emoji: '🦸', poster: `${T}/phuYuzqWW9ru8EA3HVjE9W2Rr3M.jpg` },
     { id: 'd23', title: 'One Piece',                        year: 1999, score: 7.5, category: 'Anime',  emoji: '🏴‍☠️', poster: `${T}/l8wKSRdH0QPX8vvslKNbmrVBNk2.jpg` },
@@ -57,7 +57,7 @@ export class ClassementPage implements OnInit {
     { id: 'd26', title: 'The Boys',                         year: 2019, score: 9,   category: 'Séries', emoji: '💪', poster: `${T}/stTEycfG9928HYGEISBFaG1ngjM.jpg` },
     { id: 'd27', title: 'Game of Thrones',                  year: 2011, score: 8.5, category: 'Séries', emoji: '🐉', poster: `${T}/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg` },
     { id: 'd28', title: 'Stranger Things',                  year: 2016, score: 8.5, category: 'Séries', emoji: '🔦', poster: `${T}/49WJfeN0moxb9IPfGn8AIqMGskD.jpg` },
-    { id: 'd29', title: 'Prison Break',                     year: 2005, score: 8,   category: 'Séries', emoji: '🔓', poster: `${T}/1f58nQ3AeJHbyUf1e3NFDBVAKFP.jpg` },
+    { id: 'd29', title: 'Prison Break',                     year: 2005, score: 8,   category: 'Séries', emoji: '🔓', poster: `${T}/bCFZhGJLYxmEac4viu6orDeOXYJ.jpg` },
     { id: 'd30', title: 'Squid Game',                       year: 2021, score: 8,   category: 'Séries', emoji: '🦑', poster: `${T}/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg` },
     { id: 'd31', title: 'The Witcher',                      year: 2019, score: 7.5, category: 'Séries', emoji: '🗡️', poster: `${T}/7vjaCdMw15FEbXyLQTVa04URsPm.jpg` },
   ];
