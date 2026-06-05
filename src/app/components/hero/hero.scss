@@ -8,6 +8,23 @@ section {
 
 .hero-bg { position: absolute; inset: 0; pointer-events: none; }
 
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(124,111,255,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,111,255,0.07) 1px, transparent 1px);
+  background-size: 55px 55px;
+  transform: perspective(500px) rotateX(40deg) scale(2.2);
+  transform-origin: center 75%;
+  animation: grid-scroll 12s linear infinite;
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.5) 60%, transparent 100%);
+}
+@keyframes grid-scroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 55px; }
+}
+
 .orb {
   position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35;
   animation: float 10s ease-in-out infinite;

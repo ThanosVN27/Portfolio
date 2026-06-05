@@ -2,7 +2,7 @@
   <div class="container">
     <div class="section-tag">🎬 Culture</div>
     <h1>Mes <span class="gradient-text">classements</span></h1>
-    <p class="rank-intro">Films, séries et anime que j'ai regardés — classés par note personnelle.</p>
+    <p class="rank-intro">Films, séries et anime — classés par note personnelle.</p>
     <div class="tier-legend">
       <span class="tier-pill tier-s">S — Incontournable</span>
       <span class="tier-pill tier-a">A — Excellent</span>
@@ -14,15 +14,22 @@
 
 <section class="rank-body">
   <div class="container">
-    <div class="filters">
-      @for (f of filters; track f) {
-        <button class="filter-btn" [class.active]="activeFilter() === f" (click)="setFilter(f)">{{ f }}</button>
-      }
+    <div class="toolbar">
+      <div class="filters">
+        @for (f of filters; track f) {
+          <button class="filter-btn" [class.active]="activeFilter() === f" (click)="setFilter(f)">{{ f }}</button>
+        }
+      </div>
+      <div class="toolbar-actions">
+        <button class="btn-reset" (click)="resetAll()" title="Réinitialiser">↺</button>
+        <button class="btn-add" (click)="openModal()">+ Ajouter</button>
+      </div>
     </div>
 
     <div class="rank-grid">
-      @for (entry of filtered(); track entry.title) {
+      @for (entry of filtered(); track entry.id) {
         <div class="rank-card glass">
+          <button class="delete-btn" (click)="removeEntry(entry.id)" title="Supprimer">✕</button>
           <div class="rank-top">
             <span class="rank-tier" [class]="tierClass(entry.score)">{{ tierLabel(entry.score) }}</span>
             <span class="rank-emoji">{{ entry.emoji }}</span>
@@ -32,7 +39,7 @@
           <div class="rank-bottom">
             <span class="rank-cat">{{ entry.category }}</span>
             <div class="rank-score">
-              <span class="score-num">{{ entry.score }}</span>
+              <span class="score-num" [class]="tierClass(entry.score)">{{ entry.score }}</span>
               <span class="score-denom">/10</span>
             </div>
           </div>
@@ -42,5 +49,52 @@
         </div>
       }
     </div>
+
+    @if (filtered().length === 0) {
+      <p class="no-results">Aucune entrée. Cliquez sur "+ Ajouter" pour commencer.</p>
+    }
   </div>
 </section>
+
+<!-- MODAL -->
+@if (showModal()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal glass" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Ajouter une entrée</h2>
+        <button class="modal-close" (click)="closeModal()">✕</button>
+      </div>
+      <div class="form-group">
+        <label>Titre</label>
+        <input [(ngModel)]="newEntry.title" placeholder="Ex: Inception" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Catégorie</label>
+          <select [(ngModel)]="newEntry.category">
+            @for (cat of categories; track cat) {
+              <option [value]="cat">{{ cat }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Emoji</label>
+          <input [(ngModel)]="newEntry.emoji" maxlength="2" placeholder="🎬" />
+        </div>
+        <div class="form-group">
+          <label>Année</label>
+          <input type="number" [(ngModel)]="newEntry.year" min="1900" [max]="2030" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Note : <strong>{{ newEntry.score }}/10</strong></label>
+        <input type="range" [(ngModel)]="newEntry.score" min="0" max="10" step="0.5" class="score-range" />
+        <div class="range-labels"><span>0</span><span>5</span><span>10</span></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" (click)="closeModal()">Annuler</button>
+        <button class="btn btn-primary" (click)="addEntry()" [disabled]="!newEntry.title.trim()">Ajouter</button>
+      </div>
+    </div>
+  </div>
+}
