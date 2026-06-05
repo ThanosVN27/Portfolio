@@ -6,6 +6,8 @@ section {
   background: linear-gradient(135deg, #080918 0%, #0d0c24 50%, #080c1a 100%);
 }
 
+.hero-canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; pointer-events: none; }
+
 .hero-bg { position: absolute; inset: 0; pointer-events: none; }
 
 .hero-grid {
@@ -25,7 +27,8 @@ section {
   100% { background-position: 0 55px; }
 }
 
-.orb {
+.orb { display: none; }
+.orb-hidden {
   position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35;
   animation: float 10s ease-in-out infinite;
 }

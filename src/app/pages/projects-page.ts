@@ -14,7 +14,7 @@ interface Project {
 export class ProjectsPage {
   activeFilter = signal('Tous');
 
-  filters = ['Tous', 'Java', 'C', 'C#', 'Godot', 'Web'];
+  filters = ['Tous', 'Java', 'C', 'C#', 'Godot', 'Web', 'Android'];
 
   allProjects: Project[] = [
     {
@@ -47,12 +47,23 @@ export class ProjectsPage {
       description: 'Jeu de plateau en JavaFX en 5 semaines en équipe de 3. Création d\'un jeu basé sur la programmation orientée objet.',
       tags: ['JavaFX', 'POO'], accentTag: 'Java', github: '#',
     },
+    {
+      num: '07', title: 'POOkemon Project',
+      description: 'Jeu de combat au tour par tour inspiré de Pokémon, en ligne de commande. Joueur humain vs IA — gestion des éléments, attaques, stratégie et génération aléatoire des Pokémons.',
+      tags: ['POO', 'IA', 'Tour par tour'], accentTag: 'Java', github: '#',
+    },
+    {
+      num: '08', title: 'P42 — Programmation Mobile',
+      description: 'Application Android développée avec Android Studio. Fragments, requêtes HTTP, navigation, ViewModels et RecyclerView. Projet de SAE évalué sur 7 semaines.',
+      tags: ['Android Studio', 'Fragments', 'HTTP'], accentTag: 'Android', github: '#',
+    },
   ];
 
   filtered = computed(() => {
     const f = this.activeFilter();
     if (f === 'Tous') return this.allProjects;
     if (f === 'Web') return this.allProjects.filter(p => p.tags.some(t => t.includes('HTML') || t.includes('Web')));
+    if (f === 'Android') return this.allProjects.filter(p => p.accentTag === 'Android' || p.tags.some(t => t.includes('Android')));
     return this.allProjects.filter(p => p.accentTag === f || p.tags.includes(f));
   });
 

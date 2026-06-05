@@ -83,10 +83,10 @@
 .rank-tier.tier-a { background: rgba(74,222,128,0.15); color: #4ade80; }
 .rank-tier.tier-b { background: rgba(0,212,255,0.15); color: var(--accent-2); }
 .rank-tier.tier-c { background: rgba(120,120,160,0.12); color: var(--text-muted); }
-.score-num.tier-s, .score-fill.tier-s { color: #ffc83c; background: linear-gradient(90deg, #ffc83c, #ff9500); }
-.score-num.tier-a, .score-fill.tier-a { color: #4ade80; background: linear-gradient(90deg, #4ade80, #22c55e); }
-.score-num.tier-b, .score-fill.tier-b { color: var(--accent-2); background: linear-gradient(90deg, #00d4ff, #0ea5e9); }
-.score-num.tier-c, .score-fill.tier-c { color: var(--text-muted); background: rgba(120,120,160,0.4); }
+.score-num.tier-s { color: #ffc83c; } .score-fill.tier-s { background: linear-gradient(90deg, #ffc83c, #ff9500); }
+.score-num.tier-a { color: #4ade80; } .score-fill.tier-a { background: linear-gradient(90deg, #4ade80, #22c55e); }
+.score-num.tier-b { color: var(--accent-2); } .score-fill.tier-b { background: linear-gradient(90deg, #00d4ff, #0ea5e9); }
+.score-num.tier-c { color: var(--text-muted); } .score-fill.tier-c { background: rgba(120,120,160,0.4); }
 
 .no-results { text-align: center; color: var(--text-muted); padding: 80px 0; font-size: 1rem; }
 
