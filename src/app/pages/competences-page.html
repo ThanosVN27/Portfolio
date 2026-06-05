@@ -14,6 +14,7 @@
           <div class="group-header">
             <span class="group-icon">{{ group.icon }}</span>
             <h3 class="group-title">{{ group.title }}</h3>
+            @if (group.badge) { <span class="group-badge">{{ group.badge }}</span> }
           </div>
           <div class="skill-bars">
             @for (skill of group.skills; track skill.name) {

@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, QueryList, ViewChildren, signal } from '@angular/core';
 
 interface SkillBar { name: string; percent: number; color: string; }
-interface SkillGroup { title: string; icon: string; skills: SkillBar[]; }
+interface SkillGroup { title: string; icon: string; skills: SkillBar[]; badge?: string; }
 
 @Component({
   selector: 'app-competences-page',
@@ -15,7 +15,8 @@ export class CompetencesPage implements OnInit {
 
   skillGroups: SkillGroup[] = [
     {
-      title: 'Langages', icon: '</>', skills: [
+      title: 'Langages', icon: '</>',
+      skills: [
         { name: 'C', percent: 80, color: 'purple' },
         { name: 'Java', percent: 75, color: 'purple' },
         { name: 'Python', percent: 65, color: 'purple' },
@@ -25,22 +26,42 @@ export class CompetencesPage implements OnInit {
       ],
     },
     {
-      title: 'Développement Web', icon: '🌐', skills: [
+      title: 'Développement Web', icon: '🌐',
+      skills: [
         { name: 'HTML / CSS', percent: 75, color: 'cyan' },
         { name: 'Angular', percent: 60, color: 'cyan' },
         { name: 'TypeScript', percent: 60, color: 'cyan' },
         { name: 'React', percent: 55, color: 'cyan' },
         { name: 'Node.js', percent: 55, color: 'cyan' },
         { name: 'PHP', percent: 50, color: 'cyan' },
-        { name: 'MySQL', percent: 65, color: 'cyan' },
+        { name: 'MySQL / SQLite', percent: 65, color: 'cyan' },
       ],
     },
     {
-      title: 'Systèmes & Outils', icon: '⚙', skills: [
-        { name: 'Git / GitHub', percent: 80, color: 'pink' },
-        { name: 'BASH', percent: 60, color: 'pink' },
+      title: 'Systèmes & Outils', icon: '⚙',
+      skills: [
+        { name: 'Git / GitHub / GitLab', percent: 80, color: 'pink' },
+        { name: 'Linux / BASH', percent: 65, color: 'pink' },
         { name: 'Administration Système', percent: 55, color: 'pink' },
-        { name: 'Linux', percent: 60, color: 'pink' },
+        { name: 'Postman', percent: 60, color: 'pink' },
+      ],
+    },
+    {
+      title: 'Cybersécurité & Réseaux', icon: '🔐',
+      skills: [
+        { name: 'Sécurité réseau', percent: 50, color: 'orange' },
+        { name: 'Analyse Wireshark', percent: 55, color: 'orange' },
+        { name: 'CTF (débutant)', percent: 40, color: 'orange' },
+        { name: 'Pentest (bases)', percent: 35, color: 'orange' },
+        { name: 'Protocoles réseau', percent: 60, color: 'orange' },
+      ],
+    },
+    {
+      title: 'DevOps & Cloud', icon: '☁️', badge: 'En apprentissage',
+      skills: [
+        { name: 'Docker', percent: 40, color: 'green' },
+        { name: 'CI/CD', percent: 35, color: 'green' },
+        { name: 'Cloud (bases)', percent: 30, color: 'green' },
       ],
     },
   ];
