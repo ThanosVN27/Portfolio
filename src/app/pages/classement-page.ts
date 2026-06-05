@@ -74,6 +74,21 @@ export class ClassementPage implements OnInit {
     return list.sort((a, b) => b.score - a.score);
   });
 
+  stats = computed(() => {
+    const list = this.filtered();
+    const avg = list.length ? (list.reduce((s, e) => s + e.score, 0) / list.length).toFixed(1) : '—';
+    const s = list.filter(e => e.score >= 9.5).length;
+    const a = list.filter(e => e.score >= 8.5 && e.score < 9.5).length;
+    const b = list.filter(e => e.score >= 7 && e.score < 8.5).length;
+    const c = list.filter(e => e.score < 7).length;
+    return { total: list.length, avg, s, a, b, c };
+  });
+
+  catColor(cat: string): string {
+    const map: Record<string, string> = { Marvel: '#e23636', DC: '#1a73e8', Anime: '#9b59b6', 'Séries': '#27ae60' };
+    return map[cat] ?? 'var(--accent)';
+  }
+
   setFilter(f: string) { this.activeFilter.set(f); }
   openModal() { this.showModal.set(true); }
   closeModal() { this.showModal.set(false); this.resetForm(); }

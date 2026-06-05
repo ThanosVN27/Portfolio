@@ -26,9 +26,29 @@
       </div>
     </div>
 
+    <!-- Stats bar -->
+    <div class="stats-bar glass">
+      <div class="stat-item">
+        <span class="stat-val">{{ stats().total }}</span>
+        <span class="stat-lbl">entrées</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <span class="stat-val">{{ stats().avg }}</span>
+        <span class="stat-lbl">moyenne</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="tier-dist">
+        <span class="td tier-s">S×{{ stats().s }}</span>
+        <span class="td tier-a">A×{{ stats().a }}</span>
+        <span class="td tier-b">B×{{ stats().b }}</span>
+        <span class="td tier-c">C×{{ stats().c }}</span>
+      </div>
+    </div>
+
     <div class="rank-grid">
-      @for (entry of filtered(); track entry.id) {
-        <div class="rank-card glass">
+      @for (entry of filtered(); track entry.id; let i = $index) {
+        <div class="rank-card glass" [style.--cat-color]="catColor(entry.category)" [style.animation-delay]="(i * 45) + 'ms'">
           <button class="delete-btn" (click)="removeEntry(entry.id)" title="Supprimer">✕</button>
 
           <!-- Poster -->
