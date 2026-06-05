@@ -1,9 +1,10 @@
 import { Component, OnDestroy, AfterViewInit, ElementRef, ViewChild, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import * as THREE from 'three';
 
 @Component({
   selector: 'app-hero',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
 })
