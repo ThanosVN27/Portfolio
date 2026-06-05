@@ -24,7 +24,7 @@
   box-shadow: 0 0 30px rgba(124,111,255,0.4);
 }
 
-.info-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--border); &:last-child { border-bottom: none; } }
+.info-item { display: flex; justify-content: space-between; align-items: center; gap: 32px; padding: 20px 0; border-bottom: 1px solid var(--border); &:last-child { border-bottom: none; } }
 .info-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0; }
 .info-value { font-size: 0.8rem; font-weight: 500; text-align: right; white-space: nowrap; }
 
