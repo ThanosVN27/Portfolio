@@ -38,6 +38,15 @@ export class CompetencesPage implements OnInit {
       ],
     },
     {
+      title: 'Mobile', icon: '📱',
+      skills: [
+        { name: 'Android Studio', percent: 55, color: 'cyan' },
+        { name: 'Développement Android', percent: 50, color: 'cyan' },
+        { name: 'API REST (Android)', percent: 55, color: 'cyan' },
+        { name: 'RecyclerView / ViewModels', percent: 50, color: 'cyan' },
+      ],
+    },
+    {
       title: 'Systèmes & Outils', icon: '⚙',
       skills: [
         { name: 'Git / GitHub / GitLab', percent: 80, color: 'pink' },

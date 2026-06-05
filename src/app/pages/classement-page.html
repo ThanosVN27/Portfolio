@@ -30,21 +30,29 @@
       @for (entry of filtered(); track entry.id) {
         <div class="rank-card glass">
           <button class="delete-btn" (click)="removeEntry(entry.id)" title="Supprimer">✕</button>
-          <div class="rank-top">
+
+          <!-- Poster -->
+          <div class="card-poster">
+            @if (entry.poster) {
+              <img [src]="entry.poster" [alt]="entry.title" (error)="onImgError($event)" loading="lazy" />
+            }
+            <div class="poster-fallback">{{ entry.emoji }}</div>
             <span class="rank-tier" [class]="tierClass(entry.score)">{{ tierLabel(entry.score) }}</span>
-            <span class="rank-emoji">{{ entry.emoji }}</span>
           </div>
-          <h3 class="rank-title">{{ entry.title }}</h3>
-          <span class="rank-year">{{ entry.year }}</span>
-          <div class="rank-bottom">
-            <span class="rank-cat">{{ entry.category }}</span>
-            <div class="rank-score">
-              <span class="score-num" [class]="tierClass(entry.score)">{{ entry.score }}</span>
-              <span class="score-denom">/10</span>
+
+          <!-- Info -->
+          <div class="card-info">
+            <h3 class="rank-title">{{ entry.title }}</h3>
+            <div class="card-meta">
+              <span class="rank-year">{{ entry.year }}</span>
+              <span class="rank-cat">{{ entry.category }}</span>
             </div>
-          </div>
-          <div class="score-bar">
-            <div class="score-fill" [class]="tierClass(entry.score)" [style.width]="(entry.score * 10) + '%'"></div>
+            <div class="card-score">
+              <div class="score-bar">
+                <div class="score-fill" [class]="tierClass(entry.score)" [style.width]="(entry.score * 10) + '%'"></div>
+              </div>
+              <span class="score-num">{{ entry.score }}<span class="score-denom">/10</span></span>
+            </div>
           </div>
         </div>
       }
@@ -68,13 +76,15 @@
         <label>Titre</label>
         <input [(ngModel)]="newEntry.title" placeholder="Ex: Inception" />
       </div>
+      <div class="form-group">
+        <label>URL Poster (optionnel)</label>
+        <input [(ngModel)]="newEntry.poster" placeholder="https://image.tmdb.org/t/p/w300/..." />
+      </div>
       <div class="form-row">
         <div class="form-group">
           <label>Catégorie</label>
           <select [(ngModel)]="newEntry.category">
-            @for (cat of categories; track cat) {
-              <option [value]="cat">{{ cat }}</option>
-            }
+            @for (cat of categories; track cat) { <option [value]="cat">{{ cat }}</option> }
           </select>
         </div>
         <div class="form-group">

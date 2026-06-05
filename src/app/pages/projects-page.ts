@@ -53,9 +53,9 @@ export class ProjectsPage {
       tags: ['POO', 'IA', 'Tour par tour'], accentTag: 'Java', github: '#',
     },
     {
-      num: '08', title: 'P42 — Programmation Mobile',
-      description: 'Application Android développée avec Android Studio. Fragments, requêtes HTTP, navigation, ViewModels et RecyclerView. Projet de SAE évalué sur 7 semaines.',
-      tags: ['Android Studio', 'Fragments', 'HTTP'], accentTag: 'Android', github: '#',
+      num: '08', title: 'Gestion de Bibliothèque',
+      description: 'Application Android de gestion de bibliothèque. Consultation de livres et auteurs via une API REST distante. Ajout et suppression de livres/auteurs. Projet SAE 2e année.',
+      tags: ['Android Studio', 'API REST', 'Java'], accentTag: 'Android', github: '#',
     },
   ];
 
