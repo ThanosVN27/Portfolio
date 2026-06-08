@@ -21,8 +21,20 @@
         }
       </div>
       <div class="toolbar-actions">
-        <button class="btn-reset" (click)="resetAll()" title="Réinitialiser">↺</button>
-        <button class="btn-add" (click)="openAdd()">+ Ajouter</button>
+        <!-- Sync indicator -->
+        @if (syncing()) {
+          <span class="sync-badge syncing">⟳ Sync…</span>
+        } @else if (syncOk()) {
+          <span class="sync-badge synced">✓ Sync</span>
+        }
+
+        @if (adminMode()) {
+          <button class="btn-reset" (click)="resetAll()" title="Réinitialiser">↺</button>
+          <button class="btn-add" (click)="openAdd()">+ Ajouter</button>
+          <button class="btn-lock active-admin" (click)="lockAdmin()" title="Verrouiller l'admin">🔓</button>
+        } @else {
+          <button class="btn-lock" (click)="openPinModal()" title="Mode admin">🔒</button>
+        }
       </div>
     </div>
 
@@ -75,22 +87,55 @@
             </div>
           </div>
 
-          <!-- Actions -->
-          <div class="card-actions">
-            <button class="act-btn edit-btn" (click)="openEdit(entry)" title="Modifier">✎</button>
-            <button class="act-btn del-btn" (click)="removeEntry(entry.id)" title="Supprimer">✕</button>
-          </div>
+          <!-- Actions (admin only) -->
+          @if (adminMode()) {
+            <div class="card-actions">
+              <button class="act-btn edit-btn" (click)="openEdit(entry)" title="Modifier">✎</button>
+              <button class="act-btn del-btn" (click)="removeEntry(entry.id)" title="Supprimer">✕</button>
+            </div>
+          }
         </div>
       }
     </div>
 
     @if (filtered().length === 0) {
-      <p class="no-results">Aucune entrée. Cliquez sur "+ Ajouter" pour commencer.</p>
+      <p class="no-results">Aucune entrée.</p>
     }
   </div>
 </section>
 
-<!-- MODAL -->
+<!-- PIN MODAL -->
+@if (showPinModal()) {
+  <div class="modal-overlay" (click)="closePinModal()">
+    <div class="modal glass pin-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>🔒 Mode admin</h2>
+        <button class="modal-close" (click)="closePinModal()">✕</button>
+      </div>
+      <p class="pin-desc">Entrez votre code PIN pour modifier le classement.</p>
+      <div class="form-group">
+        <input
+          type="password"
+          [(ngModel)]="pinInput"
+          placeholder="Code PIN"
+          class="pin-input"
+          [class.pin-error]="pinError"
+          (keyup.enter)="submitPin()"
+          autofocus
+        />
+        @if (pinError) {
+          <span class="pin-err-msg">Code incorrect</span>
+        }
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" (click)="closePinModal()">Annuler</button>
+        <button class="btn btn-primary" (click)="submitPin()">Déverrouiller</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ADD / EDIT MODAL -->
 @if (showModal()) {
   <div class="modal-overlay" (click)="closeModal()">
     <div class="modal glass" (click)="$event.stopPropagation()">

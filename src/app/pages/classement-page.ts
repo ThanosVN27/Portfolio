@@ -1,10 +1,6 @@
-import { Component, signal, computed, OnInit } from '@angular/core';
+import { Component, signal, computed, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface Entry {
-  id: string; title: string; year: number;
-  score: number; category: string; emoji: string; poster: string;
-}
+import { ClassementService, Entry } from '../services/classement.service';
 
 const T = 'https://image.tmdb.org/t/p/w300';
 
@@ -16,16 +12,25 @@ const T = 'https://image.tmdb.org/t/p/w300';
 })
 export class ClassementPage implements OnInit {
   private readonly STORAGE_KEY = 'portfolio-classement-v11';
+  private svc = inject(ClassementService);
 
   activeFilter = signal('Tout');
-  showModal = signal(false);
-  isEditing = signal(false);
-  editingId = signal<string | null>(null);
+  showModal    = signal(false);
+  isEditing    = signal(false);
+  editingId    = signal<string | null>(null);
 
-  filters = ['Tout', 'Marvel', 'DC', 'Anime', 'Séries'];
+  // Admin
+  adminMode    = signal(false);
+  showPinModal = signal(false);
+  pinInput     = '';
+  pinError     = false;
+  syncing      = signal(false);
+  syncOk       = signal(false);
+
+  filters    = ['Tout', 'Marvel', 'DC', 'Anime', 'Séries'];
   categories = ['Marvel', 'DC', 'Anime', 'Séries'];
 
-  entries = signal<Entry[]>([]);
+  entries  = signal<Entry[]>([]);
   newEntry = { title: '', year: new Date().getFullYear(), score: 8, category: 'Anime', emoji: '🎬', poster: '' };
 
   private defaults: Entry[] = [
@@ -60,18 +65,18 @@ export class ClassementPage implements OnInit {
     { id: 'd29', title: 'Prison Break',                     year: 2005, score: 8,   category: 'Séries', emoji: '🔓', poster: `${T}/bCFZhGJLYxmEac4viu6orDeOXYJ.jpg` },
     { id: 'd30', title: 'Squid Game',                       year: 2021, score: 8,   category: 'Séries', emoji: '🦑', poster: `${T}/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg` },
     { id: 'd31', title: 'The Witcher',                      year: 2019, score: 7.5, category: 'Séries', emoji: '🗡️', poster: `${T}/7vjaCdMw15FEbXyLQTVa04URsPm.jpg` },
-    // Marvel — Phase 1 (manquants)
+    // Marvel — Phase 1
     { id: 'd32', title: 'The Incredible Hulk',                          year: 2008, score: 7,   category: 'Marvel', emoji: '💚', poster: `${T}/gKzYx79y0AQTL4UAk1cBQJ3nvrm.jpg` },
     { id: 'd33', title: 'Iron Man 2',                                    year: 2010, score: 7.5, category: 'Marvel', emoji: '🤖', poster: `${T}/6WBeq4fCfn7AN0o21W9qNcRF2l9.jpg` },
     { id: 'd34', title: 'Thor',                                          year: 2011, score: 7.5, category: 'Marvel', emoji: '⚡', poster: `${T}/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg` },
     { id: 'd35', title: 'Captain America: The First Avenger',            year: 2011, score: 8,   category: 'Marvel', emoji: '🛡️', poster: `${T}/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg` },
-    // Marvel — Phase 2 (manquants)
+    // Marvel — Phase 2
     { id: 'd36', title: 'Iron Man 3',                                    year: 2013, score: 7,   category: 'Marvel', emoji: '🤖', poster: `${T}/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg` },
     { id: 'd37', title: 'Thor: The Dark World',                          year: 2013, score: 6.5, category: 'Marvel', emoji: '⚡', poster: `${T}/wp6OxE4poJ4G7c0U2ZIXasTSMR7.jpg` },
     { id: 'd38', title: 'Captain America: The Winter Soldier',           year: 2014, score: 9,   category: 'Marvel', emoji: '🛡️', poster: `${T}/tVFRpFw3xTedgPGqxW0AOI8Qhh0.jpg` },
     { id: 'd39', title: 'Avengers: Age of Ultron',                       year: 2015, score: 8,   category: 'Marvel', emoji: '🤖', poster: `${T}/4ssDuvEDkSArWEdyBl2X5EHvYKU.jpg` },
     { id: 'd40', title: 'Ant-Man',                                       year: 2015, score: 8,   category: 'Marvel', emoji: '🐜', poster: `${T}/rQRnQfUl3kfp78nCWq8Ks04vnq1.jpg` },
-    // Marvel — Phase 3 (manquants)
+    // Marvel — Phase 3
     { id: 'd41', title: 'Doctor Strange',                                year: 2016, score: 8.5, category: 'Marvel', emoji: '🔮', poster: `${T}/xf8PbyQcR5ucXErmZNzdKR0s8ya.jpg` },
     { id: 'd42', title: 'Guardians of the Galaxy Vol. 2',                year: 2017, score: 8,   category: 'Marvel', emoji: '🌌', poster: `${T}/y4MBh0EjBlMuOzv9axM4qJlmhzz.jpg` },
     { id: 'd43', title: 'Spider-Man: Homecoming',                        year: 2017, score: 8,   category: 'Marvel', emoji: '🕷️', poster: `${T}/c24sv2weTHPsmDa7jEMN0m2P3RT.jpg` },
@@ -79,14 +84,14 @@ export class ClassementPage implements OnInit {
     { id: 'd45', title: 'Ant-Man and the Wasp',                          year: 2018, score: 7.5, category: 'Marvel', emoji: '🐜', poster: `${T}/cFQEO687n1K6umXbInzocxcnAQz.jpg` },
     { id: 'd46', title: 'Captain Marvel',                                year: 2019, score: 7,   category: 'Marvel', emoji: '⭐', poster: `${T}/AtsgWhDnHTq68L0lLsUrCnM7TjG.jpg` },
     { id: 'd47', title: 'Spider-Man: Far From Home',                     year: 2019, score: 7.5, category: 'Marvel', emoji: '🕷️', poster: `${T}/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg` },
-    // Marvel — Phase 4 (manquants)
+    // Marvel — Phase 4
     { id: 'd48', title: 'Black Widow',                                   year: 2021, score: 7.5, category: 'Marvel', emoji: '🕷️', poster: `${T}/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg` },
     { id: 'd49', title: 'Shang-Chi and the Legend of the Ten Rings',     year: 2021, score: 8,   category: 'Marvel', emoji: '🥊', poster: `${T}/9f2Q0U3IOsLgrI2HkvldwSABZy5.jpg` },
     { id: 'd50', title: 'Eternals',                                      year: 2021, score: 7,   category: 'Marvel', emoji: '✨', poster: `${T}/lFByFSLV5WDJEv3KabbdAF959F2.jpg` },
     { id: 'd51', title: 'Doctor Strange in the Multiverse of Madness',   year: 2022, score: 7.5, category: 'Marvel', emoji: '🔮', poster: `${T}/ddJcSKbcp4rKZTmuyWaMhuwcfMz.jpg` },
     { id: 'd52', title: 'Thor: Love and Thunder',                        year: 2022, score: 6.5, category: 'Marvel', emoji: '⚡', poster: `${T}/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg` },
     { id: 'd53', title: 'Black Panther: Wakanda Forever',                year: 2022, score: 7.5, category: 'Marvel', emoji: '🐾', poster: `${T}/sv1xJUazXeYqALzczSZ3O6nkH75.jpg` },
-    // Marvel — Phase 5 (manquants)
+    // Marvel — Phase 5
     { id: 'd54', title: 'Ant-Man and the Wasp: Quantumania',             year: 2023, score: 6,   category: 'Marvel', emoji: '🐜', poster: `${T}/qnqGbB22YJ7dSs4o6M7exTpNxPz.jpg` },
     { id: 'd55', title: 'Guardians of the Galaxy Vol. 3',                year: 2023, score: 9,   category: 'Marvel', emoji: '🌌', poster: `${T}/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg` },
     { id: 'd56', title: 'The Marvels',                                   year: 2023, score: 6.5, category: 'Marvel', emoji: '⭐', poster: `${T}/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg` },
@@ -100,7 +105,14 @@ export class ClassementPage implements OnInit {
     { id: 'd62', title: 'Pokémon',                                       year: 1997, score: 8.5, category: 'Anime',  emoji: '⚡', poster: `${T}/lP4zwr0F7hWTbAFltfoFTc2AxRG.jpg` },
   ];
 
-  ngOnInit() {
+  async ngOnInit() {
+    // 1. Essayer Firestore
+    const remote = await this.svc.load();
+    if (remote) {
+      this.entries.set(remote);
+      return;
+    }
+    // 2. Sinon localStorage
     const saved = localStorage.getItem(this.STORAGE_KEY);
     this.entries.set(saved ? JSON.parse(saved) : this.defaults);
   }
@@ -128,45 +140,75 @@ export class ClassementPage implements OnInit {
 
   setFilter(f: string) { this.activeFilter.set(f); }
 
+  // --- Admin PIN ---
+  openPinModal() { this.pinInput = ''; this.pinError = false; this.showPinModal.set(true); }
+  closePinModal() { this.showPinModal.set(false); }
+
+  submitPin() {
+    if (this.svc.checkPin(this.pinInput)) {
+      this.adminMode.set(true);
+      this.showPinModal.set(false);
+    } else {
+      this.pinError = true;
+    }
+  }
+
+  lockAdmin() { this.adminMode.set(false); }
+
+  // --- CRUD ---
   openAdd() {
-    this.isEditing.set(false);
-    this.editingId.set(null);
-    this.resetForm();
-    this.showModal.set(true);
+    this.isEditing.set(false); this.editingId.set(null);
+    this.resetForm(); this.showModal.set(true);
   }
 
   openEdit(entry: Entry) {
-    this.isEditing.set(true);
-    this.editingId.set(entry.id);
+    this.isEditing.set(true); this.editingId.set(entry.id);
     this.newEntry = { title: entry.title, year: entry.year, score: entry.score, category: entry.category, emoji: entry.emoji, poster: entry.poster };
     this.showModal.set(true);
   }
 
   closeModal() { this.showModal.set(false); this.resetForm(); }
 
-  submitForm() {
+  async submitForm() {
     if (!this.newEntry.title.trim()) return;
     if (this.isEditing()) {
       this.entries.update(list => list.map(e => e.id === this.editingId() ? { ...this.newEntry, id: e.id } : e));
     } else {
       this.entries.update(list => [...list, { ...this.newEntry, id: Date.now().toString() }]);
     }
-    this.save();
+    await this.saveAll();
     this.closeModal();
   }
 
-  removeEntry(id: string) {
+  async removeEntry(id: string) {
     this.entries.update(list => list.filter(e => e.id !== id));
-    this.save();
+    await this.saveAll();
   }
 
-  resetAll() {
-    if (confirm('Réinitialiser toutes les entrées ?')) { this.entries.set(this.defaults); this.save(); }
+  async resetAll() {
+    if (confirm('Réinitialiser toutes les entrées ?')) {
+      this.entries.set(this.defaults);
+      await this.saveAll();
+    }
+  }
+
+  private async saveAll() {
+    const list = this.entries();
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+    if (this.svc.isConfigured) {
+      this.syncing.set(true);
+      try {
+        await this.svc.save(list);
+        this.syncOk.set(true);
+        setTimeout(() => this.syncOk.set(false), 2000);
+      } finally {
+        this.syncing.set(false);
+      }
+    }
   }
 
   onImgError(e: Event) { (e.target as HTMLElement).style.display = 'none'; }
 
-  private save() { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.entries())); }
   private resetForm() { this.newEntry = { title: '', year: new Date().getFullYear(), score: 8, category: 'Anime', emoji: '🎬', poster: '' }; }
 
   tierLabel(s: number) { if (s >= 9.5) return 'S'; if (s >= 8.5) return 'A'; if (s >= 7) return 'B'; return 'C'; }
