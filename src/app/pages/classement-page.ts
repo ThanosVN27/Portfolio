@@ -161,8 +161,10 @@ export class ClassementPage implements OnInit {
   ];
 
   async ngOnInit() {
-    const remote = await this.svc.load();
-    if (remote) { this.entries.set(remote); return; }
+    try {
+      const remote = await this.svc.load();
+      if (remote && remote.length > 0) { this.entries.set(remote); return; }
+    } catch { /* Firebase non configuré ou erreur réseau */ }
     const saved = localStorage.getItem(this.STORAGE_KEY);
     this.entries.set(saved ? JSON.parse(saved) : this.defaults);
   }
