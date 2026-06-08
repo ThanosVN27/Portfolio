@@ -150,6 +150,9 @@ export class ClassementPage implements OnInit {
     { id: 'd98',  title: 'Hobbs & Shaw',                                    year: 2019, score: 7,   category: 'Films',     emoji: '🚗', poster: `${T}/qRyy2UmjC5ur9bDi3kpNNRCc5nc.jpg` },
     { id: 'd99',  title: 'F9',                                              year: 2021, score: 6.5, category: 'Films',     emoji: '🚗', poster: `${T}/deEmLILTPejEb6OGsXRJ5MCvyDW.jpg` },
     { id: 'd100', title: 'Fast X',                                          year: 2023, score: 7,   category: 'Films',     emoji: '🚗', poster: `${T}/fiVW06jE7z9YnO4trhaMEdclSiC.jpg` },
+    // ── Avatar ────────────────────────────────────────────────────────────────
+    { id: 'd101', title: 'Avatar',                                          year: 2009, score: 8.5, category: 'Films',     emoji: '🌿', poster: `${T}/gKY6q7SjCkAU6FqvqWybDYgUKIF.jpg` },
+    { id: 'd102', title: 'Avatar: The Way of Water',                        year: 2022, score: 8,   category: 'Films',     emoji: '🌊', poster: `${T}/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg` },
   ];
 
   async ngOnInit() {
