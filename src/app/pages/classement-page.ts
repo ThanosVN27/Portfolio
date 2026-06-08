@@ -11,7 +11,7 @@ const T = 'https://image.tmdb.org/t/p/w300';
   styleUrl: './classement-page.scss',
 })
 export class ClassementPage implements OnInit {
-  private readonly STORAGE_KEY = 'portfolio-classement-v13';
+  private readonly STORAGE_KEY = 'portfolio-classement-v14';
   private svc = inject(ClassementService);
 
   activeFilter = signal('Tout');
@@ -155,6 +155,16 @@ export class ClassementPage implements OnInit {
     { id: 'd101', title: 'Avatar',                                          year: 2009, score: 8.5, category: 'Films',     emoji: '🌿', poster: `${T}/gKY6q7SjCkAU6FqvqWybDYgUKIF.jpg` },
     { id: 'd102', title: 'Avatar: The Way of Water',                        year: 2022, score: 8,   category: 'Films',     emoji: '🌊', poster: `${T}/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg` },
     { id: 'd103', title: 'Avatar: Fire and Ash',                            year: 2024, score: 8,   category: 'Films',     emoji: '🔥', poster: `${T}/aabwWZWx6z1aYP4PX2ADvbDKktd.jpg` },
+    // ── Anime supplémentaires ────────────────────────────────────────────────
+    { id: 'd106', title: 'Hunter x Hunter',                                 year: 2011, score: 9.5, category: 'Anime',     emoji: '🎯', poster: `${T}/i2EEr2uBvRlAwJ8d8zTG2Y19mIa.jpg` },
+    { id: 'd107', title: 'Fairy Tail',                                      year: 2009, score: 8.5, category: 'Anime',     emoji: '✨', poster: `${T}/h50lj7xO65qafNYZCrfQ7ztkMBD.jpg` },
+    { id: 'd108', title: 'One Punch Man',                                   year: 2015, score: 9,   category: 'Anime',     emoji: '👊', poster: `${T}/dT10AxJIXVvRwFAew4tt2RhzJrD.jpg` },
+    { id: 'd109', title: 'Frieren: Beyond Journey\'s End',                  year: 2023, score: 9.5, category: 'Anime',     emoji: '🧝', poster: `${T}/dqZENchTd7lp5zht7BdlqM7RBhD.jpg` },
+    { id: 'd110', title: 'JoJo\'s Bizarre Adventure',                       year: 2012, score: 9,   category: 'Anime',     emoji: '💪', poster: `${T}/ogAWwbh3frWtiTyyXrZaVFtqCgp.jpg` },
+    { id: 'd111', title: 'Jujutsu Kaisen',                                  year: 2020, score: 9,   category: 'Anime',     emoji: '🔮', poster: `${T}/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg` },
+    { id: 'd112', title: 'That Time I Got Reincarnated as a Slime',         year: 2018, score: 8.5, category: 'Anime',     emoji: '🫧', poster: `${T}/pzujcdPAoH361NObVrtbA7zACE7.jpg` },
+    { id: 'd113', title: 'Mushoku Tensei: Jobless Reincarnation',           year: 2021, score: 8.5, category: 'Anime',     emoji: '📖', poster: `${T}/gLKOYIMyKlUHW0SVdskhgf9C0yy.jpg` },
+    { id: 'd114', title: 'Inazuma Eleven',                                  year: 2008, score: 8,   category: 'Anime',     emoji: '⚽', poster: `${T}/9kQWvBMPWz1gykKLXuX6JBjC9uQ.jpg` },
     // ── Dune ─────────────────────────────────────────────────────────────────
     { id: 'd104', title: 'Dune: Part One',                                  year: 2021, score: 9,   category: 'Films',     emoji: '🏜️', poster: `${T}/gDzOcq0pfeCeqMBwKIJlSmQpjkZ.jpg` },
     { id: 'd105', title: 'Dune: Part Two',                                  year: 2024, score: 9.5, category: 'Films',     emoji: '🏜️', poster: `${T}/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg` },
