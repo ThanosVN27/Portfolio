@@ -234,15 +234,15 @@ export class ClassementPage implements OnInit {
 
   closeModal() { this.showModal.set(false); this.resetForm(); }
 
-  async submitForm() {
+  submitForm() {
     if (!this.newEntry.title.trim()) return;
     if (this.isEditing()) {
       this.entries.update(list => list.map(e => e.id === this.editingId() ? { ...this.newEntry, id: e.id } : e));
     } else {
       this.entries.update(list => [...list, { ...this.newEntry, id: Date.now().toString() }]);
     }
-    await this.saveAll();
     this.closeModal();
+    this.saveAll(); // en arrière-plan
   }
 
   async removeEntry(id: string) {
