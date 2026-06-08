@@ -47,7 +47,7 @@ export class ClassementPage implements OnInit {
     { id: 'd9',   title: 'The Dark Knight',                                 year: 2008, score: 10,  category: 'DC',        emoji: '🦇', poster: `${T}/qJ2tW6WMUDux911r6m7haRef0WH.jpg` },
     { id: 'd10',  title: 'Joker',                                           year: 2019, score: 9.5, category: 'DC',        emoji: '🃏', poster: `${T}/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg` },
     { id: 'd11',  title: 'The Batman',                                      year: 2022, score: 9,   category: 'DC',        emoji: '🦇', poster: `${T}/74xTEgt7R36Fpooo50r9T25onhq.jpg` },
-    { id: 'd12',  title: 'Man of Steel',                                    year: 2013, score: 8,   category: 'DC',        emoji: '🦸', poster: `${T}/sE71EBrRMfW0NKMHlXPO55Km88X.jpg` },
+    { id: 'd12',  title: 'Man of Steel',                                    year: 2013, score: 8,   category: 'DC',        emoji: '🦸', poster: `${T}/cB46TSg3kGjq2eVy5kVUhlpUa1H.jpg` },
     { id: 'd13',  title: 'Shazam!',                                         year: 2019, score: 7.5, category: 'DC',        emoji: '⚡', poster: `${T}/lhQbFsO6rFoUo3kv5X61G6koiR1.jpg` },
     { id: 'd14',  title: 'Aquaman',                                         year: 2018, score: 7,   category: 'DC',        emoji: '🌊', poster: `${T}/ghbBIweVDjTyx983GQmnCPGlE3U.jpg` },
     { id: 'd15',  title: 'Batman v Superman',                               year: 2016, score: 7,   category: 'DC',        emoji: '⚔️', poster: `${T}/krEWtXK2K7dg5RyMlx9f5WnI1xd.jpg` },
