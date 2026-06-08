@@ -15,7 +15,7 @@ const T = 'https://image.tmdb.org/t/p/w300';
   styleUrl: './classement-page.scss',
 })
 export class ClassementPage implements OnInit {
-  private readonly STORAGE_KEY = 'portfolio-classement-v10';
+  private readonly STORAGE_KEY = 'portfolio-classement-v11';
 
   activeFilter = signal('Tout');
   showModal = signal(false);
@@ -96,7 +96,7 @@ export class ClassementPage implements OnInit {
     { id: 'd59', title: 'Thunderbolts*',                                 year: 2025, score: 7.5, category: 'Marvel', emoji: '⚡', poster: `${T}/hqcexYHbiTBfDIdDWxrxPtVndBX.jpg` },
     // Anime — nouveaux
     { id: 'd60', title: 'Solo Leveling',                                 year: 2024, score: 9.5, category: 'Anime',  emoji: '⚔️', poster: `${T}/geCRueV3ElhRTr0xtJuEWJt6dJ1.jpg` },
-    { id: 'd61', title: 'Solo Leveling: Arise from the Shadow',          year: 2025, score: 9,   category: 'Anime',  emoji: '⚔️', poster: `${T}/geCRueV3ElhRTr0xtJuEWJt6dJ1.jpg` },
+    { id: 'd61', title: 'Solo Leveling: Arise from the Shadow',          year: 2025, score: 9,   category: 'Anime',  emoji: '⚔️', poster: `${T}/a7i9OdTUo9jZ1XoraCRIQNJ6ACX.jpg` },
     { id: 'd62', title: 'Pokémon',                                       year: 1997, score: 8.5, category: 'Anime',  emoji: '⚡', poster: `${T}/lP4zwr0F7hWTbAFltfoFTc2AxRG.jpg` },
   ];
 
