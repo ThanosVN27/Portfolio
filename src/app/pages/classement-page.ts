@@ -11,7 +11,7 @@ const T = 'https://image.tmdb.org/t/p/w300';
   styleUrl: './classement-page.scss',
 })
 export class ClassementPage implements OnInit {
-  private readonly STORAGE_KEY = 'portfolio-classement-v14';
+  private readonly STORAGE_KEY = 'portfolio-classement-v15';
   private svc = inject(ClassementService);
 
   activeFilter = signal('Tout');
@@ -53,12 +53,12 @@ export class ClassementPage implements OnInit {
     { id: 'd15',  title: 'Batman v Superman',                               year: 2016, score: 7,   category: 'DC',        emoji: '⚔️', poster: `${T}/krEWtXK2K7dg5RyMlx9f5WnI1xd.jpg` },
     // ── Anime ─────────────────────────────────────────────────────────────────
     { id: 'd16',  title: 'Fullmetal Alchemist: Brotherhood',                year: 2009, score: 10,  category: 'Anime',     emoji: '⚗️', poster: `${T}/5ZFUEOULaVml7pQuXxhpR2SmVUw.jpg` },
-    { id: 'd17',  title: 'Attack on Titan',                                 year: 2013, score: 9.5, category: 'Anime',     emoji: '⚔️', poster: `${T}/cEnxvrGIGwLz7ZfCx3g8oULJxrr.jpg` },
+    { id: 'd17',  title: 'Attack on Titan (S1)',                             year: 2013, score: 9.5, category: 'Anime',     emoji: '⚔️', poster: `${T}/3Npd9yTdy76kHzoFpL0SOIxE6Uv.jpg` },
     { id: 'd18',  title: 'Death Note',                                      year: 2006, score: 9.5, category: 'Anime',     emoji: '📓', poster: `${T}/tCZFfYTIwrR7n94J6G14Y4hAFU6.jpg` },
-    { id: 'd19',  title: 'Demon Slayer',                                    year: 2019, score: 9,   category: 'Anime',     emoji: '🌊', poster: `${T}/4RuJf3ufe8DgQVycdyMZrJHGK1s.jpg` },
+    { id: 'd19',  title: 'Demon Slayer (S1)',                                year: 2019, score: 9,   category: 'Anime',     emoji: '🌊', poster: `${T}/bV0ZCL0IqrTQKClu6EtXlZaJevD.jpg` },
     { id: 'd20',  title: 'Dragon Ball Z',                                   year: 1989, score: 8.5, category: 'Anime',     emoji: '💥', poster: `${T}/qNmSRIUsnRsDgm6Lqmc9F9Ye7Jb.jpg` },
-    { id: 'd21',  title: 'Naruto',                                          year: 2002, score: 8,   category: 'Anime',     emoji: '🍃', poster: `${T}/mLoI2Zto2JYUvSB8PpqvZIV7vWj.jpg` },
-    { id: 'd22',  title: 'My Hero Academia',                                year: 2016, score: 8,   category: 'Anime',     emoji: '🦸', poster: `${T}/phuYuzqWW9ru8EA3HVjE9W2Rr3M.jpg` },
+    { id: 'd21',  title: 'Naruto',                                          year: 2002, score: 8,   category: 'Anime',     emoji: '🍃', poster: `${T}/xppeysfvDKVx775MFuH8Z9BlpMk.jpg` },
+    { id: 'd22',  title: 'My Hero Academia (S1)',                            year: 2016, score: 8,   category: 'Anime',     emoji: '🦸', poster: `${T}/1u4HqgEKOmjXM8ENGtlrF4yXIwp.jpg` },
     { id: 'd23',  title: 'One Piece',                                       year: 1999, score: 7.5, category: 'Anime',     emoji: '🏴‍☠️', poster: `${T}/l8wKSRdH0QPX8vvslKNbmrVBNk2.jpg` },
     // ── Séries ────────────────────────────────────────────────────────────────
     { id: 'd24',  title: 'Breaking Bad',                                    year: 2008, score: 10,  category: 'Séries',    emoji: '🧪', poster: `${T}/ggFHVNu6YYI5L9pCfOacjizRGt.jpg` },
@@ -157,17 +157,45 @@ export class ClassementPage implements OnInit {
     { id: 'd103', title: 'Avatar: Fire and Ash',                            year: 2024, score: 8,   category: 'Films',     emoji: '🔥', poster: `${T}/aabwWZWx6z1aYP4PX2ADvbDKktd.jpg` },
     // ── Anime supplémentaires ────────────────────────────────────────────────
     { id: 'd106', title: 'Hunter x Hunter',                                 year: 2011, score: 9.5, category: 'Anime',     emoji: '🎯', poster: `${T}/i2EEr2uBvRlAwJ8d8zTG2Y19mIa.jpg` },
-    { id: 'd107', title: 'Fairy Tail',                                      year: 2009, score: 8.5, category: 'Anime',     emoji: '✨', poster: `${T}/h50lj7xO65qafNYZCrfQ7ztkMBD.jpg` },
-    { id: 'd108', title: 'One Punch Man',                                   year: 2015, score: 9,   category: 'Anime',     emoji: '👊', poster: `${T}/dT10AxJIXVvRwFAew4tt2RhzJrD.jpg` },
+    { id: 'd107', title: 'Fairy Tail (S1)',                                  year: 2009, score: 8.5, category: 'Anime',     emoji: '✨', poster: `${T}/zo3BM6NB19sLfZ5INYa0TO9Tu4G.jpg` },
+    { id: 'd108', title: 'One Punch Man (S1)',                               year: 2015, score: 9,   category: 'Anime',     emoji: '👊', poster: `${T}/gJVaexo0CToX08AW9prtJJtVgHJ.jpg` },
     { id: 'd109', title: 'Frieren: Beyond Journey\'s End',                  year: 2023, score: 9.5, category: 'Anime',     emoji: '🧝', poster: `${T}/dqZENchTd7lp5zht7BdlqM7RBhD.jpg` },
-    { id: 'd110', title: 'JoJo\'s Bizarre Adventure',                       year: 2012, score: 9,   category: 'Anime',     emoji: '💪', poster: `${T}/ogAWwbh3frWtiTyyXrZaVFtqCgp.jpg` },
-    { id: 'd111', title: 'Jujutsu Kaisen',                                  year: 2020, score: 9,   category: 'Anime',     emoji: '🔮', poster: `${T}/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg` },
+    { id: 'd110', title: 'JoJo\'s Bizarre Adventure: Phantom Blood',         year: 2012, score: 9,   category: 'Anime',     emoji: '💪', poster: `${T}/co0K9FS9rQPxPoKADs4nuGckk3A.jpg` },
+    { id: 'd111', title: 'Jujutsu Kaisen (S1)',                              year: 2020, score: 9,   category: 'Anime',     emoji: '🔮', poster: `${T}/fHQ2XHRdRix0rkDCShmGQ8c6d03.jpg` },
     { id: 'd112', title: 'That Time I Got Reincarnated as a Slime',         year: 2018, score: 8.5, category: 'Anime',     emoji: '🫧', poster: `${T}/pzujcdPAoH361NObVrtbA7zACE7.jpg` },
     { id: 'd113', title: 'Mushoku Tensei: Jobless Reincarnation',           year: 2021, score: 8.5, category: 'Anime',     emoji: '📖', poster: `${T}/gLKOYIMyKlUHW0SVdskhgf9C0yy.jpg` },
     { id: 'd114', title: 'Inazuma Eleven',                                  year: 2008, score: 8,   category: 'Anime',     emoji: '⚽', poster: `${T}/9kQWvBMPWz1gykKLXuX6JBjC9uQ.jpg` },
     // ── Dune ─────────────────────────────────────────────────────────────────
     { id: 'd104', title: 'Dune: Part One',                                  year: 2021, score: 9,   category: 'Films',     emoji: '🏜️', poster: `${T}/gDzOcq0pfeCeqMBwKIJlSmQpjkZ.jpg` },
     { id: 'd105', title: 'Dune: Part Two',                                  year: 2024, score: 9.5, category: 'Films',     emoji: '🏜️', poster: `${T}/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg` },
+    // ── Attack on Titan — saisons ─────────────────────────────────────────────
+    { id: 'd115', title: 'Attack on Titan (S2)',                             year: 2017, score: 9.5, category: 'Anime',     emoji: '⚔️', poster: `${T}/2fhK0wbFixskgRyuq6YvaMn75et.jpg` },
+    { id: 'd116', title: 'Attack on Titan (S3)',                             year: 2018, score: 9,   category: 'Anime',     emoji: '⚔️', poster: `${T}/ynow2o9v0G341PLv1chCRDufCgc.jpg` },
+    { id: 'd117', title: 'Attack on Titan: Final Season',                    year: 2020, score: 9.5, category: 'Anime',     emoji: '⚔️', poster: `${T}/sfbSjGlLHsvFQrMUSNR9RrwZgV1.jpg` },
+    // ── Demon Slayer — saisons ────────────────────────────────────────────────
+    { id: 'd118', title: 'Demon Slayer: Entertainment District (S2)',        year: 2021, score: 9,   category: 'Anime',     emoji: '🌊', poster: `${T}/pLGjaDyg2LeA2d9KZxBZCiiqC2B.jpg` },
+    { id: 'd119', title: 'Demon Slayer: Swordsmith Village (S3)',            year: 2023, score: 8.5, category: 'Anime',     emoji: '🌊', poster: `${T}/gbmhcOtre5SeBgwR9gvTpUra5kZ.jpg` },
+    { id: 'd120', title: 'Demon Slayer: Hashira Training (S4)',              year: 2024, score: 8.5, category: 'Anime',     emoji: '🌊', poster: `${T}/6gD7G8HQay1X8mHiFVttWJ3czYb.jpg` },
+    // ── Naruto Shippuden ──────────────────────────────────────────────────────
+    { id: 'd121', title: 'Naruto Shippuden',                                 year: 2007, score: 8.5, category: 'Anime',     emoji: '🍃', poster: `${T}/kV27j3Nz4d5z8u6mN3EJw9RiLg2.jpg` },
+    // ── My Hero Academia — saisons ────────────────────────────────────────────
+    { id: 'd122', title: 'My Hero Academia (S2)',                            year: 2017, score: 8,   category: 'Anime',     emoji: '🦸', poster: `${T}/bDCGl91IP8WQdQC2XabG18849aU.jpg` },
+    { id: 'd123', title: 'My Hero Academia (S3)',                            year: 2018, score: 8,   category: 'Anime',     emoji: '🦸', poster: `${T}/s6R41zHka1t98S8ymjBzHgFIMzf.jpg` },
+    { id: 'd124', title: 'My Hero Academia (S4)',                            year: 2019, score: 7.5, category: 'Anime',     emoji: '🦸', poster: `${T}/zfIwUDWfKNsar4f8bWryVdBSg7z.jpg` },
+    { id: 'd125', title: 'My Hero Academia (S5)',                            year: 2021, score: 7.5, category: 'Anime',     emoji: '🦸', poster: `${T}/mXdO03Ac00wNiVfmbF3CnEa0zpb.jpg` },
+    { id: 'd126', title: 'My Hero Academia (S6)',                            year: 2022, score: 8.5, category: 'Anime',     emoji: '🦸', poster: `${T}/3yjbvxFZzbvGQxCE6P1UH39WANL.jpg` },
+    { id: 'd127', title: 'My Hero Academia (S7)',                            year: 2024, score: 8,   category: 'Anime',     emoji: '🦸', poster: `${T}/1KmGAaxzl8y62HUJH1VgM5a5XyL.jpg` },
+    // ── One Punch Man — saisons ───────────────────────────────────────────────
+    { id: 'd128', title: 'One Punch Man (S2)',                               year: 2019, score: 7.5, category: 'Anime',     emoji: '👊', poster: `${T}/ipzxKsG4wjyb4gfheIyud9pNw2D.jpg` },
+    // ── JoJo's Bizarre Adventure — parties ───────────────────────────────────
+    { id: 'd129', title: 'JoJo\'s Bizarre Adventure: Stardust Crusaders',   year: 2014, score: 9,   category: 'Anime',     emoji: '💪', poster: `${T}/kX9noqY0YpOPKwXpRXYg1hEIqmM.jpg` },
+    { id: 'd130', title: 'JoJo\'s Bizarre Adventure: Diamond is Unbreakable',year: 2016, score: 9,   category: 'Anime',     emoji: '💪', poster: `${T}/9X4iCnCBZ7Y1AXi4nm4RfMwLW4I.jpg` },
+    { id: 'd131', title: 'JoJo\'s Bizarre Adventure: Golden Wind',           year: 2018, score: 9,   category: 'Anime',     emoji: '💪', poster: `${T}/cMFg7X0gSJjWajuj9DNL4UaUmcP.jpg` },
+    { id: 'd132', title: 'JoJo\'s Bizarre Adventure: Stone Ocean',           year: 2021, score: 8.5, category: 'Anime',     emoji: '💪', poster: `${T}/pgfHO4mnozfDLYKjhgtaOZDq9Kc.jpg` },
+    // ── Jujutsu Kaisen — saisons ──────────────────────────────────────────────
+    { id: 'd133', title: 'Jujutsu Kaisen (S2)',                              year: 2023, score: 9.5, category: 'Anime',     emoji: '🔮', poster: `${T}/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg` },
+    // ── Fairy Tail — Final Series ─────────────────────────────────────────────
+    { id: 'd134', title: 'Fairy Tail: Final Series',                         year: 2018, score: 8,   category: 'Anime',     emoji: '✨', poster: `${T}/mZAHfUEhQuWebFqVyRdBw9Y5I0i.jpg` },
   ];
 
   async ngOnInit() {
