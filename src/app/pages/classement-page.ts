@@ -153,6 +153,7 @@ export class ClassementPage implements OnInit {
     // ── Avatar ────────────────────────────────────────────────────────────────
     { id: 'd101', title: 'Avatar',                                          year: 2009, score: 8.5, category: 'Films',     emoji: '🌿', poster: `${T}/gKY6q7SjCkAU6FqvqWybDYgUKIF.jpg` },
     { id: 'd102', title: 'Avatar: The Way of Water',                        year: 2022, score: 8,   category: 'Films',     emoji: '🌊', poster: `${T}/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg` },
+    { id: 'd103', title: 'Avatar: Fire and Ash',                            year: 2024, score: 8,   category: 'Films',     emoji: '🔥', poster: `${T}/aabwWZWx6z1aYP4PX2ADvbDKktd.jpg` },
   ];
 
   async ngOnInit() {
