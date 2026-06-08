@@ -15,12 +15,26 @@
 <section class="rank-body">
   <div class="container">
     <div class="toolbar">
-      <div class="filters">
-        @for (f of filters; track f) {
-          <button class="filter-btn" [class.active]="activeFilter() === f" (click)="setFilter(f)">{{ f }}</button>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input
+          class="search-input"
+          type="text"
+          placeholder="Rechercher un film, une série…"
+          [value]="searchQuery()"
+          (input)="searchQuery.set($any($event.target).value)"
+        />
+        @if (searchQuery()) {
+          <button class="search-clear" (click)="searchQuery.set('')">✕</button>
         }
       </div>
-      <div class="toolbar-actions">
+      <div class="toolbar-row">
+        <div class="filters">
+          @for (f of filters; track f) {
+            <button class="filter-btn" [class.active]="activeFilter() === f" (click)="setFilter(f)">{{ f }}</button>
+          }
+        </div>
+        <div class="toolbar-actions">
         <!-- Sync indicator -->
         @if (syncing()) {
           <span class="sync-badge syncing">⟳ Sync…</span>
@@ -35,8 +49,9 @@
         } @else {
           <button class="btn-lock" (click)="openPinModal()" title="Mode admin">🔒</button>
         }
-      </div>
-    </div>
+        </div><!-- /toolbar-actions -->
+      </div><!-- /toolbar-row -->
+    </div><!-- /toolbar -->
 
     <!-- Stats bar -->
     <div class="stats-bar glass">

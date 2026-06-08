@@ -15,6 +15,7 @@ export class ClassementPage implements OnInit {
   private svc = inject(ClassementService);
 
   activeFilter = signal('Tout');
+  searchQuery  = signal('');
   showModal    = signal(false);
   isEditing    = signal(false);
   editingId    = signal<string | null>(null);
@@ -168,7 +169,9 @@ export class ClassementPage implements OnInit {
 
   filtered = computed(() => {
     const f = this.activeFilter();
-    const list = f === 'Tout' ? [...this.entries()] : this.entries().filter(e => e.category === f);
+    const q = this.searchQuery().toLowerCase().trim();
+    let list = f === 'Tout' ? [...this.entries()] : this.entries().filter(e => e.category === f);
+    if (q) list = list.filter(e => e.title.toLowerCase().includes(q) || e.category.toLowerCase().includes(q));
     return list.sort((a, b) => b.score - a.score);
   });
 
