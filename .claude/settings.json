@@ -32,7 +32,18 @@
       "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/209112\")",
       "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/1726\")",
       "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/24428\")",
-      "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/tv/46298\")"
+      "Bash(curl -sL -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/tv/46298\")",
+      "Bash(curl -s \"https://www.themoviedb.org/tv/2178-prison-break\")",
+      "Bash(curl -s \"https://www.themoviedb.org/tv/14069-dragon-ball-z\")",
+      "Bash(curl -s \"https://www.themoviedb.org/tv/85937\")",
+      "Bash(curl -s \"https://www.themoviedb.org/movie/569094\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/tv/2178-prison-break\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/tv/14069-dragon-ball-z\")",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0\" \"https://www.themoviedb.org/movie/569094\")",
+      "WebSearch",
+      "WebFetch(domain:image.tmdb.org)",
+      "Bash(npm run *)",
+      "WebFetch(domain:api.themoviedb.org)"
     ],
     "additionalDirectories": [
       "\\tmp"

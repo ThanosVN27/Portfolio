@@ -7,5 +7,5 @@ export const environment = {
     messagingSenderId: '',
     appId: ''
   },
-  adminPin: ''   // Ton code PIN pour éditer le classement
+  adminPin: '2705'   // Ton code PIN pour éditer le classement
 };
