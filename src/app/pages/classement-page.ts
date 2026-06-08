@@ -11,7 +11,7 @@ const T = 'https://image.tmdb.org/t/p/w300';
   styleUrl: './classement-page.scss',
 })
 export class ClassementPage implements OnInit {
-  private readonly STORAGE_KEY = 'portfolio-classement-v12';
+  private readonly STORAGE_KEY = 'portfolio-classement-v13';
   private svc = inject(ClassementService);
 
   activeFilter = signal('Tout');
