@@ -161,12 +161,18 @@ export class ClassementPage implements OnInit {
   ];
 
   async ngOnInit() {
-    try {
-      const remote = await this.svc.load();
-      if (remote && remote.length > 0) { this.entries.set(remote); return; }
-    } catch { /* Firebase non configuré ou erreur réseau */ }
+    // Afficher immédiatement localStorage ou defaults — jamais de page vide
     const saved = localStorage.getItem(this.STORAGE_KEY);
     this.entries.set(saved ? JSON.parse(saved) : this.defaults);
+
+    // Ensuite essayer Firebase en arrière-plan
+    try {
+      const remote = await this.svc.load();
+      if (remote && remote.length > 0) {
+        this.entries.set(remote);
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(remote));
+      }
+    } catch { /* ignore */ }
   }
 
   filtered = computed(() => {
