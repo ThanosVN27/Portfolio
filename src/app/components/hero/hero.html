@@ -1,19 +1,126 @@
-<section id="hero">
+<section class="hero-section" id="hero">
+
+  <!-- Three.js canvas -->
   <canvas #canvas class="hero-canvas"></canvas>
-  <div class="hero-bg">
-    <div class="hero-grid"></div>
-  </div>
-  <div class="hero-content">
-    <p class="hero-tag">Étudiant &amp; Développeur</p>
-    <h1>Thanh-Long <span class="gradient-text">Le</span></h1>
-    <p class="hero-typing">
-      <span class="typed">{{ typedText() }}</span><span class="cursor">|</span>
-    </p>
-    <p class="hero-subtitle">Passionné par le développement logiciel<br />et les systèmes informatiques.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" routerLink="/projets">Voir mes projets</a>
-      <a class="btn btn-ghost" routerLink="/contact">Me contacter</a>
+
+  <!-- Ambient glow behind 3D core -->
+  <div class="core-glow"></div>
+
+  <!-- HUD corner brackets -->
+  <div class="hud-corner hc-tl"></div>
+  <div class="hud-corner hc-tr"></div>
+  <div class="hud-corner hc-bl"></div>
+  <div class="hud-corner hc-br"></div>
+
+  <!-- Thin horizontal HUD lines -->
+  <div class="hud-hline hud-hline-top"></div>
+  <div class="hud-hline hud-hline-bottom"></div>
+
+  <!-- ── 3-column main layout ── -->
+  <div class="hero-layout">
+
+    <!-- LEFT — Identity glass panel -->
+    <div class="hero-panel identity-panel">
+      <div class="panel-bar">
+        <span class="panel-tag">// PROFIL</span>
+        <span class="badge-online">● ONLINE</span>
+      </div>
+
+      <div class="avatar-wrap">
+        <div class="avatar-ring ar2"></div>
+        <div class="avatar-ring ar1"></div>
+        <div class="avatar-core">TL</div>
+      </div>
+
+      <div class="identity-text">
+        <p class="hero-eyebrow">LE THANH LONG</p>
+        <h1 class="hero-name">
+          Développeur<br>
+          <span class="name-accent">Informatique</span>
+        </h1>
+        <div class="typing-line">
+          <span class="type-prefix">›</span>
+          <span class="typed">{{ typedText() }}</span><span class="cursor">_</span>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a class="btn-hud" routerLink="/projets">
+          <span class="btn-hex">⬡</span> Projets
+        </a>
+        <a class="btn-hud btn-ghost" routerLink="/contact">
+          <span class="btn-hex">◇</span> Contact
+        </a>
+      </div>
     </div>
+
+    <!-- CENTER — 3D scene shows through -->
+    <div class="center-void">
+      <div class="floating-badge badge-top">
+        <span class="fb-dot"></span>THREE.JS — ACTIF
+      </div>
+      <div class="floating-badge badge-bottom">
+        <span class="fb-dot purple"></span>ANGULAR 22 — STABLE
+      </div>
+    </div>
+
+    <!-- RIGHT — Stats glass panel -->
+    <div class="hero-panel info-panel">
+      <div class="panel-bar">
+        <span class="panel-tag">// DONNÉES</span>
+        <span class="panel-tag dim">SYS:OK</span>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-val">BUT</span>
+          <span class="info-lbl">Informatique</span>
+          <span class="info-sub">Unistra · 2025</span>
+        </div>
+        <div class="info-item">
+          <span class="info-val cyan">2+</span>
+          <span class="info-lbl">Années exp.</span>
+        </div>
+        <div class="info-item">
+          <span class="info-val purple">15+</span>
+          <span class="info-lbl">Projets</span>
+        </div>
+        <div class="info-item">
+          <span class="info-val">FR/VN</span>
+          <span class="info-lbl">Bilingue</span>
+        </div>
+      </div>
+
+      <div class="panel-sep"></div>
+
+      <div class="panel-bar">
+        <span class="panel-tag">// STACK</span>
+      </div>
+      <div class="stack-list">
+        <span class="stack-tag">Angular</span>
+        <span class="stack-tag">TypeScript</span>
+        <span class="stack-tag">Java</span>
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Three.js</span>
+        <span class="stack-tag">Firebase</span>
+        <span class="stack-tag">SQL</span>
+        <span class="stack-tag">Git</span>
+      </div>
+
+      <div class="panel-sep"></div>
+
+      <div class="avail-row">
+        <span class="avail-dot"></span>
+        <span class="avail-text">Disponible pour stage · 2025</span>
+      </div>
+    </div>
+
   </div>
-  <div class="hero-scroll"><span></span></div>
+
+  <!-- Scroll hint -->
+  <div class="hero-scroll">
+    <span class="scroll-lbl">SCROLL</span>
+    <span class="scroll-line"></span>
+  </div>
+
 </section>

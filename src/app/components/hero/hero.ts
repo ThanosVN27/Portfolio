@@ -12,7 +12,7 @@ export class Hero implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   typedText = signal('');
-  private texts = ['Développeur Logiciel', 'Étudiant BUT Informatique', 'Fan de Jeux Vidéo'];
+  private texts = ['Développeur Full-Stack', 'Étudiant BUT Informatique', 'Passionné Three.js & Angular'];
   private textIndex = 0;
   private charIndex = 0;
   private isDeleting = false;
@@ -21,8 +21,9 @@ export class Hero implements AfterViewInit, OnDestroy {
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
+  private coreLines!: THREE.LineSegments;
+  private outerLines!: THREE.LineSegments;
   private particles!: THREE.Points;
-  private lines!: THREE.LineSegments;
   private rings: THREE.Mesh[] = [];
   private animId!: number;
   private mouse = { x: 0, y: 0 };
@@ -52,13 +53,13 @@ export class Hero implements AfterViewInit, OnDestroy {
       this.typedText.set(current.substring(0, this.charIndex + 1));
       this.charIndex++;
     }
-    let delay = this.isDeleting ? 50 : 100;
+    let delay = this.isDeleting ? 48 : 88;
     if (!this.isDeleting && this.charIndex === current.length) {
-      delay = 1800; this.isDeleting = true;
+      delay = 2200; this.isDeleting = true;
     } else if (this.isDeleting && this.charIndex === 0) {
       this.isDeleting = false;
       this.textIndex = (this.textIndex + 1) % this.texts.length;
-      delay = 300;
+      delay = 400;
     }
     this.typingTimer = setTimeout(() => this.typeNext(), delay);
   }
@@ -70,108 +71,108 @@ export class Hero implements AfterViewInit, OnDestroy {
     this.renderer.setSize(w, h);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(62, w / h, 0.1, 1000);
     this.camera.position.z = 5;
+
+    // Central wireframe icosahedron — cyan glow core
+    const coreGeo  = new THREE.IcosahedronGeometry(1.65, 1);
+    const coreWire = new THREE.WireframeGeometry(coreGeo);
+    this.coreLines = new THREE.LineSegments(coreWire, new THREE.LineBasicMaterial({
+      color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0.68,
+    }));
+    this.scene.add(this.coreLines);
+
+    // Outer cage — octahedron, purple, dim
+    const outerGeo  = new THREE.OctahedronGeometry(2.55, 2);
+    const outerWire = new THREE.WireframeGeometry(outerGeo);
+    this.outerLines = new THREE.LineSegments(outerWire, new THREE.LineBasicMaterial({
+      color: new THREE.Color('#7c6fff'), transparent: true, opacity: 0.14,
+    }));
+    this.scene.add(this.outerLines);
+
+    // Orbit rings
+    [
+      { r: 2.85, tube: 0.008, color: '#00d4ff', rx: Math.PI / 2,   ry: 0,           rz: 0           },
+      { r: 3.3,  tube: 0.005, color: '#00d4ff', rx: Math.PI / 3.5, ry: Math.PI / 5, rz: 0           },
+      { r: 2.4,  tube: 0.01,  color: '#7c6fff', rx: 0,             ry: Math.PI / 3, rz: Math.PI / 4 },
+    ].forEach(cfg => {
+      const mesh = new THREE.Mesh(
+        new THREE.TorusGeometry(cfg.r, cfg.tube, 8, 120),
+        new THREE.MeshBasicMaterial({ color: cfg.color, transparent: true, opacity: 0.4 })
+      );
+      mesh.rotation.set(cfg.rx, cfg.ry, cfg.rz);
+      this.rings.push(mesh);
+      this.scene.add(mesh);
+    });
+
+    // Background star particles
     this.particles = this.buildParticles();
-    this.lines = this.buildLines();
-    this.rings = this.buildRings();
     this.scene.add(this.particles);
-    this.scene.add(this.lines);
-    this.rings.forEach(r => this.scene.add(r));
+
     this.animate();
   }
 
   private buildParticles(): THREE.Points {
-    const count = 2500;
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
+    const count   = 1800;
+    const pos     = new Float32Array(count * 3);
+    const col     = new Float32Array(count * 3);
     const palette = [
-      new THREE.Color('#7c6fff'),
       new THREE.Color('#00d4ff'),
-      new THREE.Color('#ff6b9d'),
-      new THREE.Color('#c084fc'),
+      new THREE.Color('#00d4ff'),
+      new THREE.Color('#7c6fff'),
+      new THREE.Color('#c0d8ff'),
     ];
     for (let i = 0; i < count; i++) {
-      const r = Math.pow(Math.random(), 0.5) * 9;
+      const r     = 3.5 + Math.random() * 7;
       const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      positions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.5;
-      positions[i * 3 + 2] = r * Math.cos(phi);
+      const phi   = Math.acos(2 * Math.random() - 1);
+      pos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.5;
+      pos[i * 3 + 2] = r * Math.cos(phi);
       const c = palette[Math.floor(Math.random() * palette.length)];
-      colors[i * 3] = c.r; colors[i * 3 + 1] = c.g; colors[i * 3 + 2] = c.b;
+      col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
     }
     const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
     return new THREE.Points(geo, new THREE.PointsMaterial({
-      size: 0.05, vertexColors: true, transparent: true, opacity: 0.9, sizeAttenuation: true,
+      size: 0.042, vertexColors: true, transparent: true, opacity: 0.72, sizeAttenuation: true,
     }));
-  }
-
-  private buildLines(): THREE.LineSegments {
-    const pts = this.particles.geometry.attributes['position'].array as Float32Array;
-    const n = 220;
-    const maxDist = 2.4;
-    const linePos: number[] = [];
-    const lineCol: number[] = [];
-    const c1 = new THREE.Color('#7c6fff');
-    const c2 = new THREE.Color('#00d4ff');
-    for (let i = 0; i < n; i++) {
-      for (let j = i + 1; j < n; j++) {
-        const dx = pts[i*3]-pts[j*3], dy = pts[i*3+1]-pts[j*3+1], dz = pts[i*3+2]-pts[j*3+2];
-        if (Math.sqrt(dx*dx+dy*dy+dz*dz) < maxDist) {
-          linePos.push(pts[i*3], pts[i*3+1], pts[i*3+2], pts[j*3], pts[j*3+1], pts[j*3+2]);
-          const c = c1.clone().lerp(c2, j / n);
-          lineCol.push(c.r, c.g, c.b, c.r, c.g, c.b);
-        }
-      }
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(linePos), 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(lineCol), 3));
-    return new THREE.LineSegments(geo, new THREE.LineBasicMaterial({
-      vertexColors: true, transparent: true, opacity: 0.22,
-    }));
-  }
-
-  private buildRings(): THREE.Mesh[] {
-    return [
-      { r: 3.5, tube: 0.02,  color: '#7c6fff', rx: 0.4,  ry: 0   },
-      { r: 5.2, tube: 0.012, color: '#00d4ff', rx: -0.3, ry: 0.5 },
-      { r: 2.2, tube: 0.025, color: '#ff6b9d', rx: 1.1,  ry: 0.2 },
-    ].map(cfg => {
-      const mesh = new THREE.Mesh(
-        new THREE.TorusGeometry(cfg.r, cfg.tube, 8, 128),
-        new THREE.MeshBasicMaterial({ color: cfg.color, transparent: true, opacity: 0.5 }),
-      );
-      mesh.rotation.x = cfg.rx;
-      mesh.rotation.y = cfg.ry;
-      return mesh;
-    });
   }
 
   private animate = () => {
     this.animId = requestAnimationFrame(this.animate);
     const t = this.clock.getElapsedTime();
-    this.particles.rotation.y += 0.0006;
-    this.particles.rotation.x += 0.0002;
-    this.lines.rotation.y = this.particles.rotation.y;
-    this.lines.rotation.x = this.particles.rotation.x;
-    this.rings[0].rotation.z += 0.003;
-    this.rings[1].rotation.z -= 0.0015;
-    this.rings[2].rotation.y += 0.004;
-    (this.rings[0].material as THREE.MeshBasicMaterial).opacity = 0.35 + Math.sin(t * 0.8) * 0.2;
-    (this.rings[1].material as THREE.MeshBasicMaterial).opacity = 0.25 + Math.sin(t * 1.1 + 1) * 0.15;
-    (this.rings[2].material as THREE.MeshBasicMaterial).opacity = 0.3  + Math.sin(t * 0.6 + 2) * 0.15;
-    this.camera.position.x += (this.mouse.x * 0.8 - this.camera.position.x) * 0.04;
-    this.camera.position.y += (-this.mouse.y * 0.5 - this.camera.position.y) * 0.04;
+
+    // Core — slow rotation + opacity breathe
+    this.coreLines.rotation.y += 0.0028;
+    this.coreLines.rotation.x += 0.001;
+    (this.coreLines.material as THREE.LineBasicMaterial).opacity = 0.5 + Math.sin(t * 0.9) * 0.22;
+
+    // Outer cage — opposite direction
+    this.outerLines.rotation.y -= 0.0013;
+    this.outerLines.rotation.z += 0.0007;
+
+    // Rings
+    this.rings[0].rotation.z += 0.002;
+    this.rings[1].rotation.z -= 0.0011;
+    this.rings[2].rotation.y += 0.0024;
+    (this.rings[0].material as THREE.MeshBasicMaterial).opacity = 0.28 + Math.sin(t * 0.7) * 0.18;
+    (this.rings[1].material as THREE.MeshBasicMaterial).opacity = 0.18 + Math.sin(t * 1.1 + 1) * 0.12;
+
+    // Stars drift
+    this.particles.rotation.y += 0.00025;
+
+    // Subtle mouse parallax
+    this.camera.position.x += (this.mouse.x * 0.3 - this.camera.position.x) * 0.025;
+    this.camera.position.y += (-this.mouse.y * 0.2 - this.camera.position.y) * 0.025;
     this.camera.lookAt(this.scene.position);
+
     this.renderer.render(this.scene, this.camera);
   };
 
   private onMouseMove = (e: MouseEvent) => {
-    this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    this.mouse.x = (e.clientX / window.innerWidth)  * 2 - 1;
     this.mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
   };
 
