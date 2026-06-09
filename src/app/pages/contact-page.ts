@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, signal } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, ElementRef, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import * as THREE from 'three';
 
@@ -10,6 +10,7 @@ import * as THREE from 'three';
 })
 export class ContactPage implements AfterViewInit, OnDestroy {
   @ViewChild('bgCanvas') bgCanvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChildren('reveal') revealEls!: QueryList<ElementRef>;
 
   form = { name: '', email: '', message: '' };
   submitted = signal(false);
@@ -37,6 +38,13 @@ export class ContactPage implements AfterViewInit, OnDestroy {
     this.initThree();
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('resize', this.onResize);
+    setTimeout(() => {
+      const obs = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }),
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      );
+      this.revealEls.forEach(el => obs.observe(el.nativeElement));
+    });
   }
 
   ngOnDestroy() {

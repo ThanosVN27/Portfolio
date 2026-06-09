@@ -25,6 +25,7 @@ export class Hero implements AfterViewInit, OnDestroy {
   private outerLines!: THREE.LineSegments;
   private particles!: THREE.Points;
   private rings: THREE.Mesh[] = [];
+  private orbs: { mesh: THREE.LineSegments; angle: number; radius: number; speed: number; incline: number }[] = [];
   private animId!: number;
   private mouse = { x: 0, y: 0 };
   private clock = new THREE.Clock();
@@ -109,6 +110,24 @@ export class Hero implements AfterViewInit, OnDestroy {
     this.particles = this.buildParticles();
     this.scene.add(this.particles);
 
+    // Floating data orbs — small wireframe icosahedrons orbiting the core
+    const orbCfgs = [
+      { r: 3.8, speed:  0.38, incline: 0.5,  color: '#00d4ff', size: 0.22 },
+      { r: 4.6, speed: -0.24, incline: 1.2,  color: '#7c6fff', size: 0.16 },
+      { r: 5.3, speed:  0.15, incline: 2.1,  color: '#00d4ff', size: 0.13 },
+      { r: 3.3, speed: -0.52, incline: 0.9,  color: '#a78bfa', size: 0.11 },
+      { r: 4.1, speed:  0.42, incline: 1.7,  color: '#38bdf8', size: 0.14 },
+    ];
+    orbCfgs.forEach((cfg, i) => {
+      const geo  = new THREE.IcosahedronGeometry(cfg.size, 0);
+      const wire = new THREE.WireframeGeometry(geo);
+      const mesh = new THREE.LineSegments(wire, new THREE.LineBasicMaterial({
+        color: new THREE.Color(cfg.color), transparent: true, opacity: 0.75,
+      }));
+      this.scene.add(mesh);
+      this.orbs.push({ mesh, angle: (i / orbCfgs.length) * Math.PI * 2, radius: cfg.r, speed: cfg.speed, incline: cfg.incline });
+    });
+
     this.animate();
   }
 
@@ -162,6 +181,16 @@ export class Hero implements AfterViewInit, OnDestroy {
 
     // Stars drift
     this.particles.rotation.y += 0.00025;
+
+    // Floating data orbs
+    this.orbs.forEach(orb => {
+      orb.angle += orb.speed * 0.007;
+      orb.mesh.position.x = Math.cos(orb.angle) * orb.radius;
+      orb.mesh.position.y = Math.sin(orb.incline + orb.angle * 0.3) * 1.4;
+      orb.mesh.position.z = Math.sin(orb.angle) * orb.radius * 0.55;
+      orb.mesh.rotation.y += 0.025;
+      orb.mesh.rotation.x += 0.018;
+    });
 
     // Subtle mouse parallax
     this.camera.position.x += (this.mouse.x * 0.3 - this.camera.position.x) * 0.025;

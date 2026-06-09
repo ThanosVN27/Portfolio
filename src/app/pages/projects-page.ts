@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, signal, computed } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, ElementRef, signal, computed } from '@angular/core';
 import * as THREE from 'three';
 
 interface Project {
@@ -14,6 +14,7 @@ interface Project {
 })
 export class ProjectsPage implements AfterViewInit, OnDestroy {
   @ViewChild('bgCanvas') bgCanvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChildren('reveal') revealEls!: QueryList<ElementRef>;
 
   activeFilter = signal('Tous');
   filters = ['Tous', 'Java', 'C', 'C#', 'Godot', 'Web', 'Android'];
@@ -91,6 +92,13 @@ export class ProjectsPage implements AfterViewInit, OnDestroy {
     this.initThree();
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('resize', this.onResize);
+    setTimeout(() => {
+      const obs = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }),
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      );
+      this.revealEls.forEach(el => obs.observe(el.nativeElement));
+    });
   }
 
   ngOnDestroy() {

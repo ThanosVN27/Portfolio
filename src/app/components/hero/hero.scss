@@ -470,6 +470,32 @@
   to   { opacity: 1; }
 }
 
+/* ── Radar sweep ─────────────────────────────── */
+.radar-ring {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%); border-radius: 50%;
+  pointer-events: none; z-index: 0;
+  &.rr1 { width: 290px; height: 290px; border: 1px solid rgba(0,212,255,0.1); }
+  &.rr2 { width: 520px; height: 520px; border: 1px solid rgba(0,212,255,0.06); }
+  &.rr3 { width: 750px; height: 750px; border: 1px solid rgba(0,212,255,0.03); }
+}
+.radar-sweep {
+  position: absolute; top: 50%; left: 50%;
+  width: 520px; height: 520px;
+  transform: translate(-50%,-50%); border-radius: 50%;
+  background: conic-gradient(
+    from 0deg, transparent 0deg, rgba(0,212,255,0) 200deg,
+    rgba(0,212,255,0.04) 260deg, rgba(0,212,255,0.11) 300deg,
+    rgba(0,212,255,0.05) 330deg, transparent 360deg
+  );
+  animation: radarSpin 7s linear infinite;
+  pointer-events: none; z-index: 0;
+}
+@keyframes radarSpin {
+  from { transform: translate(-50%,-50%) rotate(0deg); }
+  to   { transform: translate(-50%,-50%) rotate(360deg); }
+}
+
 /* ── Responsive ──────────────────────────────── */
 @media (max-width: 1100px) {
   .hero-layout { grid-template-columns: 290px 1fr 268px; gap: 0 22px; padding: 0 22px; }
