@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, ElementRef, QueryList, ViewChildren, inject } from '@angular/core';
 
 interface Project {
   num: string;
@@ -18,6 +18,7 @@ interface Project {
 })
 export class Projects implements OnInit {
   @ViewChildren('reveal') revealEls!: QueryList<ElementRef>;
+  private el = inject(ElementRef);
 
   projects: Project[] = [
     {
@@ -83,6 +84,29 @@ export class Projects implements OnInit {
       }),
       { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
     );
-    setTimeout(() => this.revealEls.forEach(el => observer.observe(el.nativeElement)));
+    setTimeout(() => {
+      this.revealEls.forEach(el => observer.observe(el.nativeElement));
+      this.addTilt(this.el.nativeElement.querySelectorAll('.project-card'));
+    });
+  }
+
+  private addTilt(cards: NodeListOf<HTMLElement>) {
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(700px) rotateY(${x * 14}deg) rotateX(${-y * 10}deg) translateZ(10px)`;
+        const shine = card.querySelector('.card-shine') as HTMLElement;
+        if (shine) {
+          shine.style.background = `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgba(124,111,255,0.22) 0%, transparent 65%)`;
+        }
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        const shine = card.querySelector('.card-shine') as HTMLElement;
+        if (shine) shine.style.background = '';
+      });
+    });
   }
 }

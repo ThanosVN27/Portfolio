@@ -5,6 +5,7 @@
     <div class="skills-grid">
       @for (cat of categories; track cat.title) {
         <div class="skill-category glass reveal" #reveal>
+          <div class="card-shine"></div>
           <div class="skill-icon">{{ cat.icon }}</div>
           <h3>{{ cat.title }}</h3>
           <div class="skill-tags">
