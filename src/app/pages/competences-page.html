@@ -1,33 +1,37 @@
 <canvas #bgCanvas class="page-bg-canvas"></canvas>
 
-<section class="comp-hero">
+<section class="pg-header">
   <div class="container">
-    <div class="section-tag">03 — Compétences</div>
-    <h1>Mon <span class="gradient-text">stack</span></h1>
-    <p class="comp-intro">Langages, outils et technologies maîtrisés durant mon BUT Informatique.</p>
+    <div class="pg-tag-row">
+      <span class="pg-num">02</span>
+      <span class="pg-label">// COMPÉTENCES</span>
+      <div class="pg-line"></div>
+    </div>
+    <h1 class="pg-title">Mon <span class="pg-accent">stack</span></h1>
+    <p class="pg-intro">Langages, outils et technologies maîtrisés durant mon BUT Informatique.</p>
   </div>
 </section>
 
-<section class="skills-grid-section">
+<section class="content-section">
   <div class="container">
+    <div class="sh-row"><span class="sh-tag">// TECHNOLOGIES</span><div class="sh-line"></div></div>
     <div class="skill-groups">
       @for (group of skillGroups; track group.title) {
-        <div class="skill-group glass reveal" #reveal>
-          <div class="group-header">
-            <span class="group-icon">{{ group.icon }}</span>
-            <h3 class="group-title">{{ group.title }}</h3>
-            @if (group.badge) { <span class="group-badge">{{ group.badge }}</span> }
+        <div class="hud-card skill-group">
+          <div class="panel-bar">
+            <span class="sg-icon">{{ group.icon }}</span>
+            <span class="panel-tag">{{ group.title }}</span>
+            @if (group.badge) { <span class="sg-badge">{{ group.badge }}</span> }
           </div>
           <div class="skill-bars">
             @for (skill of group.skills; track skill.name) {
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
+              <div class="skill-item">
+                <div class="skill-meta">
                   <span class="skill-name">{{ skill.name }}</span>
-                  <span class="skill-percent">{{ skill.percent }}%</span>
+                  <span class="skill-pct">{{ skill.percent }}%</span>
                 </div>
                 <div class="skill-track">
-                  <div class="skill-fill"
-                    [class]="'fill-' + skill.color"
+                  <div class="skill-fill fill-{{ skill.color }}"
                     [style.width]="barsVisible() ? skill.percent + '%' : '0%'">
                   </div>
                 </div>
@@ -38,8 +42,10 @@
       }
     </div>
 
-    <div class="soft-skills-section reveal" #reveal>
-      <h3 class="group-title-inline">🧠 Soft skills</h3>
+    <div class="hud-card soft-card">
+      <div class="panel-bar">
+        <span class="panel-tag">// SOFT SKILLS</span>
+      </div>
       <div class="soft-tags">
         @for (s of softSkills; track s) {
           <span class="soft-tag">{{ s }}</span>
@@ -49,20 +55,22 @@
   </div>
 </section>
 
-<section class="lang-section">
+<section class="content-section alt last">
   <div class="container">
-    <div class="section-tag reveal" #reveal>Langues</div>
-    <h2 class="section-title reveal" #reveal>Mes <span class="gradient-text">langues</span></h2>
+    <div class="sh-row"><span class="sh-tag">// LANGUES</span><div class="sh-line"></div></div>
     <div class="lang-grid">
       @for (lang of languages; track lang.name) {
-        <div class="lang-card glass reveal" #reveal>
-          <div class="lang-flag">{{ lang.flag }}</div>
-          <div class="lang-info">
-            <h3>{{ lang.name }}</h3>
-            <p>{{ lang.level }}</p>
+        <div class="hud-card lang-card">
+          <div class="lang-left">
+            <span class="lang-flag">{{ lang.flag }}</span>
+            <div>
+              <h3>{{ lang.name }}</h3>
+              <p>{{ lang.level }}</p>
+            </div>
           </div>
           <div class="lang-bar-wrap">
             <div class="lang-bar" [style.width]="barsVisible() ? lang.percent + '%' : '0%'"></div>
+            <span class="lang-pct">{{ lang.percent }}%</span>
           </div>
         </div>
       }

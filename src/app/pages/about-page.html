@@ -1,87 +1,111 @@
 <canvas #bgCanvas class="page-bg-canvas"></canvas>
 
-<!-- BIO -->
-<section class="bio-section">
+<section class="pg-header">
   <div class="container">
-    <div class="section-tag reveal" #reveal>01 — À propos</div>
-    <h2 class="section-title reveal" #reveal>Qui suis-je <span class="gradient-text">?</span></h2>
+    <div class="pg-tag-row">
+      <span class="pg-num">01</span>
+      <span class="pg-label">// À PROPOS</span>
+      <div class="pg-line"></div>
+    </div>
+    <h1 class="pg-title">Qui <span class="pg-accent">suis-je ?</span></h1>
+    <p class="pg-intro">Étudiant passionné en développement logiciel, curieux et orienté solutions.</p>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+    <div class="sh-row"><span class="sh-tag">// PROFIL</span><div class="sh-line"></div></div>
     <div class="about-grid">
-      <div class="about-text reveal" #reveal>
+
+      <div class="about-text">
         <p>Étudiant passionné par le <strong>développement logiciel</strong>, les réseaux et la <strong>cybersécurité</strong>. Sérieux, curieux et rigoureux, je possède une bonne capacité d'adaptation et j'apprécie le travail en équipe à travers des projets techniques variés.</p>
         <p>Je cherche à renforcer mes compétences dans un cadre professionnel — idéalement un <strong>stage ou une alternance</strong> en développement ou cybersécurité.</p>
-        <div class="about-stats">
-          <div class="stat"><span class="stat-number">6+</span><span class="stat-label">Projets réalisés</span></div>
-          <div class="stat"><span class="stat-number">3</span><span class="stat-label">Années d'études</span></div>
-          <div class="stat"><span class="stat-number">∞</span><span class="stat-label">Curiosité</span></div>
+        <div class="stat-row">
+          <div class="stat-box">
+            <span class="stat-n cyan">6+</span>
+            <span class="stat-l">Projets réalisés</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-n purple">3</span>
+            <span class="stat-l">Années d'études</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-n">∞</span>
+            <span class="stat-l">Curiosité</span>
+          </div>
         </div>
       </div>
-      <div class="about-card glass reveal" #reveal>
-        <div class="about-avatar"><span>TL</span></div>
-        <div class="about-info">
-          <div class="info-item"><span class="info-label">Formation</span><span class="info-value">BUT Informatique 2e année</span></div>
-          <div class="info-item"><span class="info-label">École</span><span class="info-value">IUT Robert Schumann</span></div>
-          <div class="info-item"><span class="info-label">Localisation</span><span class="info-value">Strasbourg</span></div>
-          <div class="info-item"><span class="info-label">Intérêts</span><span class="info-value">Dev · Réseau · Cyber</span></div>
-          <div class="info-item"><span class="info-label">Disponible</span><span class="info-value available">Oui — Stage / Alternance</span></div>
+
+      <div class="hud-card info-card">
+        <div class="panel-bar">
+          <span class="panel-tag">// IDENTITÉ</span>
+          <span class="avail-badge">● DISPONIBLE</span>
+        </div>
+        <div class="id-avatar">TL</div>
+        <div class="id-rows">
+          <div class="id-row"><span class="id-key">Formation</span><span class="id-val">BUT Informatique 2e année</span></div>
+          <div class="id-row"><span class="id-key">École</span><span class="id-val">IUT Robert Schumann</span></div>
+          <div class="id-row"><span class="id-key">Localisation</span><span class="id-val">Strasbourg</span></div>
+          <div class="id-row"><span class="id-key">Intérêts</span><span class="id-val">Dev · Réseau · Cyber</span></div>
+          <div class="id-row">
+            <span class="id-key">Statut</span>
+            <span class="id-val available">Stage / Alternance 2025</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- GAMING -->
-<section class="gaming-section">
+<section class="content-section alt">
   <div class="container">
-    <div class="section-tag reveal" #reveal>🎮 Gaming</div>
-    <h2 class="section-title reveal" #reveal>Mes <span class="gradient-text">jeux</span></h2>
-    <div class="games-grid">
-      <div class="game-card glass reveal" #reveal>
-        <span class="game-icon">🎯</span>
+    <div class="sh-row"><span class="sh-tag">// GAMING</span><div class="sh-line"></div></div>
+    <div class="four-grid">
+      <div class="hud-card game-card">
+        <div class="gc-icon">🎯</div>
         <h3>Valorant</h3>
-        <span class="game-tag">FPS Tactique</span>
+        <span class="gc-tag">FPS Tactique</span>
       </div>
-      <div class="game-card glass reveal" #reveal>
-        <span class="game-icon">⚔️</span>
+      <div class="hud-card game-card">
+        <div class="gc-icon">⚔️</div>
         <h3>League of Legends</h3>
-        <span class="game-tag">MOBA</span>
+        <span class="gc-tag">MOBA</span>
       </div>
-      <div class="game-card glass reveal" #reveal>
-        <span class="game-icon">🔫</span>
+      <div class="hud-card game-card">
+        <div class="gc-icon">🔫</div>
         <h3>Rainbow Six Siege</h3>
-        <span class="game-tag">FPS Tactique</span>
+        <span class="gc-tag">FPS Tactique</span>
       </div>
-      <div class="game-card glass reveal" #reveal>
-        <span class="game-icon">🏆</span>
+      <div class="hud-card game-card">
+        <div class="gc-icon">🏆</div>
         <h3>Fortnite</h3>
-        <span class="game-tag">Battle Royale</span>
+        <span class="gc-tag">Battle Royale</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- OBJECTIFS -->
-<section class="goals-section">
+<section class="content-section">
   <div class="container">
-    <div class="section-tag reveal" #reveal>🎯 Objectifs</div>
-    <h2 class="section-title reveal" #reveal>Mes <span class="gradient-text">ambitions</span></h2>
-    <div class="goals-grid">
-      <div class="goal-card glass reveal" #reveal>
-        <span class="goal-icon">💼</span>
+    <div class="sh-row"><span class="sh-tag">// OBJECTIFS</span><div class="sh-line"></div></div>
+    <div class="four-grid">
+      <div class="hud-card goal-card">
+        <span class="gc-num">01</span>
         <h3>Stage / Alternance</h3>
         <p>Décrocher une opportunité en développement ou cybersécurité pour renforcer mes compétences pratiques.</p>
       </div>
-      <div class="goal-card glass reveal" #reveal>
-        <span class="goal-icon">🔐</span>
+      <div class="hud-card goal-card">
+        <span class="gc-num">02</span>
         <h3>Cybersécurité</h3>
         <p>Approfondir le pentest, les CTF et décrocher des certifications dans le domaine de la sécurité.</p>
       </div>
-      <div class="goal-card glass reveal" #reveal>
-        <span class="goal-icon">☁️</span>
+      <div class="hud-card goal-card">
+        <span class="gc-num">03</span>
         <h3>DevOps & Cloud</h3>
         <p>Explorer Docker, les pipelines CI/CD et les architectures cloud modernes.</p>
       </div>
-      <div class="goal-card glass reveal" #reveal>
-        <span class="goal-icon">🎓</span>
+      <div class="hud-card goal-card">
+        <span class="gc-num">04</span>
         <h3>Master Informatique</h3>
         <p>Poursuivre mes études vers un Master spécialisé en cybersécurité ou développement.</p>
       </div>
@@ -89,20 +113,18 @@
   </div>
 </section>
 
-<!-- TIMELINE -->
-<section class="timeline-section">
+<section class="content-section alt last">
   <div class="container">
-    <div class="section-tag reveal" #reveal>02 — Formation</div>
-    <h2 class="section-title reveal" #reveal>Mon <span class="gradient-text">parcours</span></h2>
+    <div class="sh-row"><span class="sh-tag">// PARCOURS</span><div class="sh-line"></div></div>
     <div class="timeline">
       @for (item of timeline; track item.year) {
-        <div class="timeline-item reveal" #reveal>
-          <div class="timeline-dot" [class.current]="item.current"></div>
-          <div class="timeline-content glass">
-            <span class="timeline-year">{{ item.year }}</span>
+        <div class="tl-item">
+          <div class="tl-dot" [class.current]="item.current"></div>
+          <div class="hud-card tl-card">
+            <span class="tl-year">{{ item.year }}</span>
             <h3>{{ item.title }}</h3>
             <p>{{ item.school }}</p>
-            @if (item.current) { <span class="badge-current">En cours</span> }
+            @if (item.current) { <span class="tl-badge">// EN COURS</span> }
           </div>
         </div>
       }

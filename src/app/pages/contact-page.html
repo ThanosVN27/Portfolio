@@ -1,56 +1,100 @@
 <canvas #bgCanvas class="page-bg-canvas"></canvas>
 
-<section class="contact-hero">
+<section class="pg-header">
   <div class="container">
-    <div class="section-tag">04 — Contact</div>
-    <h1>Travaillons <span class="gradient-text">ensemble</span></h1>
-    <p class="contact-intro">Vous avez un projet, une opportunité de stage ou simplement envie d'échanger ? N'hésitez pas.</p>
+    <div class="pg-tag-row">
+      <span class="pg-num">04</span>
+      <span class="pg-label">// CONTACT</span>
+      <div class="pg-line"></div>
+    </div>
+    <h1 class="pg-title">Travaillons <span class="pg-accent">ensemble</span></h1>
+    <p class="pg-intro">Un projet, une opportunité de stage ou simplement envie d'échanger ? Écrivez-moi.</p>
   </div>
 </section>
 
-<section class="contact-body">
+<section class="content-section last">
   <div class="container">
     <div class="contact-layout">
-      <form class="contact-form glass" (ngSubmit)="onSubmit()" #f="ngForm">
-        <div class="form-group">
-          <label for="name">Nom</label>
-          <input type="text" id="name" name="name" [(ngModel)]="form.name" placeholder="Votre nom" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" [(ngModel)]="form.email" placeholder="votre&#64;email.com" required />
-        </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" [(ngModel)]="form.message" rows="5" placeholder="Votre message..." required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full" [class.sent]="submitted()">
-          {{ submitted() ? 'Message envoyé ✓' : 'Envoyer le message' }}
-        </button>
-      </form>
 
+      <!-- Form -->
+      <div class="hud-card contact-form-card">
+        <div class="panel-bar">
+          <span class="panel-tag">// MESSAGE</span>
+          <span class="panel-tag dim">CHIFFRÉ · SÉCURISÉ</span>
+        </div>
+        <form (ngSubmit)="onSubmit()" #f="ngForm">
+          <div class="form-group">
+            <label for="name">NOM</label>
+            <input type="text" id="name" name="name" [(ngModel)]="form.name" placeholder="Votre nom" required />
+          </div>
+          <div class="form-group">
+            <label for="email">EMAIL</label>
+            <input type="email" id="email" name="email" [(ngModel)]="form.email" placeholder="votre&#64;email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="message">MESSAGE</label>
+            <textarea id="message" name="message" [(ngModel)]="form.message" rows="5" placeholder="Votre message..." required></textarea>
+          </div>
+          <button type="submit" class="btn-send" [class.sent]="submitted()">
+            @if (submitted()) {
+              <span>✓ MESSAGE ENVOYÉ</span>
+            } @else {
+              <span>⬡ ENVOYER</span>
+            }
+          </button>
+        </form>
+      </div>
+
+      <!-- Links -->
       <div class="contact-links">
-        <a href="mailto:thanhlongle2704@gmail.com" class="contact-link glass">
-          <span class="contact-link-icon">✉</span>
-          <div><span class="contact-link-label">Gmail</span><span class="contact-link-value">thanhlongle2704&#64;gmail.com</span></div>
+        <div class="sh-row"><span class="sh-tag">// CANAUX</span><div class="sh-line"></div></div>
+
+        <a href="mailto:thanhlongle2704@gmail.com" class="hud-card contact-link">
+          <div class="cl-icon">✉</div>
+          <div class="cl-text">
+            <span class="cl-label">Gmail</span>
+            <span class="cl-value">thanhlongle2704&#64;gmail.com</span>
+          </div>
+          <span class="cl-arrow">→</span>
         </a>
-        <a href="mailto:thanh-long.le@etu.unistra.fr" class="contact-link glass">
-          <span class="contact-link-icon">🎓</span>
-          <div><span class="contact-link-label">Unistra</span><span class="contact-link-value">thanh-long.le&#64;etu.unistra.fr</span></div>
+
+        <a href="mailto:thanh-long.le@etu.unistra.fr" class="hud-card contact-link">
+          <div class="cl-icon">🎓</div>
+          <div class="cl-text">
+            <span class="cl-label">Université</span>
+            <span class="cl-value">thanh-long.le&#64;etu.unistra.fr</span>
+          </div>
+          <span class="cl-arrow">→</span>
         </a>
-        <a href="https://github.com/ThanosVN27" target="_blank" class="contact-link glass">
-          <span class="contact-link-icon">◆</span>
-          <div><span class="contact-link-label">GitHub</span><span class="contact-link-value">github.com/ThanosVN27</span></div>
+
+        <a href="https://github.com/ThanosVN27" target="_blank" rel="noopener" class="hud-card contact-link">
+          <div class="cl-icon">◆</div>
+          <div class="cl-text">
+            <span class="cl-label">GitHub</span>
+            <span class="cl-value">github.com/ThanosVN27</span>
+          </div>
+          <span class="cl-arrow">→</span>
         </a>
-        <a href="https://linkedin.com/in/votre-profil" target="_blank" class="contact-link glass">
-          <span class="contact-link-icon">◇</span>
-          <div><span class="contact-link-label">LinkedIn</span><span class="contact-link-value">linkedin.com/in/votre-profil</span></div>
+
+        <a href="https://linkedin.com/in/votre-profil" target="_blank" rel="noopener" class="hud-card contact-link">
+          <div class="cl-icon">◇</div>
+          <div class="cl-text">
+            <span class="cl-label">LinkedIn</span>
+            <span class="cl-value">linkedin.com/in/votre-profil</span>
+          </div>
+          <span class="cl-arrow">→</span>
         </a>
-        <a href="CV_Le-ThanhLong.pdf" download class="contact-link glass">
-          <span class="contact-link-icon">📄</span>
-          <div><span class="contact-link-label">CV</span><span class="contact-link-value">Télécharger mon CV</span></div>
+
+        <a href="CV_Le-ThanhLong.pdf" download class="hud-card contact-link featured">
+          <div class="cl-icon">📄</div>
+          <div class="cl-text">
+            <span class="cl-label">Curriculum Vitae</span>
+            <span class="cl-value">Télécharger mon CV</span>
+          </div>
+          <span class="cl-arrow">↓</span>
         </a>
       </div>
+
     </div>
   </div>
 </section>
