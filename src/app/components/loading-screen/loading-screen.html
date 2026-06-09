@@ -1,0 +1,72 @@
+@if (mounted()) {
+  <div class="jarvis-overlay" [class.hide]="!show()">
+
+    <!-- CRT scan lines -->
+    <div class="crt-lines"></div>
+
+    <!-- Sweeping scan beam -->
+    <div class="scan-beam"></div>
+
+    <!-- Corner HUD brackets -->
+    <div class="corner c-tl"></div>
+    <div class="corner c-tr"></div>
+    <div class="corner c-bl"></div>
+    <div class="corner c-br"></div>
+
+    <!-- Left data panel -->
+    <div class="data-panel dp-left">
+      <div class="dp-header">// SYSTÈME</div>
+      <div class="dp-row"><span class="dp-key">STATUS</span><span class="dp-val green">ONLINE</span></div>
+      <div class="dp-row"><span class="dp-key">CPU</span><span class="dp-val">{{ cpuVal() }}%</span></div>
+      <div class="dp-row"><span class="dp-key">MEM</span><span class="dp-val">{{ memVal() }} MB</span></div>
+      <div class="dp-row"><span class="dp-key">SEC</span><span class="dp-val">MAXIMUM</span></div>
+    </div>
+
+    <!-- Right data panel -->
+    <div class="data-panel dp-right">
+      <div class="dp-header">// UTILISATEUR</div>
+      <div class="dp-row"><span class="dp-val">TLLE-7.1</span><span class="dp-key">ID</span></div>
+      <div class="dp-row"><span class="dp-val">2026.06</span><span class="dp-key">VER</span></div>
+      <div class="dp-row"><span class="dp-val">ANGULAR 22</span><span class="dp-key">ENV</span></div>
+      <div class="dp-row"><span class="dp-val green">FIREBASE</span><span class="dp-key">DB</span></div>
+    </div>
+
+    <!-- Centre — rotating rings + core -->
+    <div class="hud-center">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="ring r4"></div>
+
+      <!-- Pulse halos -->
+      <div class="halo h1"></div>
+      <div class="halo h2"></div>
+
+      <div class="hud-core">
+        <div class="core-initials">T.L.</div>
+        <div class="core-divider"></div>
+        <div class="core-status" [class.online]="coreStatus() === 'ONLINE'">
+          {{ coreStatus() }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Boot terminal + progress -->
+    <div class="bottom-section">
+      <div class="boot-terminal">
+        @for (line of bootLines(); track $index) {
+          <div class="boot-line"><span class="prompt">›</span> {{ line }}</div>
+        }
+        <span class="cursor">_</span>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="progress()"></div>
+        </div>
+        <div class="progress-label">CHARGEMENT — {{ progress() }}%</div>
+      </div>
+    </div>
+
+  </div>
+}

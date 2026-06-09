@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
+import { LoadingScreen } from './components/loading-screen/loading-screen';
 import { trigger, transition, style, animate, query } from '@angular/animations';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Footer],
+  imports: [RouterOutlet, Navbar, Footer, LoadingScreen],
   animations: [
     trigger('routeAnim', [
       transition('* <=> *', [
@@ -23,6 +24,7 @@ import { trigger, transition, style, animate, query } from '@angular/animations'
     ])
   ],
   template: `
+    <app-loading-screen />
     <app-navbar />
     <main [@routeAnim]="getState(outlet)">
       <router-outlet #outlet="outlet" />
