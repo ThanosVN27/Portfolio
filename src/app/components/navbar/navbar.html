@@ -1,25 +1,78 @@
 <nav [class.scrolled]="scrolled()">
-  <a class="nav-logo" routerLink="/">TL<span class="dot">.</span></a>
+
+  <!-- Logo -->
+  <a class="nav-logo" routerLink="/">
+    <span class="logo-brk">[</span>T.L<span class="logo-dot">.</span><span class="logo-brk">]</span>
+    <span class="logo-sub">// PORTFOLIO</span>
+  </a>
+
+  <!-- Nav links -->
   <ul class="nav-links">
-    <li><a routerLink="/about"       routerLinkActive="active">À propos</a></li>
-    <li><a routerLink="/competences" routerLinkActive="active">Compétences</a></li>
-    <li><a routerLink="/projets"     routerLinkActive="active">Projets</a></li>
-    <li><a routerLink="/classement" routerLinkActive="active">Classement</a></li>
-    <li><a routerLink="/contact"    routerLinkActive="active">Contact</a></li>
+    <li>
+      <a routerLink="/about"       routerLinkActive="active" [routerLinkActiveOptions]="{exact:false}">
+        <span class="link-n">01</span><span class="link-t">À propos</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/competences" routerLinkActive="active">
+        <span class="link-n">02</span><span class="link-t">Compétences</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/projets"     routerLinkActive="active">
+        <span class="link-n">03</span><span class="link-t">Projets</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/classement"  routerLinkActive="active">
+        <span class="link-n">04</span><span class="link-t">Classement</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/contact"     routerLinkActive="active">
+        <span class="link-n">05</span><span class="link-t">Contact</span>
+      </a>
+    </li>
   </ul>
-  <button class="nav-toggle" (click)="toggleMenu()" aria-label="menu">
-    {{ menuOpen() ? '✕' : '☰' }}
+
+  <!-- System status + clock -->
+  <div class="nav-sys">
+    <span class="sys-dot"></span>
+    <span class="sys-lbl">ONLINE</span>
+    <span class="sys-divider">|</span>
+    <span class="sys-time">{{ time() }}</span>
+  </div>
+
+  <!-- Mobile hamburger -->
+  <button class="nav-toggle" (click)="toggleMenu()" [class.open]="menuOpen()" aria-label="menu">
+    <span></span><span></span><span></span>
   </button>
+
 </nav>
 
+<!-- Mobile overlay -->
 @if (menuOpen()) {
-  <div class="mobile-nav-overlay">
-    <ul>
-      <li><a routerLink="/about"       routerLinkActive="active" (click)="closeMenu()">À propos</a></li>
-      <li><a routerLink="/competences" routerLinkActive="active" (click)="closeMenu()">Compétences</a></li>
-      <li><a routerLink="/projets"     routerLinkActive="active" (click)="closeMenu()">Projets</a></li>
-      <li><a routerLink="/classement" routerLinkActive="active" (click)="closeMenu()">Classement</a></li>
-      <li><a routerLink="/contact"    routerLinkActive="active" (click)="closeMenu()">Contact</a></li>
-    </ul>
+  <div class="mobile-overlay" (click)="closeMenu()">
+    <div class="mo-inner" (click)="$event.stopPropagation()">
+
+      <div class="mo-header">
+        <span class="mo-logo">[T.L.] // PORTFOLIO</span>
+        <button class="mo-close" (click)="closeMenu()">✕</button>
+      </div>
+      <div class="mo-line"></div>
+
+      <ul>
+        <li><a routerLink="/about"       routerLinkActive="active" (click)="closeMenu()"><span>01</span>À propos</a></li>
+        <li><a routerLink="/competences" routerLinkActive="active" (click)="closeMenu()"><span>02</span>Compétences</a></li>
+        <li><a routerLink="/projets"     routerLinkActive="active" (click)="closeMenu()"><span>03</span>Projets</a></li>
+        <li><a routerLink="/classement"  routerLinkActive="active" (click)="closeMenu()"><span>04</span>Classement</a></li>
+        <li><a routerLink="/contact"     routerLinkActive="active" (click)="closeMenu()"><span>05</span>Contact</a></li>
+      </ul>
+
+      <div class="mo-footer">
+        <span class="sys-dot"></span>
+        <span class="mo-time">{{ time() }}</span>
+      </div>
+    </div>
   </div>
 }
