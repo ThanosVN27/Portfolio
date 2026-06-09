@@ -1,0 +1,81 @@
+<div class="cyber-page">
+
+  <!-- Matrix rain background -->
+  <canvas #matrixCanvas class="matrix-canvas"></canvas>
+
+  <!-- Scanlines overlay -->
+  <div class="scanlines"></div>
+
+  <!-- ───── HERO ───── -->
+  <section class="cyber-hero">
+    <div class="hero-left">
+      <div class="cyber-tag-label">[ CYBER_LAB v2.0 ]</div>
+      <h1 class="cyber-title">
+        <span class="glitch" data-text="INFORMAT">INFORMAT</span><br>
+        <span class="glitch accent" data-text="IQUE">IQUE</span>
+      </h1>
+      <p class="cyber-subtitle">
+        Exploration des systèmes, réseaux et algorithmes
+      </p>
+      <div class="cyber-badges">
+        <span class="cbadge green">Python</span>
+        <span class="cbadge cyan">C / C#</span>
+        <span class="cbadge purple">Réseaux</span>
+        <span class="cbadge pink">Algo</span>
+      </div>
+      <div class="status-bar">
+        <span class="status-dot"></span>
+        <span class="status-text">SYSTÈME OPÉRATIONNEL</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <canvas #sphereCanvas class="sphere-canvas"></canvas>
+    </div>
+  </section>
+
+  <!-- ───── DOMAINES ───── -->
+  <section class="cyber-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="cyber-tag-label">[ 01 — DOMAINES ]</span>
+        <h2 class="section-title neon-green">Domaines <span class="neon-cyan">maîtrisés</span></h2>
+      </div>
+      <div class="concepts-grid">
+        @for (c of concepts; track c.title) {
+          <div class="concept-card" [style.--neon]="c.color">
+            <div class="card-corner tl"></div>
+            <div class="card-corner br"></div>
+            <div class="concept-icon">{{ c.icon }}</div>
+            <h3>{{ c.title }}</h3>
+            <p>{{ c.desc }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── TERMINAL ───── -->
+  <section class="cyber-section terminal-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="cyber-tag-label">[ 02 — SYSTÈME ]</span>
+        <h2 class="section-title neon-green">Terminal <span class="neon-cyan">actif</span></h2>
+      </div>
+      <div class="terminal-window">
+        <div class="terminal-bar">
+          <span class="tdot red"></span>
+          <span class="tdot yellow"></span>
+          <span class="tdot green"></span>
+          <span class="terminal-title">bash — root&#64;cyberlab:~</span>
+        </div>
+        <div class="terminal-body">
+          @for (line of visibleLines(); track $index) {
+            <div class="terminal-line">{{ line }}</div>
+          }
+          <span class="terminal-cursor">█</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
