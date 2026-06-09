@@ -4,9 +4,8 @@
     <li><a routerLink="/about"       routerLinkActive="active">À propos</a></li>
     <li><a routerLink="/competences" routerLinkActive="active">Compétences</a></li>
     <li><a routerLink="/projets"     routerLinkActive="active">Projets</a></li>
-    <li><a routerLink="/classement"    routerLinkActive="active">Classement</a></li>
-    <li><a routerLink="/informatique" routerLinkActive="active" class="nav-cyber">Cyber Lab</a></li>
-    <li><a routerLink="/contact"      routerLinkActive="active">Contact</a></li>
+    <li><a routerLink="/classement" routerLinkActive="active">Classement</a></li>
+    <li><a routerLink="/contact"    routerLinkActive="active">Contact</a></li>
   </ul>
   <button class="nav-toggle" (click)="toggleMenu()" aria-label="menu">
     {{ menuOpen() ? '✕' : '☰' }}
@@ -19,9 +18,8 @@
       <li><a routerLink="/about"       routerLinkActive="active" (click)="closeMenu()">À propos</a></li>
       <li><a routerLink="/competences" routerLinkActive="active" (click)="closeMenu()">Compétences</a></li>
       <li><a routerLink="/projets"     routerLinkActive="active" (click)="closeMenu()">Projets</a></li>
-      <li><a routerLink="/classement"    routerLinkActive="active" (click)="closeMenu()">Classement</a></li>
-      <li><a routerLink="/informatique" routerLinkActive="active" (click)="closeMenu()" class="nav-cyber">Cyber Lab</a></li>
-      <li><a routerLink="/contact"      routerLinkActive="active" (click)="closeMenu()">Contact</a></li>
+      <li><a routerLink="/classement" routerLinkActive="active" (click)="closeMenu()">Classement</a></li>
+      <li><a routerLink="/contact"    routerLinkActive="active" (click)="closeMenu()">Contact</a></li>
     </ul>
   </div>
 }

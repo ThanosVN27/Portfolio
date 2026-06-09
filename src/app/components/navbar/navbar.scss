@@ -55,12 +55,6 @@ nav {
     &:hover, &.active { color: var(--text); &::after { width: 100%; } }
     &.active { color: var(--accent); }
 
-    &.nav-cyber {
-      color: #00ff41;
-      text-shadow: 0 0 8px rgba(0,255,65,0.5);
-      &:hover { color: #00ff41; text-shadow: 0 0 16px rgba(0,255,65,0.8); }
-      &::after { background: #00ff41; }
-    }
   }
 }
 

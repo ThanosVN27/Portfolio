@@ -1,13 +1,19 @@
+.page-bg-canvas {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+
 .contact-hero {
   padding: 140px 0 60px;
-  background: linear-gradient(180deg, #0c0d20 0%, #0f1035 100%);
+  background: linear-gradient(180deg, rgba(12,13,32,0.8) 0%, rgba(15,16,53,0.8) 100%);
   text-align: center;
+  position: relative; z-index: 1;
   h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; margin: 12px 0 16px; }
 }
 
 .contact-intro { color: var(--text-muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto; }
 
-.contact-body { padding: 60px 0 100px; background: linear-gradient(180deg, #0f1035 0%, #0c0d20 100%); }
+.contact-body { padding: 60px 0 100px; background: linear-gradient(180deg, rgba(15,16,53,0.82) 0%, rgba(12,13,32,0.82) 100%); position: relative; z-index: 1; }
 
 .contact-layout { display: grid; grid-template-columns: 1fr 380px; gap: 60px; align-items: start; }
 
