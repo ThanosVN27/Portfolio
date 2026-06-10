@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, ViewChildren, QueryList, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Hero } from '../components/hero/hero';
 
@@ -9,21 +9,21 @@ import { Hero } from '../components/hero/hero';
     <app-hero />
 
     <!-- ── Stats ticker ── -->
-    <section class="stats-section">
+    <section class="stats-section" #statsSection>
       <div class="container">
         <div class="stats-row">
           <div class="stat-item">
-            <span class="si-n cyan">9+</span>
+            <span class="si-n cyan">{{ c1() }}+</span>
             <span class="si-l">Projets réalisés</span>
           </div>
           <div class="si-div"></div>
           <div class="stat-item">
-            <span class="si-n">15+</span>
+            <span class="si-n">{{ c2() }}+</span>
             <span class="si-l">Technologies</span>
           </div>
           <div class="si-div"></div>
           <div class="stat-item">
-            <span class="si-n purple">3</span>
+            <span class="si-n purple">{{ c3() }}</span>
             <span class="si-l">Années d'études</span>
           </div>
           <div class="si-div"></div>
@@ -225,12 +225,38 @@ import { Hero } from '../components/hero/hero';
 })
 export class HomePage implements AfterViewInit {
   @ViewChildren('reveal') revealEls!: QueryList<ElementRef>;
+  @ViewChild('statsSection') statsSectionRef!: ElementRef;
+
+  c1 = signal(0);
+  c2 = signal(0);
+  c3 = signal(0);
+
+  private animateCount(setter: (v: number) => void, target: number) {
+    const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / 1400, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      setter(Math.round(ease * target));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
 
   ngAfterViewInit() {
-    const obs = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }),
+    const revealObs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } }),
       { threshold: 0.1 }
     );
-    this.revealEls.forEach(el => obs.observe(el.nativeElement));
+    this.revealEls.forEach(el => revealObs.observe(el.nativeElement));
+
+    const statsObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        this.animateCount(v => this.c1.set(v), 10);
+        this.animateCount(v => this.c2.set(v), 15);
+        this.animateCount(v => this.c3.set(v), 3);
+        statsObs.disconnect();
+      }
+    }, { threshold: 0.5 });
+    statsObs.observe(this.statsSectionRef.nativeElement);
   }
 }

@@ -12,7 +12,7 @@ export class Hero implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   typedText = signal('');
-  private texts = ['Développeur Full-Stack', 'Étudiant BUT Informatique', 'Passionné Three.js & Angular'];
+  private texts = ['Développeur Full-Stack', 'Passionné Cybersécurité', 'DevOps & Cloud Explorer', 'Créateur d\'expériences web'];
   private textIndex = 0;
   private charIndex = 0;
   private isDeleting = false;
@@ -31,7 +31,7 @@ export class Hero implements AfterViewInit, OnDestroy {
   private clock = new THREE.Clock();
 
   ngAfterViewInit() {
-    this.initThree();
+    if (window.innerWidth >= 768) this.initThree();
     this.typeNext();
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('resize', this.onResize);
@@ -206,6 +206,7 @@ export class Hero implements AfterViewInit, OnDestroy {
   };
 
   private onResize = () => {
+    if (!this.renderer) return;
     const w = window.innerWidth, h = window.innerHeight;
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();

@@ -43,9 +43,24 @@
 .form-group { display: flex; flex-direction: column; gap: 7px; }
 
 label {
+  display: flex; align-items: center; justify-content: space-between;
   font-family: 'Courier New', monospace; font-size: 0.58rem;
   letter-spacing: 0.18em; color: rgba(0,212,255,0.4);
 }
+
+.char-count {
+  font-size: 0.5rem; color: rgba(255,255,255,0.2); letter-spacing: 0.06em;
+  &.warn { color: rgba(255,154,60,0.7); }
+}
+
+.send-error {
+  font-family: 'Courier New', monospace; font-size: 0.58rem; letter-spacing: 0.1em;
+  color: rgba(255,107,157,0.8); padding: 8px 12px;
+  background: rgba(255,107,157,0.06); border: 1px solid rgba(255,107,157,0.2); border-radius: 6px;
+}
+
+.spinner { display: inline-block; animation: spinSym 1s linear infinite; }
+@keyframes spinSym { to { transform: rotate(360deg); } }
 
 input, textarea {
   background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.14);
@@ -61,7 +76,8 @@ input, textarea {
   color: #00d4ff; font-family: 'Courier New', monospace; font-size: 0.72rem; letter-spacing: 0.14em;
   transition: all 0.22s ease; width: 100%; margin-top: 4px;
   &:hover { background: rgba(0,212,255,0.18); border-color: rgba(0,212,255,0.6); box-shadow: 0 0 20px rgba(0,212,255,0.18); }
-  &.sent { background: rgba(74,222,128,0.12); border-color: rgba(74,222,128,0.4); color: #4ade80; box-shadow: 0 0 20px rgba(74,222,128,0.15); }
+  &.sent    { background: rgba(74,222,128,0.12); border-color: rgba(74,222,128,0.4); color: #4ade80; box-shadow: 0 0 20px rgba(74,222,128,0.15); }
+  &.sending { opacity: 0.65; cursor: not-allowed; }
 }
 
 /* Location HUD card */

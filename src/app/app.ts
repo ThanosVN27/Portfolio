@@ -1,4 +1,4 @@
-import { Component, inject, signal, HostListener } from '@angular/core';
+import { Component, inject, signal, HostListener, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router, RouterOutlet, NavigationStart, NavigationEnd } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
@@ -45,6 +45,15 @@ import { trigger, transition, query, group, animate, keyframes, style } from '@a
     <!-- Scroll progress bar -->
     <div class="scroll-bar" [style.width.%]="scrollProgress()"></div>
 
+    <!-- Custom JARVIS cursor (desktop only) -->
+    <div class="cursor-dot" #cursorDot></div>
+    <div class="cursor-ring" #cursorRing></div>
+
+    <!-- Back to top -->
+    @if (showBackTop()) {
+      <button class="back-top-btn" (click)="scrollToTop()" title="Retour en haut" aria-label="Retour en haut">↑</button>
+    }
+
     <!-- Permanent ambient HUD overlay -->
     <div class="ambient-hud" aria-hidden="true">
       <div class="ah-corner ah-tl"></div>
@@ -68,6 +77,41 @@ import { trigger, transition, query, group, animate, keyframes, style } from '@a
   styles: [`
     main { position: relative; overflow: hidden; min-height: 100vh; }
     main > * { width: 100%; }
+
+    /* ── Custom cursor (fine pointer / desktop only) ── */
+    @media (pointer: fine) {
+      :host ::ng-deep * { cursor: none !important; }
+    }
+    .cursor-dot {
+      position: fixed; z-index: 99999; pointer-events: none;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #00d4ff; box-shadow: 0 0 8px rgba(0,212,255,0.9);
+      transform: translate(-50%, -50%);
+      transition: opacity 0.2s;
+    }
+    .cursor-ring {
+      position: fixed; z-index: 99998; pointer-events: none;
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 1px solid rgba(0,212,255,0.45);
+      transform: translate(-50%, -50%);
+      transition: left 0.08s ease-out, top 0.08s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+    }
+    @media (pointer: coarse) {
+      .cursor-dot, .cursor-ring { display: none; }
+    }
+
+    /* ── Back to top ── */
+    .back-top-btn {
+      position: fixed; bottom: 28px; right: 28px; z-index: 9000;
+      width: 42px; height: 42px; border-radius: 8px;
+      background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3);
+      color: #00d4ff; font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.22s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      animation: bttFadeIn 0.22s ease;
+      &:hover { background: rgba(0,212,255,0.18); border-color: rgba(0,212,255,0.65); box-shadow: 0 0 22px rgba(0,212,255,0.22); transform: translateY(-4px); }
+    }
+    @keyframes bttFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ── Scroll progress bar ── */
     .scroll-bar {
@@ -148,9 +192,14 @@ import { trigger, transition, query, group, animate, keyframes, style } from '@a
     }
   `]
 })
-export class App {
-  scanning = false;
+export class App implements AfterViewInit {
+  scanning     = false;
   scrollProgress = signal(0);
+  showBackTop    = signal(false);
+
+  @ViewChild('cursorDot')  private cursorDotRef!:  ElementRef<HTMLElement>;
+  @ViewChild('cursorRing') private cursorRingRef!: ElementRef<HTMLElement>;
+
   private router = inject(Router);
 
   @HostListener('window:scroll')
@@ -158,7 +207,20 @@ export class App {
     const doc = document.documentElement;
     const scrollHeight = doc.scrollHeight - doc.clientHeight;
     this.scrollProgress.set(scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0);
+    this.showBackTop.set(window.scrollY > 320);
   }
+
+  @HostListener('window:mousemove', ['$event'])
+  onMouseMove(e: MouseEvent) {
+    const d = this.cursorDotRef?.nativeElement;
+    const r = this.cursorRingRef?.nativeElement;
+    if (d) { d.style.left = e.clientX + 'px'; d.style.top = e.clientY + 'px'; }
+    if (r) { r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px'; }
+  }
+
+  ngAfterViewInit() {}
+
+  scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
   constructor() {
     this.router.events.subscribe(event => {

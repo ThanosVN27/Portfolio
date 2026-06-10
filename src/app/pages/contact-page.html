@@ -30,12 +30,25 @@
             <input type="email" id="email" name="email" [(ngModel)]="form.email" placeholder="votre&#64;email.com" required />
           </div>
           <div class="form-group">
-            <label for="message">MESSAGE</label>
-            <textarea id="message" name="message" [(ngModel)]="form.message" rows="5" placeholder="Votre message..." required></textarea>
+            <label for="message">
+              MESSAGE
+              <span class="char-count" [class.warn]="charCount() > 450">{{ charCount() }}/500</span>
+            </label>
+            <textarea id="message" name="message" [(ngModel)]="form.message" rows="5"
+              placeholder="Votre message..." required maxlength="500"
+              (input)="onMessageInput($event)"></textarea>
           </div>
-          <button type="submit" class="btn-send" [class.sent]="submitted()">
+
+          @if (sendError()) {
+            <div class="send-error">// ERREUR — Vérifie ta connexion ou réessaie.</div>
+          }
+
+          <button type="submit" class="btn-send"
+            [class.sent]="submitted()" [class.sending]="sending()" [disabled]="sending()">
             @if (submitted()) {
-              <span>✓ MESSAGE ENVOYÉ</span>
+              <span>✓ MESSAGE TRANSMIS</span>
+            } @else if (sending()) {
+              <span class="spinner">◈</span><span> TRANSMISSION EN COURS…</span>
             } @else {
               <span>⬡ ENVOYER</span>
             }

@@ -7,5 +7,5 @@ export const routes: Routes = [
   { path: 'projets',     data: { anim: 'Projets' },     loadComponent: () => import('./pages/projects-page').then(m => m.ProjectsPage) },
   { path: 'classement',  data: { anim: 'Classement' },  loadComponent: () => import('./pages/classement-page').then(m => m.ClassementPage) },
   { path: 'contact',     data: { anim: 'Contact' },     loadComponent: () => import('./pages/contact-page').then(m => m.ContactPage) },
-  { path: '**',          redirectTo: '' },
+  { path: '**',          data: { anim: '404' },        loadComponent: () => import('./pages/not-found-page').then(m => m.NotFoundPage) },
 ];

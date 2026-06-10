@@ -74,6 +74,12 @@ export class ProjectsPage implements AfterViewInit {
       tags: ['SVG procédural', 'Simulation', 'Éducatif'], accentTag: 'React', github: '#',
       status: 'PERSONNEL', period: 'En cours', team: 'Solo',
     },
+    {
+      num: '10', title: 'Portfolio JARVIS',
+      description: 'Ce portfolio — Angular 22, Three.js, animations holographiques, design JARVIS HUD, transitions de routes, déploiement automatisé sur GitHub Pages via GitHub Actions.',
+      tags: ['Angular 22', 'SCSS', 'GitHub Pages'], accentTag: 'Three.js', github: 'https://github.com/ThanosVN27/Portfolio',
+      status: 'PERSONNEL', period: 'En cours', team: 'Solo',
+    },
   ];
 
   filtered = computed(() => {
