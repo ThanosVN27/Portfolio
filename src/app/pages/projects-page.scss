@@ -53,7 +53,18 @@
   &:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-5px); box-shadow: 0 14px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,212,255,0.06); }
 }
 
-.pc-header { display: flex; align-items: center; justify-content: space-between; }
+.pc-header { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+
+.pc-meta { display: flex; align-items: center; gap: 5px; flex: 1; overflow: hidden; }
+.pc-status {
+  font-family: 'Courier New', monospace; font-size: 0.48rem; letter-spacing: 0.08em;
+  padding: 2px 7px; border-radius: 3px; white-space: nowrap; flex-shrink: 0;
+  background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: rgba(0,212,255,0.65);
+  &.personal { background: rgba(124,111,255,0.08); border-color: rgba(124,111,255,0.22); color: rgba(167,139,250,0.82); }
+}
+.pc-dot    { color: rgba(255,255,255,0.1); font-size: 0.5rem; flex-shrink: 0; }
+.pc-period { font-family: 'Courier New', monospace; font-size: 0.48rem; color: rgba(255,255,255,0.28); white-space: nowrap; }
+.pc-team   { font-family: 'Courier New', monospace; font-size: 0.48rem; color: rgba(255,255,255,0.28); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .pc-num {
   font-family: 'Courier New', monospace; font-size: 0.62rem; letter-spacing: 0.14em;

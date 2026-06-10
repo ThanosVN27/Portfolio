@@ -59,16 +59,21 @@
     <div class="lang-grid">
       @for (lang of languages; track lang.name) {
         <div class="hud-card lang-card">
-          <div class="lang-left">
+          <div class="lang-top">
             <span class="lang-flag">{{ lang.flag }}</span>
-            <div>
+            <div class="lang-info">
               <h3>{{ lang.name }}</h3>
-              <p>{{ lang.level }}</p>
+              <span class="lang-level-badge">{{ lang.level }}</span>
             </div>
+            <span class="lang-pct-big">{{ lang.percent }}<span class="pct-unit">%</span></span>
           </div>
           <div class="lang-bar-wrap">
             <div class="lang-bar" [style.width]="barsVisible() ? lang.percent + '%' : '0%'"></div>
-            <span class="lang-pct">{{ lang.percent }}%</span>
+          </div>
+          <div class="lang-dots">
+            @for (dot of [1,2,3,4,5]; track dot) {
+              <span class="lang-dot" [class.lit]="dot <= (lang.percent / 20)"></span>
+            }
           </div>
         </div>
       }

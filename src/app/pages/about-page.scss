@@ -65,16 +65,32 @@
 .four-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 
 .game-card {
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  text-align: center; padding: 28px 20px; transition: all 0.22s ease;
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 22px 20px; transition: all 0.22s ease;
   &:hover { border-color: rgba(0,212,255,0.28); transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+  &:hover .game-sym { color: #00d4ff; text-shadow: 0 0 18px rgba(0,212,255,0.55); }
 }
-.gc-icon   { font-size: 2rem; }
+.game-type-bar { display: flex; align-items: center; justify-content: space-between; }
+.game-genre {
+  font-family: 'Courier New', monospace; font-size: 0.45rem;
+  color: rgba(0,212,255,0.35); letter-spacing: 0.12em;
+}
+.game-status {
+  font-family: 'Courier New', monospace; font-size: 0.46rem;
+  color: rgba(255,255,255,0.22); letter-spacing: 0.1em;
+  &.active { color: rgba(74,222,128,0.72); }
+}
+.game-sym {
+  font-size: 1.9rem; color: rgba(0,212,255,0.32);
+  transition: all 0.22s; line-height: 1; margin: 6px 0 4px;
+}
 .game-card h3 { font-size: 0.88rem; font-weight: 700; }
-.gc-tag {
-  font-size: 0.6rem; color: rgba(0,212,255,0.5); font-family: 'Courier New', monospace;
-  background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.12); padding: 2px 9px; border-radius: 3px;
+.game-rank-row {
+  display: flex; align-items: center; justify-content: space-between; margin-top: 4px;
+  border-top: 1px solid rgba(0,212,255,0.08); padding-top: 9px;
 }
+.gr-label { font-family: 'Courier New', monospace; font-size: 0.46rem; color: rgba(0,212,255,0.28); letter-spacing: 0.1em; }
+.gr-val   { font-family: 'Courier New', monospace; font-size: 0.6rem; color: rgba(0,212,255,0.62); letter-spacing: 0.06em; }
 
 .goal-card {
   display: flex; flex-direction: column; gap: 10px; padding: 24px; transition: all 0.22s ease;

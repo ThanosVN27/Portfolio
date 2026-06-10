@@ -64,6 +64,26 @@ input, textarea {
   &.sent { background: rgba(74,222,128,0.12); border-color: rgba(74,222,128,0.4); color: #4ade80; box-shadow: 0 0 20px rgba(74,222,128,0.15); }
 }
 
+/* Location HUD card */
+.location-card { padding: 18px 20px; }
+.loc-online {
+  font-family: 'Courier New', monospace; font-size: 0.52rem; letter-spacing: 0.1em;
+  color: rgba(74,222,128,0.72); margin-left: auto;
+  animation: locPulse 2.5s ease-in-out infinite;
+}
+@keyframes locPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+.loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+.loc-item { display: flex; flex-direction: column; gap: 3px; }
+.loc-key {
+  font-family: 'Courier New', monospace; font-size: 0.44rem;
+  color: rgba(0,212,255,0.3); letter-spacing: 0.12em;
+}
+.loc-val {
+  font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.72);
+  &.mono { font-family: 'Courier New', monospace; font-size: 0.64rem; color: rgba(0,212,255,0.65); }
+  &.green { color: rgba(74,222,128,0.82); font-family: 'Courier New', monospace; font-size: 0.72rem; }
+}
+
 /* Contact links */
 .contact-links { display: flex; flex-direction: column; gap: 10px; }
 

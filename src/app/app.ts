@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, HostListener } from '@angular/core';
 import { Router, RouterOutlet, NavigationStart, NavigationEnd } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
@@ -42,6 +42,9 @@ import { trigger, transition, query, group, animate, keyframes, style } from '@a
   template: `
     <app-loading-screen />
 
+    <!-- Scroll progress bar -->
+    <div class="scroll-bar" [style.width.%]="scrollProgress()"></div>
+
     <!-- Permanent ambient HUD overlay -->
     <div class="ambient-hud" aria-hidden="true">
       <div class="ah-corner ah-tl"></div>
@@ -65,6 +68,15 @@ import { trigger, transition, query, group, animate, keyframes, style } from '@a
   styles: [`
     main { position: relative; overflow: hidden; min-height: 100vh; }
     main > * { width: 100%; }
+
+    /* ── Scroll progress bar ── */
+    .scroll-bar {
+      position: fixed; top: 0; left: 0; z-index: 9995;
+      height: 2px; pointer-events: none;
+      background: linear-gradient(90deg, #7c6fff 0%, #00d4ff 55%, #a78bfa 100%);
+      box-shadow: 0 0 10px rgba(0,212,255,0.7), 0 0 20px rgba(0,212,255,0.35);
+      transition: width 0.08s linear;
+    }
 
     /* ── Ambient HUD — always present, very subtle ── */
     .ambient-hud {
@@ -138,7 +150,15 @@ import { trigger, transition, query, group, animate, keyframes, style } from '@a
 })
 export class App {
   scanning = false;
+  scrollProgress = signal(0);
   private router = inject(Router);
+
+  @HostListener('window:scroll')
+  onScroll() {
+    const doc = document.documentElement;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    this.scrollProgress.set(scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0);
+  }
 
   constructor() {
     this.router.events.subscribe(event => {
