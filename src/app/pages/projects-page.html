@@ -6,19 +6,12 @@
       <span class="pg-label">// PROJETS</span>
       <div class="pg-line"></div>
     </div>
-    <div class="pg-body">
-      <div class="pg-left">
-        <h1 class="pg-title">Mes <span class="pg-accent">réalisations</span></h1>
-        <p class="pg-intro">Projets académiques et personnels réalisés lors de mon BUT Informatique.</p>
-      </div>
-      <div class="pg-right">
-        <span class="filters-label">// FILTRER</span>
-        <div class="filters">
-          @for (f of filters; track f) {
-            <button class="filter-btn" [class.active]="activeFilter() === f" (click)="setFilter(f)">{{ f }}</button>
-          }
-        </div>
-      </div>
+    <h1 class="pg-title">Mes <span class="pg-accent">réalisations</span></h1>
+    <p class="pg-intro">Projets académiques et personnels réalisés lors de mon BUT Informatique.</p>
+    <div class="filters">
+      @for (f of filters; track f) {
+        <button class="filter-btn" [class.active]="activeFilter() === f" (click)="setFilter(f)">{{ f }}</button>
+      }
     </div>
   </div>
 </section>

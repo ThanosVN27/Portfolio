@@ -17,41 +17,22 @@
 .pg-accent { color: #00d4ff; text-shadow: 0 0 28px rgba(0,212,255,0.3); }
 .pg-intro  { font-size: 1.08rem; color: rgba(255,255,255,0.45); max-width: 520px; line-height: 1.72; margin-bottom: 28px; }
 
-/* ── Header two-column layout ─────────────────── */
-.pg-body {
-  display: flex; align-items: flex-start; gap: 40px;
-  @media (max-width: 900px) { flex-direction: column; gap: 24px; }
-}
-.pg-left { flex: 1; }
-.pg-right {
-  flex-shrink: 0; padding-top: 8px;
-  @media (min-width: 900px) { margin-right: 220px; } /* clear crystal canvas */
-}
-
-.filters-label {
-  font-family: 'Courier New', monospace; font-size: 0.55rem;
-  letter-spacing: 0.18em; color: rgba(0,212,255,0.35);
-  display: block; margin-bottom: 10px;
-}
-
 /* Filter buttons */
-.filters {
-  display: flex; flex-direction: column; gap: 7px;
-  @media (max-width: 900px) { flex-direction: row; flex-wrap: wrap; }
-}
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0; }
 .filter-btn {
-  padding: 7px 20px; border-radius: 5px; cursor: pointer;
+  padding: 7px 18px; border-radius: 5px; cursor: pointer;
   font-family: 'Courier New', monospace;
   font-size: 0.65rem; letter-spacing: 0.1em; transition: all 0.2s;
   background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15);
-  color: rgba(255,255,255,0.5); text-align: left; white-space: nowrap;
+  color: rgba(255,255,255,0.5); white-space: nowrap;
 
   &:hover { border-color: rgba(0,212,255,0.35); color: rgba(255,255,255,0.85); background: rgba(0,212,255,0.08); }
   &.active {
     background: rgba(0,212,255,0.12); border-color: rgba(0,212,255,0.5);
     color: #00d4ff; box-shadow: 0 0 16px rgba(0,212,255,0.12);
-    border-left: 2px solid #00d4ff;
   }
+
+  @media (max-width: 480px) { padding: 6px 13px; font-size: 0.6rem; }
 }
 
 .content-section {
@@ -123,5 +104,16 @@
 .nr-icon { font-size: 2rem; color: rgba(0,212,255,0.3); }
 .no-results p { font-size: 0.9rem; }
 
-@media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .projects-grid { grid-template-columns: 1fr; } .pg-title { font-size: 2.2rem; } }
+@media (max-width: 1024px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px)  {
+  .projects-grid { grid-template-columns: 1fr; }
+  .pg-header { padding: 90px 0 40px; }
+  .pg-title { font-size: 2rem; }
+  .pg-intro { font-size: 0.95rem; }
+  .content-section { padding: 40px 0; }
+}
+@media (max-width: 400px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  .pg-title { font-size: 1.75rem; }
+  .hud-card { padding: 18px 14px; }
+}
