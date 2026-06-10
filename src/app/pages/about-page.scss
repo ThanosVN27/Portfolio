@@ -10,7 +10,7 @@
 .pg-line  { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0,212,255,0.15), transparent); }
 .pg-title { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 14px; color: #fff; }
 .pg-accent { color: #00d4ff; text-shadow: 0 0 28px rgba(0,212,255,0.3); }
-.pg-intro  { font-size: 1rem; color: rgba(255,255,255,0.45); max-width: 480px; line-height: 1.65; }
+.pg-intro  { font-size: 1.08rem; color: rgba(255,255,255,0.45); max-width: 520px; line-height: 1.72; }
 
 .content-section {
   padding: 64px 0; position: relative; z-index: 1;
@@ -38,16 +38,16 @@
 
 .about-grid { display: grid; grid-template-columns: 1fr 310px; gap: 48px; align-items: start; }
 
-.about-text p { color: rgba(255,255,255,0.55); font-size: 1rem; line-height: 1.75; margin-bottom: 18px; strong { color: #fff; } }
+.about-text p { color: rgba(255,255,255,0.6); font-size: 1.06rem; line-height: 1.82; margin-bottom: 20px; strong { color: #fff; font-weight: 600; } }
 
 .stat-row { display: flex; gap: 32px; padding-top: 28px; margin-top: 28px; border-top: 1px solid rgba(0,212,255,0.1); }
 .stat-box { display: flex; flex-direction: column; gap: 4px; }
 .stat-n {
-  font-size: 2rem; font-weight: 800; line-height: 1; color: #fff;
-  &.cyan   { color: #00d4ff; text-shadow: 0 0 18px rgba(0,212,255,0.4); }
-  &.purple { color: #a78bfa; text-shadow: 0 0 18px rgba(167,139,250,0.35); }
+  font-size: 2.2rem; font-weight: 800; line-height: 1; color: #fff;
+  &.cyan   { color: #00d4ff; text-shadow: 0 0 22px rgba(0,212,255,0.4); }
+  &.purple { color: #a78bfa; text-shadow: 0 0 22px rgba(167,139,250,0.35); }
 }
-.stat-l { font-size: 0.68rem; color: rgba(255,255,255,0.35); font-family: 'Courier New', monospace; margin-top: 3px; }
+.stat-l { font-size: 0.7rem; color: rgba(255,255,255,0.38); font-family: 'Courier New', monospace; margin-top: 4px; }
 
 .id-avatar {
   width: 58px; height: 58px; border-radius: 50%;
@@ -59,7 +59,7 @@
 .id-rows  { display: flex; flex-direction: column; }
 .id-row   { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(0,212,255,0.07); &:last-child { border-bottom: none; } }
 .id-key   { font-size: 0.62rem; color: rgba(0,212,255,0.4); font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0; }
-.id-val   { font-size: 0.8rem; font-weight: 500; text-align: right; color: rgba(255,255,255,0.8); }
+.id-val   { font-size: 0.88rem; font-weight: 500; text-align: right; color: rgba(255,255,255,0.82); }
 .available { color: #4ade80 !important; }
 
 .four-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
@@ -84,7 +84,7 @@
   font-size: 1.9rem; color: rgba(0,212,255,0.32);
   transition: all 0.22s; line-height: 1; margin: 6px 0 4px;
 }
-.game-card h3 { font-size: 0.88rem; font-weight: 700; }
+.game-card h3 { font-size: 1rem; font-weight: 700; }
 .game-rank-row {
   display: flex; align-items: center; justify-content: space-between; margin-top: 4px;
   border-top: 1px solid rgba(0,212,255,0.08); padding-top: 9px;
@@ -97,8 +97,8 @@
   &:hover { border-color: rgba(0,212,255,0.28); transform: translateY(-5px); }
 }
 .gc-num      { font-family: 'Courier New', monospace; font-size: 0.55rem; color: rgba(0,212,255,0.32); letter-spacing: 0.2em; }
-.goal-card h3 { font-size: 0.92rem; font-weight: 700; }
-.goal-card p  { font-size: 0.82rem; color: rgba(255,255,255,0.45); line-height: 1.65; flex: 1; }
+.goal-card h3 { font-size: 1.05rem; font-weight: 700; }
+.goal-card p  { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.72; flex: 1; }
 
 .timeline { position: relative; padding-left: 36px; max-width: 580px; }
 .timeline::before { content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(180deg, #00d4ff, #7c6fff 60%, rgba(0,212,255,0.1)); border-radius: 1px; }
@@ -111,8 +111,8 @@
 }
 .tl-card  { padding: 20px 24px; transition: all 0.22s; &:hover { border-color: rgba(0,212,255,0.22); transform: translateX(4px); } }
 .tl-year  { font-family: 'Courier New', monospace; font-size: 0.6rem; color: rgba(0,212,255,0.55); letter-spacing: 0.12em; }
-.tl-card h3 { font-size: 0.98rem; font-weight: 700; margin: 5px 0 3px; }
-.tl-card p  { font-size: 0.82rem; color: rgba(255,255,255,0.4); }
+.tl-card h3 { font-size: 1.08rem; font-weight: 700; margin: 6px 0 4px; }
+.tl-card p  { font-size: 0.9rem; color: rgba(255,255,255,0.45); }
 .tl-badge {
   display: inline-block; margin-top: 10px; padding: 2px 10px; border-radius: 3px;
   background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.18);

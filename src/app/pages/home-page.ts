@@ -113,15 +113,15 @@ import { Hero } from '../components/hero/hero';
     }
 
     .si-n {
-      font-size: 2.4rem; font-weight: 800; line-height: 1; color: #fff;
+      font-size: 2.7rem; font-weight: 800; line-height: 1; color: #fff;
       letter-spacing: -0.02em;
-      &.cyan   { color: #00d4ff; text-shadow: 0 0 24px rgba(0,212,255,0.45); }
-      &.purple { color: #a78bfa; text-shadow: 0 0 24px rgba(167,139,250,0.4); }
+      &.cyan   { color: #00d4ff; text-shadow: 0 0 28px rgba(0,212,255,0.5); }
+      &.purple { color: #a78bfa; text-shadow: 0 0 28px rgba(167,139,250,0.45); }
     }
 
     .si-l {
-      font-family: 'Courier New', monospace; font-size: 0.56rem;
-      color: rgba(0,212,255,0.4); letter-spacing: 0.14em; text-transform: uppercase;
+      font-family: 'Courier New', monospace; font-size: 0.6rem;
+      color: rgba(0,212,255,0.42); letter-spacing: 0.14em; text-transform: uppercase;
     }
 
     .si-div {
@@ -201,8 +201,8 @@ import { Hero } from '../components/hero/hero';
       transition: all 0.22s; line-height: 1;
     }
 
-    h3 { font-size: 1rem; font-weight: 700; margin: 4px 0 0; }
-    p  { color: rgba(255,255,255,0.38); font-size: 0.8rem; line-height: 1.6; flex: 1; }
+    h3 { font-size: 1.08rem; font-weight: 700; margin: 4px 0 0; }
+    p  { color: rgba(255,255,255,0.45); font-size: 0.9rem; line-height: 1.7; flex: 1; }
 
     .nc-footer {
       display: flex; align-items: center; justify-content: space-between; margin-top: 4px;

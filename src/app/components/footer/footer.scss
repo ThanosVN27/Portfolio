@@ -24,7 +24,7 @@ footer {
   .ftl-dot  { color: #00d4ff; text-shadow: 0 0 10px rgba(0,212,255,0.6); }
 }
 
-.ft-tagline  { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 5px; }
+.ft-tagline  { font-size: 0.92rem; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
 .ft-location {
   font-family: 'Courier New', monospace;
   font-size: 0.54rem; color: rgba(0,212,255,0.3); letter-spacing: 0.15em;
@@ -61,8 +61,8 @@ footer {
 
   a {
     display: flex; align-items: center; gap: 12px;
-    text-decoration: none; color: rgba(255,255,255,0.38);
-    font-size: 0.82rem; padding: 7px 0;
+    text-decoration: none; color: rgba(255,255,255,0.45);
+    font-size: 0.9rem; padding: 8px 0;
     border-bottom: 1px solid rgba(0,212,255,0.04);
     transition: color 0.2s, border-color 0.2s;
 
@@ -85,7 +85,7 @@ footer {
 
 .ft-link {
   display: flex; align-items: center; gap: 12px;
-  text-decoration: none; color: rgba(255,255,255,0.38); font-size: 0.78rem;
+  text-decoration: none; color: rgba(255,255,255,0.45); font-size: 0.88rem;
   transition: color 0.2s ease;
 
   .ftl-icon {

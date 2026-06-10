@@ -10,7 +10,7 @@
 .pg-line  { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0,212,255,0.15), transparent); }
 .pg-title { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 14px; color: #fff; }
 .pg-accent { color: #00d4ff; text-shadow: 0 0 28px rgba(0,212,255,0.3); }
-.pg-intro  { font-size: 1rem; color: rgba(255,255,255,0.45); max-width: 480px; line-height: 1.65; margin-bottom: 28px; }
+.pg-intro  { font-size: 1.08rem; color: rgba(255,255,255,0.45); max-width: 520px; line-height: 1.72; margin-bottom: 28px; }
 
 /* Filter buttons */
 .filters { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -77,8 +77,8 @@
   &:hover { color: #00d4ff; transform: scale(1.12); }
 }
 
-.project-card h3 { font-size: 0.98rem; font-weight: 700; line-height: 1.35; color: #fff; }
-.project-card p  { font-size: 0.82rem; color: rgba(255,255,255,0.45); line-height: 1.65; flex: 1; }
+.project-card h3 { font-size: 1.08rem; font-weight: 700; line-height: 1.35; color: #fff; }
+.project-card p  { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.72; flex: 1; }
 
 .pc-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
 .pc-tag {
