@@ -14,25 +14,26 @@ import * as THREE from 'three';
       transition('* <=> *', [
         group([
 
-          /* ── Outgoing page — hologram dematerializes with glitch ── */
+          /* ── Outgoing: glitch + collapse to horizontal scanline ── */
           query(':leave', [
-            style({ position: 'absolute', top: 0, left: 0, width: '100%' }),
-            animate('280ms cubic-bezier(0.4,0,1,1)', keyframes([
-              style({ opacity: 1,   filter: 'blur(0px)  brightness(1.0)',                   transform: 'scale(1)     translateY(0px)  translateX(0)',   offset: 0    }),
-              style({ opacity: 0.8, filter: 'blur(2px)  brightness(1.6) hue-rotate(18deg)', transform: 'scale(1.006) translateY(-3px) translateX(-4px)', offset: 0.2  }),
-              style({ opacity: 0.5, filter: 'blur(5px)  brightness(1.9) hue-rotate(-8deg)', transform: 'scale(1.01)  translateY(-6px) translateX(3px)',  offset: 0.55 }),
-              style({ opacity: 0,   filter: 'blur(12px) brightness(2.2) saturate(1.8)',     transform: 'scale(1.018) translateY(-14px)',                  offset: 1    }),
+            style({ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 1 }),
+            animate('260ms cubic-bezier(0.55,0,1,0.45)', keyframes([
+              style({ opacity: 1,    filter: 'blur(0)   brightness(1)   hue-rotate(0deg)',    transform: 'scale(1)     skewX(0deg)',    clipPath: 'inset(0% 0 0% 0)',   offset: 0    }),
+              style({ opacity: 0.8,  filter: 'blur(1px) brightness(1.8) hue-rotate(22deg)',   transform: 'scale(1.006) skewX(-0.8deg)', clipPath: 'inset(8% 0 8% 0)',   offset: 0.3  }),
+              style({ opacity: 0.55, filter: 'blur(4px) brightness(2.2) hue-rotate(-12deg)',  transform: 'scale(1.012) skewX(0.6deg)',  clipPath: 'inset(28% 0 28% 0)', offset: 0.65 }),
+              style({ opacity: 0,    filter: 'blur(18px) brightness(3)  saturate(2.5)',       transform: 'scale(1.02)  skewX(0deg)',    clipPath: 'inset(49% 0 49% 0)', offset: 1    }),
             ]))
           ], { optional: true }),
 
-          /* ── Incoming page — hologram materializes ── */
+          /* ── Incoming: expand from scanline + hologram materialise ── */
           query(':enter', [
-            style({ opacity: 0, filter: 'blur(18px) brightness(0.15) saturate(2.5)', transform: 'translateY(28px) scale(0.972)' }),
-            animate('560ms 220ms cubic-bezier(0.4,0,0.2,1)', keyframes([
-              style({ opacity: 0,    filter: 'blur(18px) brightness(0.15) saturate(2.5)', transform: 'translateY(28px) scale(0.972)', offset: 0    }),
-              style({ opacity: 0.35, filter: 'blur(9px)  brightness(0.45) saturate(2)',   transform: 'translateY(16px) scale(0.984)', offset: 0.35 }),
-              style({ opacity: 0.7,  filter: 'blur(4px)  brightness(0.78) saturate(1.4)', transform: 'translateY(7px)  scale(0.993)', offset: 0.68 }),
-              style({ opacity: 1,    filter: 'blur(0px)  brightness(1)    saturate(1)',   transform: 'translateY(0)   scale(1)',      offset: 1    }),
+            style({ opacity: 0, filter: 'blur(22px) brightness(0.08) saturate(3)', transform: 'scale(0.982)', clipPath: 'inset(49% 0 49% 0)' }),
+            animate('620ms 200ms cubic-bezier(0.22,1,0.36,1)', keyframes([
+              style({ opacity: 0,    filter: 'blur(22px) brightness(0.08) saturate(3)',   clipPath: 'inset(49% 0 49% 0)', transform: 'scale(0.982)', offset: 0    }),
+              style({ opacity: 0.28, filter: 'blur(14px) brightness(0.28) saturate(2.4)', clipPath: 'inset(28% 0 28% 0)', transform: 'scale(0.988)', offset: 0.28 }),
+              style({ opacity: 0.62, filter: 'blur(6px)  brightness(0.62) saturate(1.6)', clipPath: 'inset(8% 0 8% 0)',   transform: 'scale(0.994)', offset: 0.60 }),
+              style({ opacity: 0.88, filter: 'blur(2px)  brightness(0.9)  saturate(1.1)', clipPath: 'inset(1% 0 1% 0)',   transform: 'scale(0.998)', offset: 0.84 }),
+              style({ opacity: 1,    filter: 'blur(0)    brightness(1)    saturate(1)',   clipPath: 'inset(0% 0 0% 0)',   transform: 'scale(1)',     offset: 1    }),
             ]))
           ], { optional: true }),
 
@@ -159,40 +160,64 @@ import * as THREE from 'three';
     /* ── Scan overlay — on route change ── */
     .scan-overlay {
       position: fixed; inset: 0; pointer-events: none; z-index: 9998;
-      opacity: 0; transition: opacity 0.07s ease;
-      background: rgba(0,212,255,0.014);
+      opacity: 0; transition: opacity 0.06s ease;
+      background: rgba(0,212,255,0.018);
     }
     .scan-overlay.active { opacity: 1; }
+
+    /* Vignette flash at transition peak */
+    .scan-overlay::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(0,212,255,0.06) 0%, transparent 65%);
+      opacity: 0;
+    }
+    .scan-overlay.active::before { animation: flashPulse 0.82s ease forwards; }
+
     .scan-overlay::after {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 46%, transparent 48%, rgba(0,0,15,0.45) 100%);
-      opacity: 0; transition: opacity 0.14s;
+      background: radial-gradient(ellipse at 50% 46%, transparent 45%, rgba(0,0,15,0.5) 100%);
+      opacity: 0; transition: opacity 0.12s;
     }
     .scan-overlay.active::after { opacity: 1; }
 
-    /* Scan beams — two lines for double-sweep effect */
+    /* Scan beams */
     .scan-beam {
       position: absolute; left: 0; right: 0; height: 2px;
       background: linear-gradient(90deg,
-        transparent 0%, rgba(0,212,255,0.45) 15%,
-        rgba(210,245,255,0.95) 50%,
-        rgba(0,212,255,0.45) 85%, transparent 100%
+        transparent 0%,
+        rgba(0,212,255,0.3) 10%,
+        rgba(160,240,255,0.98) 40%,
+        rgba(255,255,255,1) 50%,
+        rgba(160,240,255,0.98) 60%,
+        rgba(0,212,255,0.3) 90%,
+        transparent 100%
       );
-      box-shadow: 0 0 22px rgba(0,212,255,0.9), 0 0 50px rgba(0,212,255,0.45), 0 0 3px #fff;
+      box-shadow:
+        0 0 8px rgba(255,255,255,0.9),
+        0 0 24px rgba(0,212,255,1),
+        0 0 60px rgba(0,212,255,0.5),
+        0 0 120px rgba(0,212,255,0.2);
     }
     .b1 { top: -3px; }
-    .b2 { top: -3px; opacity: 0.35; }
-    .scan-overlay.active .b1 { animation: scanDown  0.58s cubic-bezier(0.4,0,0.6,1) forwards; }
-    .scan-overlay.active .b2 { animation: scanDown2 0.58s cubic-bezier(0.4,0,0.6,1) 0.1s forwards; }
+    .b2 { top: -3px; opacity: 0.22; filter: hue-rotate(180deg); }
+    .scan-overlay.active .b1 { animation: scanDown  0.72s cubic-bezier(0.38,0,0.62,1) forwards; }
+    .scan-overlay.active .b2 { animation: scanDown2 0.72s cubic-bezier(0.38,0,0.62,1) 0.12s forwards; }
 
     @keyframes scanDown {
-      0%   { top: -3px;  opacity: 1; }
-      80%  { opacity: 0.7; }
-      100% { top: 100vh; opacity: 0; }
+      0%   { top: -3px;   opacity: 1; }
+      15%  { opacity: 1; }
+      85%  { opacity: 0.6; }
+      100% { top: 100vh;  opacity: 0; }
     }
     @keyframes scanDown2 {
-      0%   { top: -3px;  opacity: 0.4; }
-      100% { top: 100vh; opacity: 0; }
+      0%   { top: -3px;   opacity: 0.3; }
+      100% { top: 100vh;  opacity: 0; }
+    }
+    @keyframes flashPulse {
+      0%   { opacity: 0; }
+      25%  { opacity: 1; }
+      55%  { opacity: 0.6; }
+      100% { opacity: 0; }
     }
 
     /* ── Ambient Three.js background ── */
@@ -325,7 +350,7 @@ export class App implements AfterViewInit, OnDestroy {
   constructor() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) this.scanning = true;
-      if (event instanceof NavigationEnd)   setTimeout(() => this.scanning = false, 580);
+      if (event instanceof NavigationEnd)   setTimeout(() => this.scanning = false, 820);
     });
   }
 
