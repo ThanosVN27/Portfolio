@@ -58,49 +58,74 @@
 .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
 .project-card {
-  display: flex; flex-direction: column; gap: 12px; transition: all 0.22s ease;
-  border-left: 3px solid var(--tc, rgba(0,212,255,0.25));
+  display: flex; flex-direction: column; gap: 0; transition: all 0.22s ease;
+  border-left: 3px solid var(--tc, rgba(0,212,255,0.35));
+  padding: 20px;
   &:hover {
-    border-color: var(--tc, rgba(0,212,255,0.5));
+    border-color: var(--tc, rgba(0,212,255,0.7));
     transform: translateY(-5px);
-    box-shadow: 0 14px 40px rgba(0,0,0,0.5), -3px 0 18px color-mix(in srgb, var(--tc) 30%, transparent);
+    box-shadow: 0 16px 44px rgba(0,0,0,0.55), -4px 0 24px color-mix(in srgb, var(--tc) 25%, transparent);
   }
 }
 
-.pc-header { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-
-.pc-meta { display: flex; align-items: center; gap: 5px; flex: 1; overflow: hidden; }
-.pc-status {
-  font-family: 'Courier New', monospace; font-size: 0.48rem; letter-spacing: 0.08em;
-  padding: 2px 7px; border-radius: 3px; white-space: nowrap; flex-shrink: 0;
-  background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: rgba(0,212,255,0.65);
-  &.personal { background: rgba(124,111,255,0.08); border-color: rgba(124,111,255,0.22); color: rgba(167,139,250,0.82); }
+/* Top row: num + github badge */
+.pc-top {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
 }
-.pc-dot    { color: rgba(255,255,255,0.1); font-size: 0.5rem; flex-shrink: 0; }
-.pc-period { font-family: 'Courier New', monospace; font-size: 0.48rem; color: rgba(255,255,255,0.28); white-space: nowrap; }
-.pc-team   { font-family: 'Courier New', monospace; font-size: 0.48rem; color: rgba(255,255,255,0.28); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
 .pc-num {
-  font-family: 'Courier New', monospace; font-size: 0.62rem; letter-spacing: 0.14em;
-  color: rgba(0,212,255,0.45);
+  font-family: 'Courier New', monospace; font-size: 0.58rem;
+  color: rgba(0,212,255,0.38); letter-spacing: 0.14em;
+}
+.pc-gh-badge {
+  font-family: 'Courier New', monospace; font-size: 0.52rem; letter-spacing: 0.12em;
+  color: #4ade80; border: 1px solid rgba(74,222,128,0.38);
+  background: rgba(74,222,128,0.07); padding: 3px 10px; border-radius: 3px;
+  text-decoration: none; transition: all 0.2s;
+  &:hover { background: rgba(74,222,128,0.16); border-color: rgba(74,222,128,0.65); color: #86efac; }
 }
 
-.pc-gh {
-  color: rgba(255,255,255,0.35); transition: all 0.2s;
-  display: flex; align-items: center;
-  &:hover { color: #00d4ff; transform: scale(1.12); }
+/* Icon */
+.pc-icon { font-size: 2rem; line-height: 1; margin-bottom: 12px; }
+
+/* Title */
+.pc-title {
+  font-size: 0.98rem; font-weight: 800; line-height: 1.3; color: #fff;
+  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px;
 }
 
-.project-card h3 { font-size: 1.08rem; font-weight: 700; line-height: 1.35; color: #fff; }
-.project-card p  { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.72; flex: 1; }
+/* Description */
+.pc-desc {
+  font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.72;
+  flex: 1; margin-bottom: 16px;
+}
 
-.pc-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+/* Footer: tags + meta */
+.pc-footer { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+
+.pc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .pc-tag {
-  padding: 3px 10px; border-radius: 3px; font-size: 0.62rem;
-  background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.12); color: rgba(0,212,255,0.65);
-  font-family: 'Courier New', monospace;
-  &.accent { background: rgba(124,111,255,0.1); border-color: rgba(124,111,255,0.22); color: #a78bfa; }
+  padding: 3px 9px; border-radius: 3px; font-size: 0.58rem;
+  background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15);
+  color: rgba(0,212,255,0.7); font-family: 'Courier New', monospace; letter-spacing: 0.06em;
+  &.accent {
+    background: color-mix(in srgb, var(--tc) 10%, transparent);
+    border-color: color-mix(in srgb, var(--tc) 40%, transparent);
+    color: var(--tc);
+    font-weight: 700;
+  }
 }
+
+.pc-meta {
+  display: flex; align-items: center; gap: 6px;
+}
+.pc-status {
+  font-family: 'Courier New', monospace; font-size: 0.46rem; letter-spacing: 0.08em;
+  padding: 2px 7px; border-radius: 3px;
+  background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.18); color: rgba(0,212,255,0.6);
+  &.personal { background: rgba(124,111,255,0.08); border-color: rgba(124,111,255,0.22); color: rgba(167,139,250,0.8); }
+}
+.pc-dot  { color: rgba(255,255,255,0.12); font-size: 0.5rem; }
+.pc-team { font-family: 'Courier New', monospace; font-size: 0.46rem; color: rgba(255,255,255,0.28); }
 
 .no-results {
   display: flex; flex-direction: column; align-items: center; gap: 14px;

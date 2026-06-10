@@ -5,7 +5,7 @@ interface Project {
   num: string; title: string; description: string;
   tags: string[]; accentTag: string; github: string;
   status: 'ACADÉMIQUE' | 'PERSONNEL';
-  period: string; team: string;
+  period: string; team: string; icon: string;
 }
 
 @Component({
@@ -25,55 +25,55 @@ export class ProjectsPage implements AfterViewInit, OnDestroy {
 
   allProjects: Project[] = [
     {
-      num: '01', title: 'Audit Time',
-      description: 'Jeu sérieux 2D (Godot 4.5) — auditeur interne explorant une université. NPCs dynamiques, système de quêtes et scoring temps-réel.',
+      num: '01', title: 'Audit Time', icon: '🎮',
+      description: 'Jeu sérieux 2D (Godot 4.5) — auditeur interne explorant une université. NPCs dynamiques, quêtes et scoring temps-réel.',
       tags: ['GDScript', 'Godot 4.5', 'Git'], accentTag: 'Godot', github: 'https://github.com/ThanosVN27/Projet_AuditTime',
       status: 'ACADÉMIQUE', period: '15 semaines', team: '4 pers.',
     },
     {
-      num: '02', title: 'Bataille Navale',
+      num: '02', title: 'Bataille Navale', icon: '⚓',
       description: 'JavaFX — grille 10×10, 5 types de navires, armes spéciales (bombe, sonar), pièges et IA configurable.',
       tags: ['JavaFX', 'POO', 'IA'], accentTag: 'Java', github: 'https://github.com/ThanosVN27/Projet_BatailleNavaille',
       status: 'ACADÉMIQUE', period: '5 semaines', team: '2 pers.',
     },
     {
-      num: '03', title: 'Jeu 2048',
+      num: '03', title: 'Jeu 2048', icon: '🔢',
       description: 'Implémentation console en C — algorithmes de déplacement, fusion des tuiles et détection de fin de partie.',
       tags: ['Algorithmes', 'Structures de données'], accentTag: 'C', github: '#',
       status: 'ACADÉMIQUE', period: '5 semaines', team: '3 pers.',
     },
     {
-      num: '04', title: 'Simulateur de Réseau',
+      num: '04', title: 'Simulateur de Réseau', icon: '🌐',
       description: 'LAN Ethernet en C — switches, trames, apprentissage MAC, Spanning Tree (Kruskal) et export topologie DOT.',
-      tags: ['Réseau', 'Ethernet', 'STP', 'Kruskal'], accentTag: 'C', github: 'https://github.com/ThanosVN27/Projet_Reseau',
+      tags: ['Réseau', 'Ethernet', 'STP'], accentTag: 'C', github: 'https://github.com/ThanosVN27/Projet_Reseau',
       status: 'ACADÉMIQUE', period: '5 semaines', team: '3 pers.',
     },
     {
-      num: '05', title: 'Jeu de Yams',
+      num: '05', title: 'Jeu de Yams', icon: '🎲',
       description: 'Console C# + interface web HTML/CSS/JS — scores automatiques, sauvegarde JSON et visualisation des parties.',
       tags: ['C#', 'HTML/CSS', 'JavaScript'], accentTag: 'C#', github: 'https://github.com/ThanosVN27/Projet_Yams',
       status: 'ACADÉMIQUE', period: '5 semaines', team: '2 pers.',
     },
     {
-      num: '06', title: 'Donjon & Dragon',
+      num: '06', title: 'Donjon & Dragon', icon: '⚔️',
       description: 'Dungeon crawler Java — 4 races, 4 classes, combat tour par tour aux dés, 3 niveaux et gestion d\'équipements.',
       tags: ['POO', 'Java', 'Tour par tour'], accentTag: 'Java', github: 'https://github.com/ThanosVN27/DOOnjon-Dragon-Project',
       status: 'ACADÉMIQUE', period: 'SAÉ', team: 'Solo',
     },
     {
-      num: '07', title: 'POOkemon',
+      num: '07', title: 'POOkemon', icon: '⚡',
       description: 'Combat tour par tour inspiré de Pokémon — joueur vs IA, gestion des types, attaques et génération d\'adversaires.',
       tags: ['POO', 'IA', 'Tour par tour'], accentTag: 'Java', github: 'https://github.com/ThanosVN27/Projet_Pokemon',
       status: 'ACADÉMIQUE', period: 'SAÉ', team: 'Solo',
     },
     {
-      num: '08', title: 'Gestion de Bibliothèque',
-      description: 'App Android — consultation de livres via API REST, ajout et suppression d\'entrées.',
+      num: '08', title: 'Gestion de Bibliothèque', icon: '📚',
+      description: 'App Android — consultation de livres et auteurs via API REST, ajout et suppression d\'entrées.',
       tags: ['Android Studio', 'API REST', 'Java'], accentTag: 'Android', github: '#',
       status: 'ACADÉMIQUE', period: 'SAÉ', team: 'Solo',
     },
     {
-      num: '09', title: 'Society Tycoon',
+      num: '09', title: 'Society Tycoon', icon: '🏙️',
       description: 'Simulation 2D — piloter une société agricole vers le numérique sur 15 ans, ressources et événements aléatoires.',
       tags: ['SVG procédural', 'Simulation'], accentTag: 'React', github: '#',
       status: 'PERSONNEL', period: 'En cours', team: 'Solo',
