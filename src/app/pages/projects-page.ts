@@ -90,6 +90,14 @@ export class ProjectsPage implements AfterViewInit, OnDestroy {
 
   setFilter(f: string) { this.activeFilter.set(f); }
 
+  techColor(tag: string): string {
+    const m: Record<string, string> = {
+      'Java': '#f59e0b', 'C': '#60a5fa', 'C#': '#a78bfa',
+      'Godot': '#4ade80', 'Android': '#00d4ff', 'React': '#38bdf8',
+    };
+    return m[tag] ?? '#00d4ff';
+  }
+
   ngAfterViewInit() {
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }),

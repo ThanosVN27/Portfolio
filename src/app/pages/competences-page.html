@@ -27,7 +27,10 @@
               <div class="skill-item">
                 <div class="skill-meta">
                   <span class="skill-name">{{ skill.name }}</span>
-                  <span class="skill-pct">{{ skill.percent }}%</span>
+                  <div class="skill-right">
+                    <span class="skill-lvl lvl-{{ skill.color }}">{{ skillLevel(skill.percent) }}</span>
+                    <span class="skill-pct">{{ skill.percent }}%</span>
+                  </div>
                 </div>
                 <div class="skill-track">
                   <div class="skill-fill fill-{{ skill.color }}"

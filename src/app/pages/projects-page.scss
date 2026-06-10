@@ -59,7 +59,12 @@
 
 .project-card {
   display: flex; flex-direction: column; gap: 12px; transition: all 0.22s ease;
-  &:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-5px); box-shadow: 0 14px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,212,255,0.06); }
+  border-left: 3px solid var(--tc, rgba(0,212,255,0.25));
+  &:hover {
+    border-color: var(--tc, rgba(0,212,255,0.5));
+    transform: translateY(-5px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.5), -3px 0 18px color-mix(in srgb, var(--tc) 30%, transparent);
+  }
 }
 
 .pc-header { display: flex; align-items: center; justify-content: space-between; gap: 6px; }

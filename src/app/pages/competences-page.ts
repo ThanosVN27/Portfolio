@@ -30,7 +30,7 @@ export class CompetencesPage implements AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'Développement Web', icon: '🌐',
+      title: 'Développement Web', icon: '{ }',
       skills: [
         { name: 'HTML / CSS',     percent: 75, color: 'cyan' },
         { name: 'Angular',        percent: 60, color: 'cyan' },
@@ -42,7 +42,7 @@ export class CompetencesPage implements AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'Mobile', icon: '📱',
+      title: 'Mobile', icon: '[ ]',
       skills: [
         { name: 'Android Studio',           percent: 55, color: 'cyan' },
         { name: 'Développement Android',    percent: 50, color: 'cyan' },
@@ -60,7 +60,7 @@ export class CompetencesPage implements AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'Cybersécurité & Réseaux', icon: '🔐',
+      title: 'Cybersécurité & Réseaux', icon: '##',
       skills: [
         { name: 'Sécurité réseau',   percent: 50, color: 'orange' },
         { name: 'Analyse Wireshark', percent: 55, color: 'orange' },
@@ -70,7 +70,7 @@ export class CompetencesPage implements AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'DevOps & Cloud', icon: '☁️', badge: 'En apprentissage',
+      title: 'DevOps & Cloud', icon: '~~', badge: 'En apprentissage',
       skills: [
         { name: 'Docker',        percent: 40, color: 'green' },
         { name: 'CI/CD',         percent: 35, color: 'green' },
@@ -86,6 +86,10 @@ export class CompetencesPage implements AfterViewInit, OnDestroy {
   ];
 
   softSkills = ['Travail d\'équipe', 'Curiosité', 'Adaptabilité', 'Rigueur', 'Autonomie'];
+
+  skillLevel(p: number): string {
+    return p >= 70 ? 'AVANCÉ' : p >= 50 ? 'CONFIRMÉ' : 'DÉBUTANT';
+  }
 
   ngAfterViewInit() {
     const obs = new IntersectionObserver(

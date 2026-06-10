@@ -25,7 +25,7 @@
     </div>
     <div class="projects-grid">
       @for (project of filtered(); track project.num) {
-        <article class="hud-card project-card">
+        <article class="hud-card project-card" [style.--tc]="techColor(project.accentTag)">
           <div class="pc-header">
             <span class="pc-num">{{ project.num }}</span>
             <div class="pc-meta">

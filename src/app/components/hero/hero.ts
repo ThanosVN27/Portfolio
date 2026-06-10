@@ -12,7 +12,7 @@ export class Hero implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   typedText = signal('');
-  private texts = ['Développeur Full-Stack', 'Passionné Cybersécurité', 'DevOps & Cloud Explorer', 'Créateur d\'expériences web'];
+  private texts = ['Développeur Full-Stack', 'Angular · TypeScript · Java', 'En stage · avr. 2026', 'Passionné Cybersécurité', 'Créateur d\'interfaces 3D'];
   private textIndex = 0;
   private charIndex = 0;
   private isDeleting = false;

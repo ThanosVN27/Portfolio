@@ -38,8 +38,12 @@
 
 .panel-bar   { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
 .panel-tag   { font-family: 'Courier New', monospace; font-size: 0.58rem; letter-spacing: 0.16em; color: rgba(0,212,255,0.4); }
-.avail-badge { font-family: 'Courier New', monospace; font-size: 0.55rem; color: #4ade80; margin-left: auto; animation: badgeBlink 2s ease-in-out infinite; }
-@keyframes badgeBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+.avail-badge {
+  font-family: 'Courier New', monospace; font-size: 0.55rem; color: #4ade80;
+  margin-left: auto; animation: badgeBlink 2.2s ease-in-out infinite; letter-spacing: 0.08em;
+  &.en-stage { color: #fbbf24; }
+}
+@keyframes badgeBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.38; } }
 
 .about-grid { display: grid; grid-template-columns: 1fr 310px; gap: 48px; align-items: start; }
 
@@ -100,6 +104,12 @@
 .goal-card {
   display: flex; flex-direction: column; gap: 10px; padding: 24px; transition: all 0.22s ease;
   &:hover { border-color: rgba(0,212,255,0.28); transform: translateY(-5px); }
+  &.goal-done {
+    border-color: rgba(74,222,128,0.18);
+    &::before { background: linear-gradient(90deg, transparent, rgba(74,222,128,0.25), transparent); }
+    .gc-num { color: rgba(74,222,128,0.55); }
+    h3 { color: rgba(74,222,128,0.85); }
+  }
 }
 .gc-num      { font-family: 'Courier New', monospace; font-size: 0.55rem; color: rgba(0,212,255,0.32); letter-spacing: 0.2em; }
 .goal-card h3 { font-size: 1.05rem; font-weight: 700; }
