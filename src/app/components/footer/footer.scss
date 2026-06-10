@@ -1,20 +1,143 @@
 footer {
-  padding: 32px 0;
-  border-top: 1px solid var(--border);
-  text-align: center;
-  p { color: var(--text-muted); font-size: 0.88rem; }
+  position: relative; z-index: 1;
+  background: rgba(4,9,18,0.98);
 }
 
-.heart {
-  color: var(--accent-3);
-  display: inline-block;
-  animation: heartbeat 1.4s ease-in-out infinite;
+.ft-glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent);
 }
 
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  14% { transform: scale(1.3); }
-  28% { transform: scale(1); }
-  42% { transform: scale(1.3); }
-  70% { transform: scale(1); }
+/* ── Grid ─────────────────────────────────────── */
+.ft-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1.15fr;
+  gap: 48px;
+  padding: 52px 0 40px;
+}
+
+/* ── Column 1 — Identity ─────────────────────── */
+.ft-logo {
+  font-family: 'Courier New', monospace;
+  font-size: 1.15rem; font-weight: 700; margin-bottom: 10px;
+  .ftl-brk { color: rgba(0,212,255,0.35); }
+  .ftl-dot  { color: #00d4ff; text-shadow: 0 0 10px rgba(0,212,255,0.6); }
+}
+
+.ft-tagline  { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 5px; }
+.ft-location {
+  font-family: 'Courier New', monospace;
+  font-size: 0.54rem; color: rgba(0,212,255,0.3); letter-spacing: 0.15em;
+  margin-bottom: 18px;
+}
+
+.ft-avail {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.54rem; color: rgba(74,222,128,0.55); letter-spacing: 0.07em;
+  background: rgba(74,222,128,0.05); border: 1px solid rgba(74,222,128,0.15);
+  border-radius: 4px; padding: 5px 10px;
+}
+
+.ft-dot {
+  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+  background: #4ade80; box-shadow: 0 0 6px rgba(74,222,128,0.7);
+  animation: ftPulse 2.2s ease-in-out infinite;
+}
+@keyframes ftPulse {
+  0%,100% { box-shadow: 0 0 4px rgba(74,222,128,0.5); }
+  50%      { box-shadow: 0 0 12px rgba(74,222,128,0.9); }
+}
+
+/* ── Column 2 — Nav links ────────────────────── */
+.ft-head {
+  font-family: 'Courier New', monospace;
+  font-size: 0.54rem; letter-spacing: 0.2em; color: rgba(0,212,255,0.3);
+  margin-bottom: 20px;
+}
+
+.ft-links {
+  list-style: none; padding: 0; display: flex; flex-direction: column; gap: 2px;
+
+  a {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: rgba(255,255,255,0.38);
+    font-size: 0.82rem; padding: 7px 0;
+    border-bottom: 1px solid rgba(0,212,255,0.04);
+    transition: color 0.2s, border-color 0.2s;
+
+    span {
+      font-family: 'Courier New', monospace; font-size: 0.5rem;
+      color: rgba(0,212,255,0.22); letter-spacing: 0.12em; flex-shrink: 0;
+      transition: color 0.2s;
+    }
+
+    &:hover {
+      color: rgba(255,255,255,0.82);
+      border-bottom-color: rgba(0,212,255,0.15);
+      span { color: rgba(0,212,255,0.6); }
+    }
+  }
+}
+
+/* ── Column 3 — Contact links ────────────────── */
+.ft-contacts { display: flex; flex-direction: column; gap: 10px; }
+
+.ft-link {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: rgba(255,255,255,0.38); font-size: 0.78rem;
+  transition: color 0.2s ease;
+
+  .ftl-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.1);
+    border-radius: 6px; font-size: 0.78rem; color: rgba(0,212,255,0.45);
+    transition: all 0.2s;
+  }
+
+  span:last-child {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: color 0.2s;
+  }
+
+  &:hover {
+    color: rgba(255,255,255,0.8);
+    .ftl-icon { background: rgba(0,212,255,0.1); border-color: rgba(0,212,255,0.28); color: #00d4ff; }
+  }
+
+  &.ft-link-cv {
+    .ftl-icon { color: rgba(124,111,255,0.5); background: rgba(124,111,255,0.05); border-color: rgba(124,111,255,0.15); }
+    &:hover .ftl-icon { color: #a78bfa; background: rgba(124,111,255,0.1); border-color: rgba(124,111,255,0.3); }
+  }
+}
+
+/* ── Bottom bar ──────────────────────────────── */
+.ft-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 0 24px;
+  border-top: 1px solid rgba(0,212,255,0.07);
+}
+
+.ft-copy {
+  font-family: 'Courier New', monospace;
+  font-size: 0.54rem; color: rgba(0,212,255,0.22); letter-spacing: 0.1em;
+}
+
+.ft-stack {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.5rem; color: rgba(0,212,255,0.18); letter-spacing: 0.06em;
+  .sep { color: rgba(0,212,255,0.1); }
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 800px) {
+  .ft-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .ft-col:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 520px) {
+  .ft-grid { grid-template-columns: 1fr; gap: 28px; padding: 36px 0 28px; }
+  .ft-stack { display: none; }
 }
