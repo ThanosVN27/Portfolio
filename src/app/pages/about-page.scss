@@ -4,6 +4,11 @@
   position: relative; z-index: 1;
   &::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.22), transparent); }
 }
+.dodec-canvas {
+  position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
+  width: 180px; height: 180px; pointer-events: none; opacity: 0.6;
+  @media (max-width: 900px) { display: none; }
+}
 .pg-tag-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
 .pg-num   { font-family: 'Courier New', monospace; font-size: 0.58rem; color: rgba(0,212,255,0.3); letter-spacing: 0.2em; }
 .pg-label { font-family: 'Courier New', monospace; font-size: 0.6rem; color: rgba(0,212,255,0.55); letter-spacing: 0.18em; }

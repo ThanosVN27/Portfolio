@@ -29,6 +29,9 @@ export class Hero implements AfterViewInit, OnDestroy {
   private animId!: number;
   private mouse = { x: 0, y: 0 };
   private clock = new THREE.Clock();
+  private sonarPulses: { mesh: THREE.Mesh; phase: number }[] = [];
+  private constellationLines!: THREE.LineSegments;
+  private innerCloud!: THREE.Points;
 
   ngAfterViewInit() {
     if (window.innerWidth >= 768) this.initThree();
@@ -128,6 +131,44 @@ export class Hero implements AfterViewInit, OnDestroy {
       this.orbs.push({ mesh, angle: (i / orbCfgs.length) * Math.PI * 2, radius: cfg.r, speed: cfg.speed, incline: cfg.incline });
     });
 
+    // Sonar pulse rings — 4 horizontal flat rings that expand outward from the core
+    for (let i = 0; i < 4; i++) {
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(1, 0.004, 6, 80),
+        new THREE.MeshBasicMaterial({ color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0 })
+      );
+      ring.rotation.x = Math.PI / 2;
+      this.sonarPulses.push({ mesh: ring, phase: (i / 4) * Math.PI * 2 });
+      this.scene.add(ring);
+    }
+
+    // Dynamic constellation lines between nearby orbs
+    const conGeo = new THREE.BufferGeometry();
+    const conPos = new Float32Array(10 * 2 * 3);
+    conGeo.setAttribute('position', new THREE.BufferAttribute(conPos, 3));
+    this.constellationLines = new THREE.LineSegments(conGeo, new THREE.LineBasicMaterial({
+      color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0.12,
+    }));
+    this.scene.add(this.constellationLines);
+
+    // Inner particle cloud — dense near core, breathes with the icosahedron
+    const innerCount = 450;
+    const iPos = new Float32Array(innerCount * 3);
+    for (let i = 0; i < innerCount; i++) {
+      const r = 0.8 + Math.random() * 1.6;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      iPos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+      iPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      iPos[i * 3 + 2] = r * Math.cos(phi);
+    }
+    const innerGeo = new THREE.BufferGeometry();
+    innerGeo.setAttribute('position', new THREE.BufferAttribute(iPos, 3));
+    this.innerCloud = new THREE.Points(innerGeo, new THREE.PointsMaterial({
+      size: 0.015, color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0.32, sizeAttenuation: true,
+    }));
+    this.scene.add(this.innerCloud);
+
     this.animate();
   }
 
@@ -191,6 +232,39 @@ export class Hero implements AfterViewInit, OnDestroy {
       orb.mesh.rotation.y += 0.025;
       orb.mesh.rotation.x += 0.018;
     });
+
+    // Sonar pulses — expand outward, fade quadratically
+    this.sonarPulses.forEach(sp => {
+      const s = ((t * 0.42 + sp.phase) % (Math.PI * 2)) / (Math.PI * 2);
+      sp.mesh.scale.setScalar(0.4 + s * 8);
+      (sp.mesh.material as THREE.MeshBasicMaterial).opacity = 0.38 * Math.pow(1 - s, 2);
+    });
+
+    // Constellation lines — connect orbs within range each frame
+    if (this.constellationLines) {
+      const conAttr = this.constellationLines.geometry.attributes['position'] as THREE.BufferAttribute;
+      let li = 0;
+      for (let a = 0; a < this.orbs.length && li < 10; a++) {
+        for (let b = a + 1; b < this.orbs.length && li < 10; b++) {
+          const pa = this.orbs[a].mesh.position;
+          const pb = this.orbs[b].mesh.position;
+          if (pa.distanceTo(pb) < 4.5) {
+            conAttr.setXYZ(li * 2, pa.x, pa.y, pa.z);
+            conAttr.setXYZ(li * 2 + 1, pb.x, pb.y, pb.z);
+            li++;
+          }
+        }
+      }
+      for (let k = li; k < 10; k++) { conAttr.setXYZ(k * 2, 0, 0, 0); conAttr.setXYZ(k * 2 + 1, 0, 0, 0); }
+      conAttr.needsUpdate = true;
+    }
+
+    // Inner cloud — counter-rotate, pulse with core
+    if (this.innerCloud) {
+      this.innerCloud.rotation.y -= 0.003;
+      this.innerCloud.rotation.x += 0.0015;
+      (this.innerCloud.material as THREE.PointsMaterial).opacity = 0.2 + Math.sin(t * 1.9) * 0.14;
+    }
 
     // Subtle mouse parallax
     this.camera.position.x += (this.mouse.x * 0.3 - this.camera.position.x) * 0.025;

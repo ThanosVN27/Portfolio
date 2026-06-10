@@ -1,4 +1,5 @@
-import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef, signal, computed } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, ElementRef, signal, computed } from '@angular/core';
+import * as THREE from 'three';
 
 interface Project {
   num: string; title: string; description: string;
@@ -13,8 +14,11 @@ interface Project {
   templateUrl: './projects-page.html',
   styleUrl: './projects-page.scss',
 })
-export class ProjectsPage implements AfterViewInit {
+export class ProjectsPage implements AfterViewInit, OnDestroy {
   @ViewChildren('reveal') revealEls!: QueryList<ElementRef>;
+  @ViewChild('crystalCanvas') crystalRef!: ElementRef<HTMLCanvasElement>;
+  private crystalRenderer?: THREE.WebGLRenderer;
+  private crystalAnimId!: number;
 
   activeFilter = signal('Tous');
   filters = ['Tous', 'Java', 'C', 'C#', 'Godot', 'Web', 'Android'];
@@ -98,5 +102,82 @@ export class ProjectsPage implements AfterViewInit {
       { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
     );
     this.revealEls.forEach(el => obs.observe(el.nativeElement));
+    if (window.innerWidth >= 768) this.initCrystal();
+  }
+
+  ngOnDestroy() {
+    cancelAnimationFrame(this.crystalAnimId);
+    this.crystalRenderer?.dispose();
+  }
+
+  private initCrystal() {
+    const el = this.crystalRef?.nativeElement;
+    if (!el) return;
+    const size = 180;
+    const renderer = new THREE.WebGLRenderer({ canvas: el, alpha: true, antialias: true });
+    renderer.setSize(size, size);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    this.crystalRenderer = renderer;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 100);
+    camera.position.z = 3.5;
+    const clock = new THREE.Clock();
+
+    // Core icosahedron — cyan wireframe
+    const coreGeo  = new THREE.IcosahedronGeometry(1, 1);
+    const coreWire = new THREE.WireframeGeometry(coreGeo);
+    const core = new THREE.LineSegments(coreWire, new THREE.LineBasicMaterial({
+      color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0.75,
+    }));
+    scene.add(core);
+
+    // Outer octahedron cage — purple, dim
+    const cageGeo  = new THREE.OctahedronGeometry(1.6, 1);
+    const cageWire = new THREE.WireframeGeometry(cageGeo);
+    const cage = new THREE.LineSegments(cageWire, new THREE.LineBasicMaterial({
+      color: new THREE.Color('#7c6fff'), transparent: true, opacity: 0.22,
+    }));
+    scene.add(cage);
+
+    // Orbit ring
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(2.0, 0.005, 6, 90),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0.35 })
+    );
+    ring.rotation.x = Math.PI / 2.8;
+    scene.add(ring);
+
+    // Particle cloud
+    const pCount = 130;
+    const pPos = new Float32Array(pCount * 3);
+    for (let i = 0; i < pCount; i++) {
+      const r = 1.9 + Math.random() * 0.9;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      pPos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+      pPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      pPos[i * 3 + 2] = r * Math.cos(phi);
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({
+      size: 0.048, color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0.65, sizeAttenuation: true,
+    }));
+    scene.add(particles);
+
+    const animate = () => {
+      this.crystalAnimId = requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+      core.rotation.y += 0.009;
+      core.rotation.x += 0.004;
+      cage.rotation.y -= 0.005;
+      cage.rotation.z += 0.003;
+      (core.material as THREE.LineBasicMaterial).opacity = 0.55 + Math.sin(t * 1.3) * 0.22;
+      ring.rotation.z += 0.007;
+      particles.rotation.y += 0.004;
+      renderer.render(scene, camera);
+    };
+    animate();
   }
 }
