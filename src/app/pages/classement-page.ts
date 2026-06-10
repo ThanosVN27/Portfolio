@@ -1,6 +1,7 @@
-import { Component, signal, computed, OnInit, inject } from '@angular/core';
+import { Component, signal, computed, OnInit, AfterViewInit, OnDestroy, inject, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ClassementService, Entry } from '../services/classement.service';
+import * as THREE from 'three';
 
 const T = 'https://image.tmdb.org/t/p/w300';
 
@@ -10,7 +11,10 @@ const T = 'https://image.tmdb.org/t/p/w300';
   templateUrl: './classement-page.html',
   styleUrl: './classement-page.scss',
 })
-export class ClassementPage implements OnInit {
+export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('filmCanvas') filmRef!: ElementRef<HTMLCanvasElement>;
+  private filmRenderer?: THREE.WebGLRenderer;
+  private filmAnimId!: number;
   private readonly STORAGE_KEY = 'portfolio-classement-v15';
   private svc = inject(ClassementService);
 
@@ -314,4 +318,98 @@ export class ClassementPage implements OnInit {
   private resetForm() { this.newEntry = { title: '', year: new Date().getFullYear(), score: 8, category: 'Films', emoji: '🎬', poster: '' }; }
   tierLabel(s: number) { if (s >= 9.5) return 'S'; if (s >= 8.5) return 'A'; if (s >= 7) return 'B'; return 'C'; }
   tierClass(s: number) { if (s >= 9.5) return 'tier-s'; if (s >= 8.5) return 'tier-a'; if (s >= 7) return 'tier-b'; return 'tier-c'; }
+
+  ngAfterViewInit() { if (window.innerWidth >= 768) this.initFilm(); }
+
+  ngOnDestroy() {
+    cancelAnimationFrame(this.filmAnimId);
+    this.filmRenderer?.dispose();
+  }
+
+  private initFilm() {
+    const el = this.filmRef?.nativeElement;
+    if (!el) return;
+    const size = 200;
+    const renderer = new THREE.WebGLRenderer({ canvas: el, alpha: true, antialias: true });
+    renderer.setSize(size, size);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    this.filmRenderer = renderer;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 100);
+    camera.position.z = 4.4;
+    const clock = new THREE.Clock();
+
+    // Film reel ring — gold/amber
+    const reel = new THREE.Mesh(
+      new THREE.TorusGeometry(1.35, 0.045, 8, 72),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color('#ffc83c'), transparent: true, opacity: 0.75 })
+    );
+    scene.add(reel);
+
+    // Inner aperture — octahedron wireframe, cyan (camera lens)
+    const apertureGeo  = new THREE.OctahedronGeometry(0.58, 1);
+    const apertureWire = new THREE.WireframeGeometry(apertureGeo);
+    const aperture = new THREE.LineSegments(apertureWire, new THREE.LineBasicMaterial({
+      color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0.7,
+    }));
+    scene.add(aperture);
+
+    // Outer orbit ring A — amber, tilted
+    const ringA = new THREE.Mesh(
+      new THREE.TorusGeometry(1.9, 0.005, 6, 80),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color('#ff9a3c'), transparent: true, opacity: 0.3 })
+    );
+    ringA.rotation.x = Math.PI / 3.5;
+    scene.add(ringA);
+
+    // Outer orbit ring B — purple, different tilt
+    const ringB = new THREE.Mesh(
+      new THREE.TorusGeometry(1.7, 0.004, 6, 80),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color('#7c6fff'), transparent: true, opacity: 0.22 })
+    );
+    ringB.rotation.x = Math.PI / 5;
+    ringB.rotation.z = Math.PI / 3;
+    scene.add(ringB);
+
+    // Particle field — gold + cyan mix
+    const pCount = 130;
+    const pPos = new Float32Array(pCount * 3);
+    const pCol = new Float32Array(pCount * 3);
+    const gold = new THREE.Color('#ffc83c');
+    const cyan = new THREE.Color('#00d4ff');
+    for (let i = 0; i < pCount; i++) {
+      const r = 1.65 + Math.random() * 0.85;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      pPos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+      pPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      pPos[i * 3 + 2] = r * Math.cos(phi);
+      const c = Math.random() > 0.55 ? gold : cyan;
+      pCol[i * 3] = c.r; pCol[i * 3 + 1] = c.g; pCol[i * 3 + 2] = c.b;
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    pGeo.setAttribute('color', new THREE.BufferAttribute(pCol, 3));
+    const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({
+      size: 0.052, vertexColors: true, transparent: true, opacity: 0.7, sizeAttenuation: true,
+    }));
+    scene.add(particles);
+
+    const animate = () => {
+      this.filmAnimId = requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+      reel.rotation.y += 0.007;
+      reel.rotation.x = Math.sin(t * 0.35) * 0.18;
+      (reel.material as THREE.MeshBasicMaterial).opacity = 0.6 + Math.sin(t * 1.2) * 0.18;
+      aperture.rotation.y -= 0.016;
+      aperture.rotation.z += 0.008;
+      (aperture.material as THREE.LineBasicMaterial).opacity = 0.5 + Math.sin(t * 1.6) * 0.22;
+      ringA.rotation.z += 0.005;
+      ringB.rotation.y -= 0.006;
+      particles.rotation.y += 0.003;
+      renderer.render(scene, camera);
+    };
+    animate();
+  }
 }

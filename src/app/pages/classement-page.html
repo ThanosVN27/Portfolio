@@ -1,26 +1,38 @@
-<section class="rank-hero">
+<!-- ── Page header ────────────────────────────────────────────── -->
+<section class="pg-header">
+  <canvas #filmCanvas class="film-canvas" aria-hidden="true"></canvas>
   <div class="container">
-    <div class="section-tag">🎬 Culture</div>
-    <h1>Mes <span class="gradient-text">classements</span></h1>
-    <p class="rank-intro">Films, séries et anime — classés par note personnelle.</p>
-    <div class="tier-legend">
-      <span class="tier-pill tier-s">S — Incontournable</span>
-      <span class="tier-pill tier-a">A — Excellent</span>
-      <span class="tier-pill tier-b">B — Bien</span>
-      <span class="tier-pill tier-c">C — Moyen</span>
+    <div class="pg-tag-row">
+      <span class="pg-num">05</span>
+      <span class="pg-label">// CINÉMATHÈQUE</span>
+      <div class="pg-line"></div>
+    </div>
+    <h1 class="pg-title">Mes <span class="pg-accent">films</span></h1>
+    <p class="pg-intro">Films, séries et anime — classés par note personnelle.</p>
+    <div class="tier-row">
+      <span class="tier-badge tier-s">S</span><span class="tier-desc">Incontournable</span>
+      <span class="tier-sep">·</span>
+      <span class="tier-badge tier-a">A</span><span class="tier-desc">Excellent</span>
+      <span class="tier-sep">·</span>
+      <span class="tier-badge tier-b">B</span><span class="tier-desc">Bien</span>
+      <span class="tier-sep">·</span>
+      <span class="tier-badge tier-c">C</span><span class="tier-desc">Moyen</span>
     </div>
   </div>
 </section>
 
-<section class="rank-body">
+<!-- ── Body ────────────────────────────────────────────────────── -->
+<section class="content-section last">
   <div class="container">
-    <div class="toolbar">
+
+    <!-- Toolbar -->
+    <div class="film-toolbar">
       <div class="search-wrap">
-        <span class="search-icon">🔍</span>
+        <span class="search-sym">◈</span>
         <input
           class="search-input"
           type="text"
-          placeholder="Rechercher un film, une série…"
+          placeholder="Rechercher un titre…"
           [value]="searchQuery()"
           (input)="searchQuery.set($any($event.target).value)"
         />
@@ -29,64 +41,64 @@
         }
       </div>
       <div class="toolbar-row">
-        <div class="filters">
+        <div class="film-filters">
           @for (f of filters; track f) {
             <button class="filter-btn" [class.active]="activeFilter() === f" (click)="setFilter(f)">{{ f }}</button>
           }
         </div>
         <div class="toolbar-actions">
-        <!-- Sync indicator -->
-        @if (syncing()) {
-          <span class="sync-badge syncing">⟳ Sync…</span>
-        } @else if (syncOk()) {
-          <span class="sync-badge synced">✓ Sync</span>
-        }
-
-        @if (adminMode()) {
-          <button class="btn-reset" (click)="resetAll()" title="Réinitialiser">↺</button>
-          <button class="btn-add" (click)="openAdd()">+ Ajouter</button>
-          <button class="btn-lock active-admin" (click)="lockAdmin()" title="Verrouiller l'admin">🔓</button>
-        } @else {
-          <button class="btn-lock" (click)="openPinModal()" title="Mode admin">🔒</button>
-        }
-        </div><!-- /toolbar-actions -->
-      </div><!-- /toolbar-row -->
-    </div><!-- /toolbar -->
-
-    <!-- Stats bar -->
-    <div class="stats-bar glass">
-      <div class="stat-item">
-        <span class="stat-val">{{ stats().total }}</span>
-        <span class="stat-lbl">entrées</span>
-      </div>
-      <div class="stat-sep"></div>
-      <div class="stat-item">
-        <span class="stat-val">{{ stats().avg }}</span>
-        <span class="stat-lbl">moyenne</span>
-      </div>
-      <div class="stat-sep"></div>
-      <div class="tier-dist">
-        <span class="td tier-s">S×{{ stats().s }}</span>
-        <span class="td tier-a">A×{{ stats().a }}</span>
-        <span class="td tier-b">B×{{ stats().b }}</span>
-        <span class="td tier-c">C×{{ stats().c }}</span>
+          @if (syncing()) {
+            <span class="sync-badge syncing">⟳ SYNC</span>
+          } @else if (syncOk()) {
+            <span class="sync-badge synced">✓ SYNC</span>
+          }
+          @if (adminMode()) {
+            <button class="btn-reset" (click)="resetAll()" title="Réinitialiser">↺</button>
+            <button class="btn-add" (click)="openAdd()">+ ENTRÉE</button>
+            <button class="btn-lock active-admin" (click)="lockAdmin()" title="Verrouiller">🔓</button>
+          } @else {
+            <button class="btn-lock" (click)="openPinModal()" title="Mode admin">🔒</button>
+          }
+        </div>
       </div>
     </div>
 
-    <!-- Grid -->
+    <!-- Stats HUD card -->
+    <div class="stats-hud hud-card">
+      <div class="panel-bar">
+        <span class="panel-tag">// ANALYSE · CATALOGUE</span>
+        <span class="hud-total">{{ stats().total }} ENTRÉES</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat-col">
+          <span class="stat-n">{{ stats().total }}</span>
+          <span class="stat-l">TOTAL</span>
+        </div>
+        <div class="stat-vsep"></div>
+        <div class="stat-col">
+          <span class="stat-n">{{ stats().avg }}</span>
+          <span class="stat-l">MOYENNE / 10</span>
+        </div>
+        <div class="stat-vsep"></div>
+        <div class="tier-dist-row">
+          <div class="td-item"><span class="td-badge tier-s">S</span><span class="td-count">{{ stats().s }}</span></div>
+          <div class="td-item"><span class="td-badge tier-a">A</span><span class="td-count">{{ stats().a }}</span></div>
+          <div class="td-item"><span class="td-badge tier-b">B</span><span class="td-count">{{ stats().b }}</span></div>
+          <div class="td-item"><span class="td-badge tier-c">C</span><span class="td-count">{{ stats().c }}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Poster grid -->
     <div class="rank-grid">
       @for (entry of filtered(); track entry.id; let i = $index) {
-        <div class="rank-card" [style.--cat-color]="catColor(entry.category)" [style.animation-delay]="(i * 40) + 'ms'">
-
-          <!-- Poster -->
+        <div class="rank-card" [style.--cat-color]="catColor(entry.category)" [style.animation-delay]="(i * 28) + 'ms'">
           <div class="poster-wrap">
             <div class="poster-fallback">{{ entry.emoji }}</div>
             @if (entry.poster) {
               <img [src]="entry.poster" [alt]="entry.title" (error)="onImgError($event)" loading="lazy" />
             }
           </div>
-
-          <!-- Overlay info at bottom -->
           <div class="card-overlay">
             <span class="rank-tier" [class]="tierClass(entry.score)">{{ tierLabel(entry.score) }}</span>
             <div class="overlay-body">
@@ -101,8 +113,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Actions (admin only) -->
           @if (adminMode()) {
             <div class="card-actions">
               <button class="act-btn edit-btn" (click)="openEdit(entry)" title="Modifier">✎</button>
@@ -114,83 +124,86 @@
     </div>
 
     @if (filtered().length === 0) {
-      <p class="no-results">Aucune entrée.</p>
+      <div class="no-results">
+        <span class="nr-icon">◈</span>
+        <p>Aucune entrée pour ce filtre.</p>
+      </div>
     }
   </div>
 </section>
 
-<!-- PIN MODAL -->
+<!-- ── PIN modal ──────────────────────────────────────────────── -->
 @if (showPinModal()) {
   <div class="modal-overlay" (click)="closePinModal()">
-    <div class="modal glass pin-modal" (click)="$event.stopPropagation()">
+    <div class="modal hud-card pin-modal" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h2>🔒 Mode admin</h2>
+        <span class="panel-tag">// MODE ADMIN</span>
         <button class="modal-close" (click)="closePinModal()">✕</button>
       </div>
-      <p class="pin-desc">Entrez votre code PIN pour modifier le classement.</p>
+      <p class="pin-desc">Code PIN requis pour modifier le catalogue.</p>
       <div class="form-group">
         <input
           type="password"
           [(ngModel)]="pinInput"
-          placeholder="Code PIN"
+          placeholder="• • • • • •"
           class="pin-input"
           [class.pin-error]="pinError"
           (keyup.enter)="submitPin()"
           autofocus
         />
         @if (pinError) {
-          <span class="pin-err-msg">Code incorrect</span>
+          <span class="pin-err-msg">// CODE INCORRECT</span>
         }
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" (click)="closePinModal()">Annuler</button>
-        <button class="btn btn-primary" (click)="submitPin()">Déverrouiller</button>
+        <button class="btn btn-primary" (click)="submitPin()">DÉVERROUILLER</button>
       </div>
     </div>
   </div>
 }
 
-<!-- ADD / EDIT MODAL -->
+<!-- ── Add / Edit modal ───────────────────────────────────────── -->
 @if (showModal()) {
   <div class="modal-overlay" (click)="closeModal()">
-    <div class="modal glass" (click)="$event.stopPropagation()">
+    <div class="modal hud-card" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h2>{{ isEditing() ? 'Modifier' : 'Ajouter' }}</h2>
+        <span class="panel-tag">{{ isEditing() ? '// MODIFIER ENTRÉE' : '// NOUVELLE ENTRÉE' }}</span>
         <button class="modal-close" (click)="closeModal()">✕</button>
       </div>
       <div class="form-group">
-        <label>Titre</label>
+        <label>TITRE</label>
         <input [(ngModel)]="newEntry.title" placeholder="Ex: Inception" />
       </div>
       <div class="form-group">
-        <label>URL Poster (optionnel)</label>
+        <label>URL POSTER (optionnel)</label>
         <input [(ngModel)]="newEntry.poster" placeholder="https://image.tmdb.org/t/p/w300/..." />
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label>Catégorie</label>
+          <label>CATÉGORIE</label>
           <select [(ngModel)]="newEntry.category">
             @for (cat of categories; track cat) { <option [value]="cat">{{ cat }}</option> }
           </select>
         </div>
         <div class="form-group">
-          <label>Emoji</label>
+          <label>EMOJI</label>
           <input [(ngModel)]="newEntry.emoji" maxlength="2" placeholder="🎬" />
         </div>
         <div class="form-group">
-          <label>Année</label>
+          <label>ANNÉE</label>
           <input type="number" [(ngModel)]="newEntry.year" min="1900" [max]="2030" />
         </div>
       </div>
       <div class="form-group">
-        <label>Note : <strong>{{ newEntry.score }}/10</strong></label>
+        <label>NOTE : <strong>{{ newEntry.score }} / 10</strong></label>
         <input type="range" [(ngModel)]="newEntry.score" min="0" max="10" step="0.5" class="score-range" />
         <div class="range-labels"><span>0</span><span>5</span><span>10</span></div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" (click)="closeModal()">Annuler</button>
         <button class="btn btn-primary" (click)="submitForm()" [disabled]="!newEntry.title.trim()">
-          {{ isEditing() ? 'Sauvegarder' : 'Ajouter' }}
+          {{ isEditing() ? 'SAUVEGARDER' : 'AJOUTER' }}
         </button>
       </div>
     </div>
