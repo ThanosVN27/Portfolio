@@ -1,9 +1,10 @@
-import { Component, inject, signal, HostListener, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, inject, signal, HostListener, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router, RouterOutlet, NavigationStart, NavigationEnd } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
 import { LoadingScreen } from './components/loading-screen/loading-screen';
 import { trigger, transition, query, group, animate, keyframes, style } from '@angular/animations';
+import * as THREE from 'three';
 
 @Component({
   selector: 'app-root',
@@ -41,6 +42,9 @@ import { trigger, transition, query, group, animate, keyframes, style } from '@a
   ],
   template: `
     <app-loading-screen />
+
+    <!-- Ambient Three.js particle field (behind everything) -->
+    <canvas #ambientBg class="ambient-bg" aria-hidden="true"></canvas>
 
     <!-- Scroll progress bar -->
     <div class="scroll-bar" [style.width.%]="scrollProgress()"></div>
@@ -190,15 +194,25 @@ import { trigger, transition, query, group, animate, keyframes, style } from '@a
       0%   { top: -3px;  opacity: 0.4; }
       100% { top: 100vh; opacity: 0; }
     }
+
+    /* ── Ambient Three.js background ── */
+    .ambient-bg {
+      position: fixed; inset: 0; width: 100vw; height: 100vh;
+      pointer-events: none; z-index: 1; opacity: 0.13;
+    }
   `]
 })
-export class App implements AfterViewInit {
+export class App implements AfterViewInit, OnDestroy {
   scanning     = false;
   scrollProgress = signal(0);
   showBackTop    = signal(false);
 
-  @ViewChild('cursorDot')  private cursorDotRef!:  ElementRef<HTMLElement>;
-  @ViewChild('cursorRing') private cursorRingRef!: ElementRef<HTMLElement>;
+  @ViewChild('cursorDot')   private cursorDotRef!:   ElementRef<HTMLElement>;
+  @ViewChild('cursorRing')  private cursorRingRef!:  ElementRef<HTMLElement>;
+  @ViewChild('ambientBg')   private ambientBgRef!:   ElementRef<HTMLCanvasElement>;
+
+  private ambientRenderer?: THREE.WebGLRenderer;
+  private ambientAnimId!:   number;
 
   private router = inject(Router);
 
@@ -218,7 +232,93 @@ export class App implements AfterViewInit {
     if (r) { r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px'; }
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    if (window.innerWidth >= 768) this.initAmbient();
+  }
+
+  ngOnDestroy() {
+    cancelAnimationFrame(this.ambientAnimId);
+    this.ambientRenderer?.dispose();
+  }
+
+  private initAmbient() {
+    const canvas = this.ambientBgRef.nativeElement;
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 200);
+    camera.position.z = 5;
+
+    this.ambientRenderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
+    this.ambientRenderer.setSize(W, H);
+    this.ambientRenderer.setPixelRatio(1);
+
+    // ── Drifting particle field ──────────────────────
+    const pCount = 200;
+    const pPos   = new Float32Array(pCount * 3);
+    const pCol   = new Float32Array(pCount * 3);
+    const pVel   = new Float32Array(pCount * 3);
+    const cyan   = new THREE.Color('#00d4ff');
+    const purple = new THREE.Color('#a78bfa');
+    const white  = new THREE.Color('#ffffff');
+    for (let i = 0; i < pCount; i++) {
+      pPos[i*3]   = (Math.random() - 0.5) * 22;
+      pPos[i*3+1] = (Math.random() - 0.5) * 14;
+      pPos[i*3+2] = (Math.random() - 0.5) * 8;
+      pVel[i*3]   = (Math.random() - 0.5) * 0.004;
+      pVel[i*3+1] = (Math.random() - 0.5) * 0.003;
+      pVel[i*3+2] = 0;
+      const pick = Math.random();
+      const c    = pick < 0.5 ? cyan : pick < 0.75 ? purple : white;
+      pCol[i*3] = c.r; pCol[i*3+1] = c.g; pCol[i*3+2] = c.b;
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    pGeo.setAttribute('color',    new THREE.BufferAttribute(pCol, 3));
+    const particles = new THREE.Points(pGeo,
+      new THREE.PointsMaterial({ size: 0.055, vertexColors: true, transparent: true, opacity: 0.7 })
+    );
+    scene.add(particles);
+
+    // ── Distant wireframe shapes ─────────────────────
+    const makeWireShape = (geo: THREE.BufferGeometry, color: string, x: number, y: number, z: number) => {
+      const wire = new THREE.WireframeGeometry(geo);
+      const mesh = new THREE.LineSegments(wire,
+        new THREE.LineBasicMaterial({ color: new THREE.Color(color), transparent: true, opacity: 0.12 })
+      );
+      mesh.position.set(x, y, z);
+      return mesh;
+    };
+
+    const shape1 = makeWireShape(new THREE.IcosahedronGeometry(2.2, 1), '#00d4ff', -4,  1, -6);
+    const shape2 = makeWireShape(new THREE.OctahedronGeometry(1.6, 0),  '#a78bfa',  4, -1, -8);
+    const shape3 = makeWireShape(new THREE.TetrahedronGeometry(1.2, 0), '#00d4ff',  0,  2.5, -10);
+    scene.add(shape1, shape2, shape3);
+
+    const posAttr = pGeo.attributes['position'] as THREE.BufferAttribute;
+    const animate = () => {
+      this.ambientAnimId = requestAnimationFrame(animate);
+      const arr = posAttr.array as Float32Array;
+      for (let i = 0; i < pCount; i++) {
+        arr[i*3]   += pVel[i*3];
+        arr[i*3+1] += pVel[i*3+1];
+        if (arr[i*3]   >  11) arr[i*3]   = -11;
+        if (arr[i*3]   < -11) arr[i*3]   =  11;
+        if (arr[i*3+1] >   7) arr[i*3+1] =  -7;
+        if (arr[i*3+1] <  -7) arr[i*3+1] =   7;
+      }
+      posAttr.needsUpdate = true;
+      shape1.rotation.y += 0.0006;
+      shape1.rotation.x += 0.0003;
+      shape2.rotation.y -= 0.0008;
+      shape2.rotation.z += 0.0004;
+      shape3.rotation.x += 0.0005;
+      shape3.rotation.y += 0.0007;
+      this.ambientRenderer!.render(scene, camera);
+    };
+    animate();
+  }
 
   scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 

@@ -1,6 +1,7 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, ViewChildren, QueryList, signal } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, ViewChildren, QueryList, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Hero } from '../components/hero/hero';
+import * as THREE from 'three';
 
 @Component({
   selector: 'app-home-page',
@@ -37,6 +38,7 @@ import { Hero } from '../components/hero/hero';
 
     <!-- ── Navigation cards ── -->
     <section class="nav-section reveal" #reveal>
+      <canvas #navOrb class="nav-orb-canvas" aria-hidden="true"></canvas>
       <div class="container">
         <div class="nav-header">
           <span class="nav-tag">// NAVIGATION PRINCIPALE</span>
@@ -127,6 +129,13 @@ import { Hero } from '../components/hero/hero';
     .si-div {
       width: 1px; height: 40px; flex-shrink: 0;
       background: linear-gradient(180deg, transparent, rgba(0,212,255,0.2), transparent);
+    }
+
+    /* ── Nav orb canvas ──────────────────────────── */
+    .nav-orb-canvas {
+      position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+      width: 220px; height: 220px; pointer-events: none; opacity: 0.5; z-index: 0;
+      @media (max-width: 1100px) { display: none; }
     }
 
     /* ── Nav section ─────────────────────────────── */
@@ -223,9 +232,13 @@ import { Hero } from '../components/hero/hero';
     @media (max-width: 560px) { .nav-grid { grid-template-columns: 1fr; } .stats-row { flex-wrap: wrap; gap: 8px; } .si-div { display: none; } }
   `]
 })
-export class HomePage implements AfterViewInit {
+export class HomePage implements AfterViewInit, OnDestroy {
   @ViewChildren('reveal') revealEls!: QueryList<ElementRef>;
   @ViewChild('statsSection') statsSectionRef!: ElementRef;
+  @ViewChild('navOrb') navOrbRef!: ElementRef<HTMLCanvasElement>;
+
+  private navRenderer?: THREE.WebGLRenderer;
+  private navAnimId!: number;
 
   c1 = signal(0);
   c2 = signal(0);
@@ -242,7 +255,64 @@ export class HomePage implements AfterViewInit {
     requestAnimationFrame(tick);
   }
 
+  ngOnDestroy() {
+    cancelAnimationFrame(this.navAnimId);
+    this.navRenderer?.dispose();
+  }
+
+  private initNavOrb() {
+    const canvas = this.navOrbRef.nativeElement;
+    const S = 220;
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 50);
+    camera.position.z = 3.8;
+
+    this.navRenderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    this.navRenderer.setSize(S, S);
+    this.navRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Core: torus knot (purple/cyan)
+    const knot = new THREE.Mesh(
+      new THREE.TorusKnotGeometry(0.75, 0.22, 80, 12, 3, 5),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color('#7c6fff'), wireframe: true })
+    );
+    scene.add(knot);
+
+    // Outer ring
+    const ring = new THREE.LineSegments(
+      new THREE.WireframeGeometry(new THREE.TorusGeometry(1.3, 0.025, 6, 48)),
+      new THREE.LineBasicMaterial({ color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0.4 })
+    );
+    ring.rotation.x = Math.PI / 3;
+    scene.add(ring);
+
+    // Particles
+    const pCount = 80;
+    const pPos   = new Float32Array(pCount * 3);
+    for (let i = 0; i < pCount; i++) {
+      const th = Math.random() * Math.PI * 2;
+      const ph = Math.acos(2 * Math.random() - 1);
+      const r  = 1.6 + Math.random() * 0.5;
+      pPos[i*3]   = r * Math.sin(ph) * Math.cos(th);
+      pPos[i*3+1] = r * Math.cos(ph);
+      pPos[i*3+2] = r * Math.sin(ph) * Math.sin(th);
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.045, color: new THREE.Color('#00d4ff'), transparent: true, opacity: 0.6 })));
+
+    const animate = () => {
+      this.navAnimId = requestAnimationFrame(animate);
+      knot.rotation.y += 0.007;
+      knot.rotation.x += 0.003;
+      ring.rotation.z += 0.005;
+      this.navRenderer!.render(scene, camera);
+    };
+    animate();
+  }
+
   ngAfterViewInit() {
+    if (window.innerWidth >= 1100) this.initNavOrb();
     const revealObs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } }),
       { threshold: 0.1 }
