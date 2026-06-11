@@ -381,8 +381,11 @@ export class App implements AfterViewInit, OnDestroy {
 
   constructor() {
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) this.scanning = true;
-      if (event instanceof NavigationEnd)   setTimeout(() => this.scanning = false, 920);
+      if (event instanceof NavigationStart) {
+        this.scanning = true;
+        window.scrollTo(0, 0);
+      }
+      if (event instanceof NavigationEnd) setTimeout(() => this.scanning = false, 920);
     });
   }
 
