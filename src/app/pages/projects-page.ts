@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, ElementRef, signal, computed } from '@angular/core';
+import { DecryptText } from '../directives/decrypt-text';
 import * as THREE from 'three';
 
 interface Project {
@@ -11,7 +12,7 @@ interface Project {
 
 @Component({
   selector: 'app-projects-page',
-  imports: [],
+  imports: [DecryptText],
   templateUrl: './projects-page.html',
   styleUrl: './projects-page.scss',
 })

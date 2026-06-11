@@ -3,12 +3,14 @@ import { Router, RouterOutlet, NavigationStart, NavigationEnd } from '@angular/r
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
 import { LoadingScreen } from './components/loading-screen/loading-screen';
+import { JarvisConsole } from './components/jarvis-console/jarvis-console';
+import { JarvisSoundService } from './services/jarvis-sound.service';
 import { trigger, transition, query, group, animate, keyframes, style } from '@angular/animations';
 import * as THREE from 'three';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Footer, LoadingScreen],
+  imports: [RouterOutlet, Navbar, Footer, LoadingScreen, JarvisConsole],
   animations: [
     trigger('routeAnim', [
       transition('* <=> *', [
@@ -47,6 +49,7 @@ import * as THREE from 'three';
   ],
   template: `
     <app-loading-screen />
+    <app-jarvis-console />
 
     <!-- Ambient Three.js particle field (behind everything) -->
     <canvas #ambientBg class="ambient-bg" aria-hidden="true"></canvas>
@@ -116,7 +119,12 @@ import * as THREE from 'three';
       width: 26px; height: 26px; border-radius: 50%;
       border: 1px solid rgba(0,212,255,0.45);
       transform: translate(-50%, -50%);
-      transition: left 0.08s ease-out, top 0.08s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+      transition: left 0.08s ease-out, top 0.08s ease-out, width 0.2s, height 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .cursor-ring.on-link {
+      width: 44px; height: 44px;
+      border-color: rgba(0,212,255,0.9);
+      box-shadow: 0 0 18px rgba(0,212,255,0.35);
     }
     @media (pointer: coarse) {
       .cursor-dot, .cursor-ring { display: none; }
@@ -352,6 +360,7 @@ export class App implements AfterViewInit, OnDestroy {
   private ambientAnimId!:   number;
 
   private router = inject(Router);
+  private sound  = inject(JarvisSoundService);
 
   @HostListener('window:scroll')
   onScroll() {
@@ -366,7 +375,21 @@ export class App implements AfterViewInit, OnDestroy {
     const d = this.cursorDotRef?.nativeElement;
     const r = this.cursorRingRef?.nativeElement;
     if (d) { d.style.left = e.clientX + 'px'; d.style.top = e.clientY + 'px'; }
-    if (r) { r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px'; }
+    if (r) {
+      r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px';
+      const interactive = (e.target as HTMLElement)?.closest('a, button, input, textarea, select, [role="button"]');
+      r.classList.toggle('on-link', !!interactive);
+    }
+  }
+
+  @HostListener('window:mouseover', ['$event'])
+  onHover(e: MouseEvent) {
+    if ((e.target as HTMLElement)?.closest('a, button')) this.sound.hover();
+  }
+
+  @HostListener('window:click', ['$event'])
+  onClickSound(e: MouseEvent) {
+    if ((e.target as HTMLElement)?.closest('a, button')) this.sound.click();
   }
 
   ngAfterViewInit() {
@@ -477,6 +500,7 @@ export class App implements AfterViewInit, OnDestroy {
       if (event instanceof NavigationStart) {
         this.scanning = true;
         this.smoothTop(220);
+        this.sound.boot();
       }
       if (event instanceof NavigationEnd) setTimeout(() => this.scanning = false, 920);
     });
