@@ -14,28 +14,30 @@ import * as THREE from 'three';
       transition('* <=> *', [
         group([
 
-          /* ── Outgoing: glitch surge + scanline collapse ── */
+          /* ── Outgoing: energy surge → scanline collapse ── */
           query(':leave', [
             style({ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 1 }),
-            animate('300ms cubic-bezier(0.55,0,1,0.45)', keyframes([
-              style({ opacity: 1,    filter: 'blur(0)    brightness(1)    hue-rotate(0deg)',     transform: 'scale(1)      skewX(0deg)',    clipPath: 'inset(0% 0 0% 0)',       offset: 0    }),
-              style({ opacity: 0.82, filter: 'blur(1px)  brightness(2.2)  hue-rotate(-20deg)',   transform: 'scale(1.005)  skewX(-0.7deg)', clipPath: 'inset(6% 0 6% 0)',       offset: 0.22 }),
-              style({ opacity: 0.52, filter: 'blur(5px)  brightness(4)    hue-rotate(28deg)',    transform: 'scale(1.012)  skewX(1deg)',    clipPath: 'inset(26% 0 26% 0)',     offset: 0.58 }),
-              style({ opacity: 0.18, filter: 'blur(14px) brightness(7)    saturate(4)',           transform: 'scale(1.018)  skewX(-0.4deg)', clipPath: 'inset(45% 0 45% 0)',     offset: 0.84 }),
-              style({ opacity: 0,    filter: 'blur(24px) brightness(10)   saturate(6)',           transform: 'scale(1.022)',                  clipPath: 'inset(49.8% 0 49.8% 0)', offset: 1    }),
+            animate('280ms cubic-bezier(0.55,0,1,0.45)', keyframes([
+              style({ opacity: 1,    filter: 'blur(0)    brightness(1)    hue-rotate(0deg)',               transform: 'scale(1)     skewX(0deg)',    clipPath: 'inset(0% 0 0% 0)',       offset: 0    }),
+              style({ opacity: 0.92, filter: 'blur(0)    brightness(4)    hue-rotate(-8deg) saturate(3)',  transform: 'scale(1.003) skewX(-0.3deg)', clipPath: 'inset(2% 0 2% 0)',       offset: 0.16 }),
+              style({ opacity: 0.72, filter: 'blur(1.5px) brightness(3)   hue-rotate(-24deg)',             transform: 'scale(1.007) skewX(-0.9deg)', clipPath: 'inset(9% 0 9% 0)',       offset: 0.34 }),
+              style({ opacity: 0.42, filter: 'blur(7px)  brightness(6)    hue-rotate(32deg) saturate(5)',  transform: 'scale(1.015) skewX(1.3deg)',  clipPath: 'inset(28% 0 28% 0)',     offset: 0.62 }),
+              style({ opacity: 0.1,  filter: 'blur(18px) brightness(10)   saturate(6)',                    transform: 'scale(1.02)  skewX(-0.5deg)', clipPath: 'inset(46% 0 46% 0)',     offset: 0.86 }),
+              style({ opacity: 0,    filter: 'blur(30px) brightness(14)   saturate(8)',                    transform: 'scale(1.026)',                clipPath: 'inset(49.9% 0 49.9% 0)', offset: 1    }),
             ]))
           ], { optional: true }),
 
-          /* ── Incoming: arc-reactor radial expansion from center ── */
+          /* ── Incoming: arc-reactor radial expansion (spring) ── */
           query(':enter', [
-            style({ opacity: 0, filter: 'blur(24px) brightness(6) saturate(5)', clipPath: 'circle(0% at 50% 50%)', transform: 'scale(1.06)' }),
-            animate('780ms 80ms cubic-bezier(0.16,1,0.3,1)', keyframes([
-              style({ opacity: 0,    filter: 'blur(24px) brightness(7)    saturate(5)',   clipPath: 'circle(0% at 50% 50%)',    transform: 'scale(1.06)',  offset: 0    }),
-              style({ opacity: 0.18, filter: 'blur(20px) brightness(5.5)  saturate(4)',   clipPath: 'circle(6% at 50% 50%)',    transform: 'scale(1.04)',  offset: 0.12 }),
-              style({ opacity: 0.45, filter: 'blur(12px) brightness(3.5)  saturate(2.8)', clipPath: 'circle(24% at 50% 50%)',   transform: 'scale(1.022)', offset: 0.35 }),
-              style({ opacity: 0.72, filter: 'blur(5px)  brightness(2)    saturate(1.8)', clipPath: 'circle(55% at 50% 50%)',   transform: 'scale(1.01)',  offset: 0.60 }),
-              style({ opacity: 0.92, filter: 'blur(1.5px) brightness(1.2) saturate(1.2)', clipPath: 'circle(85% at 50% 50%)',   transform: 'scale(1.003)', offset: 0.82 }),
-              style({ opacity: 1,    filter: 'blur(0)    brightness(1)    saturate(1)',   clipPath: 'circle(150% at 50% 50%)',  transform: 'scale(1)',     offset: 1    }),
+            style({ opacity: 0, filter: 'blur(28px) brightness(8) saturate(6)', clipPath: 'circle(0% at 50% 50%)', transform: 'scale(1.08)' }),
+            animate('820ms 55ms cubic-bezier(0.22,1.12,0.36,1)', keyframes([
+              style({ opacity: 0,    filter: 'blur(28px) brightness(9)    saturate(6)',   clipPath: 'circle(0% at 50% 50%)',   transform: 'scale(1.08)',  offset: 0    }),
+              style({ opacity: 0.08, filter: 'blur(24px) brightness(12)   saturate(8)',   clipPath: 'circle(1.5% at 50% 50%)', transform: 'scale(1.06)',  offset: 0.07 }),
+              style({ opacity: 0.32, filter: 'blur(17px) brightness(5.5)  saturate(4.5)', clipPath: 'circle(10% at 50% 50%)',  transform: 'scale(1.04)',  offset: 0.22 }),
+              style({ opacity: 0.60, filter: 'blur(8px)  brightness(3)    saturate(2.8)', clipPath: 'circle(30% at 50% 50%)',  transform: 'scale(1.02)',  offset: 0.44 }),
+              style({ opacity: 0.82, filter: 'blur(3px)  brightness(1.7)  saturate(1.5)', clipPath: 'circle(62% at 50% 50%)',  transform: 'scale(1.007)', offset: 0.67 }),
+              style({ opacity: 0.97, filter: 'blur(0.5px) brightness(1.1) saturate(1.1)', clipPath: 'circle(94% at 50% 50%)',  transform: 'scale(1.001)', offset: 0.87 }),
+              style({ opacity: 1,    filter: 'blur(0)    brightness(1)    saturate(1)',   clipPath: 'circle(150% at 50% 50%)', transform: 'scale(1)',     offset: 1    }),
             ]))
           ], { optional: true }),
 
@@ -62,7 +64,7 @@ import * as THREE from 'three';
     }
 
     <!-- Permanent ambient HUD overlay -->
-    <div class="ambient-hud" aria-hidden="true">
+    <div class="ambient-hud" [class.nav-on]="scanning" aria-hidden="true">
       <div class="ah-corner ah-tl"></div>
       <div class="ah-corner ah-tr"></div>
       <div class="ah-corner ah-bl"></div>
@@ -78,6 +80,14 @@ import * as THREE from 'three';
       <div class="scan-ring r1"></div>
       <div class="scan-ring r2"></div>
       <div class="scan-ring r3"></div>
+      <div class="scan-ring r4"></div>
+      <div class="scan-reticle">
+        <span class="sr-h"></span>
+        <span class="sr-v"></span>
+        <span class="sr-dot"></span>
+      </div>
+      <div class="scan-hbeam"></div>
+      <div class="scan-data">SYS_NAV · SECTOR_LOAD</div>
     </div>
 
     <app-navbar />
@@ -157,12 +167,20 @@ import * as THREE from 'three';
     .ah-corner {
       position: absolute; width: 22px; height: 22px;
       opacity: 0.55; animation: cornerFade 3s ease forwards;
+      transition: opacity 0.15s, box-shadow 0.15s;
     }
     .ah-tl { top: 14px;    left: 14px;    border-top:    1px solid rgba(0,212,255,0.55); border-left:   1px solid rgba(0,212,255,0.55); }
     .ah-tr { top: 14px;    right: 14px;   border-top:    1px solid rgba(0,212,255,0.55); border-right:  1px solid rgba(0,212,255,0.55); }
     .ah-bl { bottom: 14px; left: 14px;    border-bottom: 1px solid rgba(0,212,255,0.55); border-left:   1px solid rgba(0,212,255,0.55); }
     .ah-br { bottom: 14px; right: 14px;   border-bottom: 1px solid rgba(0,212,255,0.55); border-right:  1px solid rgba(0,212,255,0.55); }
     @keyframes cornerFade { from { opacity: 0; } to { opacity: 0.55; } }
+    .nav-on .ah-corner { animation: cornerFlash 0.9s ease forwards; }
+    @keyframes cornerFlash {
+      0%   { opacity: 0.55; }
+      18%  { opacity: 1; box-shadow: 0 0 14px rgba(0,212,255,0.9); }
+      60%  { opacity: 0.85; }
+      100% { opacity: 0.55; }
+    }
 
     /* ── Scan overlay — on route change ── */
     .scan-overlay {
@@ -191,15 +209,15 @@ import * as THREE from 'three';
     .scan-hex {
       position: absolute; inset: 0; opacity: 0; pointer-events: none;
       background-image:
-        repeating-linear-gradient(0deg,   transparent, transparent 23px, rgba(0,212,255,0.05) 23px, rgba(0,212,255,0.05) 24px),
-        repeating-linear-gradient(60deg,  transparent, transparent 23px, rgba(0,212,255,0.05) 23px, rgba(0,212,255,0.05) 24px),
-        repeating-linear-gradient(120deg, transparent, transparent 23px, rgba(0,212,255,0.05) 23px, rgba(0,212,255,0.05) 24px);
+        repeating-linear-gradient(0deg,   transparent, transparent 23px, rgba(0,212,255,0.07) 23px, rgba(0,212,255,0.07) 24px),
+        repeating-linear-gradient(60deg,  transparent, transparent 23px, rgba(0,212,255,0.07) 23px, rgba(0,212,255,0.07) 24px),
+        repeating-linear-gradient(120deg, transparent, transparent 23px, rgba(0,212,255,0.07) 23px, rgba(0,212,255,0.07) 24px);
     }
-    .scan-overlay.active .scan-hex { animation: hexFlash 0.82s ease forwards; }
+    .scan-overlay.active .scan-hex { animation: hexFlash 0.85s ease forwards; }
     @keyframes hexFlash {
       0%   { opacity: 0; }
-      18%  { opacity: 1; }
-      55%  { opacity: 0.45; }
+      14%  { opacity: 1; }
+      50%  { opacity: 0.55; }
       100% { opacity: 0; }
     }
 
@@ -207,23 +225,23 @@ import * as THREE from 'three';
     .scan-beam {
       position: absolute; left: 0; right: 0;
       background: linear-gradient(90deg,
-        transparent 0%, rgba(0,212,255,0.25) 8%,
+        transparent 0%, rgba(0,212,255,0.28) 8%,
         rgba(160,240,255,0.95) 38%, rgba(255,255,255,1) 50%,
-        rgba(160,240,255,0.95) 62%, rgba(0,212,255,0.25) 92%,
+        rgba(160,240,255,0.95) 62%, rgba(0,212,255,0.28) 92%,
         transparent 100%
       );
-      box-shadow: 0 0 10px rgba(255,255,255,0.95), 0 0 28px rgba(0,212,255,1), 0 0 70px rgba(0,212,255,0.55), 0 0 140px rgba(0,212,255,0.22);
+      box-shadow: 0 0 12px rgba(255,255,255,1), 0 0 32px rgba(0,212,255,1), 0 0 80px rgba(0,212,255,0.6), 0 0 160px rgba(0,212,255,0.25);
     }
     .b1 { top: -3px; height: 2px; }
-    .b2 { top: -3px; height: 1px; opacity: 0.2; filter: blur(1px); }
-    .b3 { top: -3px; height: 1px; opacity: 0.35; filter: hue-rotate(200deg); }
-    .scan-overlay.active .b1 { animation: scanDown  0.70s cubic-bezier(0.38,0,0.68,1) forwards; }
-    .scan-overlay.active .b2 { animation: scanDown2 0.70s cubic-bezier(0.38,0,0.68,1) 0.10s forwards; }
-    .scan-overlay.active .b3 { animation: scanDown3 0.44s cubic-bezier(0.42,0,1,0.65) 0.04s forwards; }
+    .b2 { top: -3px; height: 1px; opacity: 0.22; filter: blur(1px); }
+    .b3 { top: -3px; height: 1px; opacity: 0.4;  filter: hue-rotate(200deg); }
+    .scan-overlay.active .b1 { animation: scanDown  0.68s cubic-bezier(0.38,0,0.68,1) forwards; }
+    .scan-overlay.active .b2 { animation: scanDown2 0.68s cubic-bezier(0.38,0,0.68,1) 0.09s forwards; }
+    .scan-overlay.active .b3 { animation: scanDown3 0.42s cubic-bezier(0.42,0,1,0.65) 0.03s forwards; }
 
-    @keyframes scanDown  { 0% { top:-3px; opacity:1; } 15% { opacity:1; } 80% { opacity:0.7; } 100% { top:100vh; opacity:0; } }
-    @keyframes scanDown2 { 0% { top:-3px; opacity:0.25; } 100% { top:100vh; opacity:0; } }
-    @keyframes scanDown3 { 0% { top:-3px; opacity:0.45; } 100% { top:65vh;  opacity:0; } }
+    @keyframes scanDown  { 0% { top:-3px; opacity:1; } 14% { opacity:1; } 80% { opacity:0.7; } 100% { top:100vh; opacity:0; } }
+    @keyframes scanDown2 { 0% { top:-3px; opacity:0.28; } 100% { top:100vh; opacity:0; } }
+    @keyframes scanDown3 { 0% { top:-3px; opacity:0.48; } 100% { top:60vh;  opacity:0; } }
 
     /* Arc-reactor rings — expand from center */
     .scan-ring {
@@ -231,24 +249,86 @@ import * as THREE from 'three';
       top: 50%; left: 50%; width: 0; height: 0;
       transform: translate(-50%, -50%); opacity: 0;
     }
-    .r1 { border: 1.5px solid rgba(0,212,255,0.92); box-shadow: 0 0 18px rgba(0,212,255,0.8), 0 0 50px rgba(0,212,255,0.35); }
-    .r2 { border: 1px   solid rgba(160,240,255,0.65); box-shadow: 0 0 12px rgba(0,212,255,0.5); }
-    .r3 { border: 1px   solid rgba(255,255,255,0.38); }
-    .scan-overlay.active .r1 { animation: ringPulse 0.75s cubic-bezier(0.1,0.8,0.35,1) 0.03s forwards; }
-    .scan-overlay.active .r2 { animation: ringPulse 0.75s cubic-bezier(0.1,0.8,0.35,1) 0.11s forwards; }
-    .scan-overlay.active .r3 { animation: ringPulse 0.75s cubic-bezier(0.1,0.8,0.35,1) 0.20s forwards; }
+    .r1 { border: 2px   solid rgba(0,212,255,0.95); box-shadow: 0 0 22px rgba(0,212,255,0.9), 0 0 60px rgba(0,212,255,0.4); }
+    .r2 { border: 1.5px solid rgba(160,240,255,0.7); box-shadow: 0 0 14px rgba(0,212,255,0.55); }
+    .r3 { border: 1px   solid rgba(255,255,255,0.42); }
+    .r4 { border: 1px   solid rgba(0,212,255,0.25); }
+    .scan-overlay.active .r1 { animation: ringPulse 0.72s cubic-bezier(0.1,0.8,0.35,1) 0.02s forwards; }
+    .scan-overlay.active .r2 { animation: ringPulse 0.72s cubic-bezier(0.1,0.8,0.35,1) 0.09s forwards; }
+    .scan-overlay.active .r3 { animation: ringPulse 0.72s cubic-bezier(0.1,0.8,0.35,1) 0.17s forwards; }
+    .scan-overlay.active .r4 { animation: ringPulse 0.72s cubic-bezier(0.1,0.8,0.35,1) 0.26s forwards; }
 
     @keyframes ringPulse {
-      0%   { width:0;       height:0;       opacity:0.95; transform:translate(-50%,-50%); }
-      55%  { opacity:0.4; }
+      0%   { width:0;       height:0;       opacity:0.98; transform:translate(-50%,-50%); }
+      50%  { opacity:0.45; }
       100% { width:200vmax; height:200vmax; opacity:0;    transform:translate(-50%,-50%); }
+    }
+
+    /* Targeting reticle */
+    .scan-reticle {
+      position: absolute; top: 50%; left: 50%;
+      width: 32px; height: 32px; pointer-events: none; opacity: 0;
+      transform: translate(-50%, -50%);
+    }
+    .sr-h {
+      position: absolute; top: 50%; left: -18px; right: -18px; height: 1px;
+      background: rgba(0,212,255,0.85);
+      box-shadow: 0 0 6px rgba(0,212,255,0.9), 0 0 18px rgba(0,212,255,0.5);
+    }
+    .sr-v {
+      position: absolute; left: 50%; top: -18px; bottom: -18px; width: 1px;
+      background: rgba(0,212,255,0.85);
+      box-shadow: 0 0 6px rgba(0,212,255,0.9), 0 0 18px rgba(0,212,255,0.5);
+    }
+    .sr-dot {
+      position: absolute; top: 50%; left: 50%;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #fff; transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px rgba(0,212,255,1), 0 0 24px rgba(0,212,255,0.8);
+    }
+    .scan-overlay.active .scan-reticle { animation: reticleAnim 0.65s ease forwards; }
+    @keyframes reticleAnim {
+      0%   { opacity: 0;    transform: translate(-50%,-50%) scale(4); }
+      20%  { opacity: 1;    transform: translate(-50%,-50%) scale(1); }
+      65%  { opacity: 0.75; transform: translate(-50%,-50%) scale(1); }
+      100% { opacity: 0;    transform: translate(-50%,-50%) scale(0.4); }
+    }
+
+    /* Horizontal sweep beam (post-circle-open) */
+    .scan-hbeam {
+      position: absolute; top: 0; bottom: 0; left: -4px; width: 3px; pointer-events: none;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,212,255,0.5) 15%, rgba(255,255,255,0.9) 50%, rgba(0,212,255,0.5) 85%, transparent 100%);
+      box-shadow: 0 0 18px rgba(0,212,255,0.8), 0 0 50px rgba(0,212,255,0.4);
+      opacity: 0;
+    }
+    .scan-overlay.active .scan-hbeam { animation: sweepH 0.5s cubic-bezier(0.4,0,0.55,1) 0.42s forwards; }
+    @keyframes sweepH {
+      0%   { left: -4px;   opacity: 1; }
+      80%  { opacity: 0.6; }
+      100% { left: 100%;   opacity: 0; }
+    }
+
+    /* Data readout */
+    .scan-data {
+      position: absolute; bottom: 28px; right: 28px; pointer-events: none;
+      font-family: 'Courier New', monospace; font-size: 0.42rem;
+      letter-spacing: 0.24em; color: rgba(0,212,255,0.72);
+      opacity: 0; text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(0,212,255,0.6);
+    }
+    .scan-overlay.active .scan-data { animation: dataFlash 0.8s ease forwards; }
+    @keyframes dataFlash {
+      0%   { opacity: 0; transform: translateY(4px); }
+      22%  { opacity: 1; transform: translateY(0); }
+      72%  { opacity: 0.8; }
+      100% { opacity: 0; }
     }
 
     @keyframes flashPulse {
       0%   { opacity: 0; }
-      14%  { opacity: 1; }
-      38%  { opacity: 0.7; }
-      68%  { opacity: 0.3; }
+      12%  { opacity: 1; }
+      35%  { opacity: 0.75; }
+      65%  { opacity: 0.35; }
       100% { opacity: 0; }
     }
 
