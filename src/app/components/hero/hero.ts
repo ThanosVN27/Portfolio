@@ -33,7 +33,21 @@ export class Hero implements AfterViewInit, OnDestroy {
   private constellationLines!: THREE.LineSegments;
   private innerCloud!: THREE.Points;
 
+  // ── Interaction souris avancée (point 1) ──────────────────
+  private raycaster    = new THREE.Raycaster();
+  private pointerNDC   = new THREE.Vector2();                          // curseur en coordonnées NDC (-1..1, y inversé)
+  private pointerPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0); // plan z=0 pour projeter le curseur dans la scène
+  private pointerWorld = new THREE.Vector3();                          // position monde du curseur
+  private pointerLocal = new THREE.Vector3();                          // curseur dans le repère local du nuage interne
+  private hitProxy!: THREE.Mesh;        // sphère invisible servant uniquement à détecter le survol du noyau
+  private hoverAmt   = 0;               // intensité de survol lissée (0 → 1)
+  private coreSpinVel = 0.0028;         // vitesse de rotation du noyau (accélère au survol)
+  private innerBase!: Float32Array;     // positions d'origine du nuage interne (cible de retour après répulsion)
+  private reduceMotion = false;         // respecte prefers-reduced-motion
+
   ngAfterViewInit() {
+    // Détecte la préférence d'accessibilité avant d'initialiser la scène
+    this.reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (window.innerWidth >= 768) this.initThree();
     this.typeNext();
     window.addEventListener('mousemove', this.onMouseMove);
@@ -45,6 +59,9 @@ export class Hero implements AfterViewInit, OnDestroy {
     if (this.typingTimer) clearTimeout(this.typingTimer);
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('resize', this.onResize);
+    // Libère la sphère proxy (non rattachée à la scène, donc non nettoyée ailleurs)
+    this.hitProxy?.geometry.dispose();
+    (this.hitProxy?.material as THREE.Material)?.dispose();
     this.renderer?.dispose();
   }
 
@@ -169,6 +186,17 @@ export class Hero implements AfterViewInit, OnDestroy {
     }));
     this.scene.add(this.innerCloud);
 
+    // Copie des positions d'origine — sert de cible de retour pour la répulsion souris
+    this.innerBase = Float32Array.from(iPos);
+
+    // Sphère de collision invisible (non ajoutée à la scène : sert juste au raycasting du survol).
+    // Le noyau reste à l'origine, donc une seule mise à jour de matrice suffit.
+    this.hitProxy = new THREE.Mesh(
+      new THREE.SphereGeometry(1.9, 12, 12),
+      new THREE.MeshBasicMaterial()
+    );
+    this.hitProxy.updateMatrixWorld();
+
     this.animate();
   }
 
@@ -204,10 +232,26 @@ export class Hero implements AfterViewInit, OnDestroy {
     this.animId = requestAnimationFrame(this.animate);
     const t = this.clock.getElapsedTime();
 
-    // Core — slow rotation + opacity breathe
-    this.coreLines.rotation.y += 0.0028;
-    this.coreLines.rotation.x += 0.001;
-    (this.coreLines.material as THREE.LineBasicMaterial).opacity = 0.5 + Math.sin(t * 0.9) * 0.22;
+    // ── Détection du survol du noyau + projection du curseur dans la scène ──
+    let hoverTarget = 0;
+    if (!this.reduceMotion) {
+      this.pointerNDC.set(this.mouse.x, -this.mouse.y); // NDC : axe Y inversé par rapport à l'écran
+      this.raycaster.setFromCamera(this.pointerNDC, this.camera);
+      if (this.raycaster.intersectObject(this.hitProxy, false).length > 0) hoverTarget = 1;
+      // Point d'impact du rayon sur le plan z=0 → position monde du curseur
+      this.raycaster.ray.intersectPlane(this.pointerPlane, this.pointerWorld);
+    }
+    this.hoverAmt += (hoverTarget - this.hoverAmt) * 0.08; // lissage de l'intensité de survol
+
+    // Noyau — rotation qui accélère au survol, respiration d'opacité, gonflement + inclinaison vers le curseur
+    const baseSpin   = this.reduceMotion ? 0.0008 : 0.0028;
+    const targetSpin = baseSpin + this.hoverAmt * 0.014;
+    this.coreSpinVel += (targetSpin - this.coreSpinVel) * 0.05; // accélération/décélération douce
+    this.coreLines.rotation.y += this.coreSpinVel;
+    this.coreLines.rotation.x += this.reduceMotion ? 0.0003 : 0.001;
+    this.coreLines.rotation.z += (this.mouse.x * 0.22 - this.coreLines.rotation.z) * 0.04; // penche vers le curseur
+    (this.coreLines.material as THREE.LineBasicMaterial).opacity = 0.5 + Math.sin(t * 0.9) * 0.22 + this.hoverAmt * 0.3;
+    this.coreLines.scale.setScalar(1 + this.hoverAmt * 0.05); // léger gonflement au survol
 
     // Outer cage — opposite direction
     this.outerLines.rotation.y -= 0.0013;
@@ -259,16 +303,41 @@ export class Hero implements AfterViewInit, OnDestroy {
       conAttr.needsUpdate = true;
     }
 
-    // Inner cloud — counter-rotate, pulse with core
+    // Nuage interne — répulsion élastique autour du curseur + contre-rotation + pulsation
     if (this.innerCloud) {
-      this.innerCloud.rotation.y -= 0.003;
-      this.innerCloud.rotation.x += 0.0015;
+      if (!this.reduceMotion) {
+        this.innerCloud.updateMatrixWorld();
+        this.pointerLocal.copy(this.pointerWorld);
+        this.innerCloud.worldToLocal(this.pointerLocal); // curseur exprimé dans le repère local du nuage
+        const arr  = (this.innerCloud.geometry.attributes['position'] as THREE.BufferAttribute).array as Float32Array;
+        const base = this.innerBase;
+        const radius = 1.0, push = 0.55;                  // rayon d'influence et force de répulsion
+        for (let i = 0; i < arr.length; i += 3) {
+          const bx = base[i], by = base[i + 1], bz = base[i + 2];
+          const dx = bx - this.pointerLocal.x, dy = by - this.pointerLocal.y, dz = bz - this.pointerLocal.z;
+          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz) || 0.0001;
+          let tx = bx, ty = by, tz = bz;
+          if (dist < radius) {
+            const f   = 1 - dist / radius;                // atténuation : 1 au centre, 0 au bord
+            const amp = (push * f * f) / dist;            // pousse plus fort de près (courbe quadratique)
+            tx = bx + dx * amp; ty = by + dy * amp; tz = bz + dz * amp;
+          }
+          // Interpolation vers la cible → retour élastique fluide
+          arr[i]     += (tx - arr[i])     * 0.14;
+          arr[i + 1] += (ty - arr[i + 1]) * 0.14;
+          arr[i + 2] += (tz - arr[i + 2]) * 0.14;
+        }
+        (this.innerCloud.geometry.attributes['position'] as THREE.BufferAttribute).needsUpdate = true;
+      }
+      this.innerCloud.rotation.y -= this.reduceMotion ? 0.0008 : 0.003;
+      this.innerCloud.rotation.x += this.reduceMotion ? 0 : 0.0015;
       (this.innerCloud.material as THREE.PointsMaterial).opacity = 0.2 + Math.sin(t * 1.9) * 0.14;
     }
 
-    // Subtle mouse parallax
-    this.camera.position.x += (this.mouse.x * 0.3 - this.camera.position.x) * 0.025;
-    this.camera.position.y += (-this.mouse.y * 0.2 - this.camera.position.y) * 0.025;
+    // Parallaxe souris discrète (atténuée si prefers-reduced-motion)
+    const par = this.reduceMotion ? 0.06 : 0.3;
+    this.camera.position.x += (this.mouse.x * par         - this.camera.position.x) * 0.025;
+    this.camera.position.y += (-this.mouse.y * par * 0.66 - this.camera.position.y) * 0.025;
     this.camera.lookAt(this.scene.position);
 
     this.renderer.render(this.scene, this.camera);
