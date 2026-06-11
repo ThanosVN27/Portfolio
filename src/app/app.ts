@@ -14,26 +14,28 @@ import * as THREE from 'three';
       transition('* <=> *', [
         group([
 
-          /* ── Outgoing: glitch + collapse to horizontal scanline ── */
+          /* ── Outgoing: glitch surge + scanline collapse ── */
           query(':leave', [
             style({ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 1 }),
-            animate('260ms cubic-bezier(0.55,0,1,0.45)', keyframes([
-              style({ opacity: 1,    filter: 'blur(0)   brightness(1)   hue-rotate(0deg)',    transform: 'scale(1)     skewX(0deg)',    clipPath: 'inset(0% 0 0% 0)',   offset: 0    }),
-              style({ opacity: 0.8,  filter: 'blur(1px) brightness(1.8) hue-rotate(22deg)',   transform: 'scale(1.006) skewX(-0.8deg)', clipPath: 'inset(8% 0 8% 0)',   offset: 0.3  }),
-              style({ opacity: 0.55, filter: 'blur(4px) brightness(2.2) hue-rotate(-12deg)',  transform: 'scale(1.012) skewX(0.6deg)',  clipPath: 'inset(28% 0 28% 0)', offset: 0.65 }),
-              style({ opacity: 0,    filter: 'blur(18px) brightness(3)  saturate(2.5)',       transform: 'scale(1.02)  skewX(0deg)',    clipPath: 'inset(49% 0 49% 0)', offset: 1    }),
+            animate('300ms cubic-bezier(0.55,0,1,0.45)', keyframes([
+              style({ opacity: 1,    filter: 'blur(0)    brightness(1)    hue-rotate(0deg)',     transform: 'scale(1)      skewX(0deg)',    clipPath: 'inset(0% 0 0% 0)',       offset: 0    }),
+              style({ opacity: 0.82, filter: 'blur(1px)  brightness(2.2)  hue-rotate(-20deg)',   transform: 'scale(1.005)  skewX(-0.7deg)', clipPath: 'inset(6% 0 6% 0)',       offset: 0.22 }),
+              style({ opacity: 0.52, filter: 'blur(5px)  brightness(4)    hue-rotate(28deg)',    transform: 'scale(1.012)  skewX(1deg)',    clipPath: 'inset(26% 0 26% 0)',     offset: 0.58 }),
+              style({ opacity: 0.18, filter: 'blur(14px) brightness(7)    saturate(4)',           transform: 'scale(1.018)  skewX(-0.4deg)', clipPath: 'inset(45% 0 45% 0)',     offset: 0.84 }),
+              style({ opacity: 0,    filter: 'blur(24px) brightness(10)   saturate(6)',           transform: 'scale(1.022)',                  clipPath: 'inset(49.8% 0 49.8% 0)', offset: 1    }),
             ]))
           ], { optional: true }),
 
-          /* ── Incoming: expand from scanline + hologram materialise ── */
+          /* ── Incoming: arc-reactor radial expansion from center ── */
           query(':enter', [
-            style({ opacity: 0, filter: 'blur(22px) brightness(0.08) saturate(3)', transform: 'scale(0.982)', clipPath: 'inset(49% 0 49% 0)' }),
-            animate('620ms 200ms cubic-bezier(0.22,1,0.36,1)', keyframes([
-              style({ opacity: 0,    filter: 'blur(22px) brightness(0.08) saturate(3)',   clipPath: 'inset(49% 0 49% 0)', transform: 'scale(0.982)', offset: 0    }),
-              style({ opacity: 0.28, filter: 'blur(14px) brightness(0.28) saturate(2.4)', clipPath: 'inset(28% 0 28% 0)', transform: 'scale(0.988)', offset: 0.28 }),
-              style({ opacity: 0.62, filter: 'blur(6px)  brightness(0.62) saturate(1.6)', clipPath: 'inset(8% 0 8% 0)',   transform: 'scale(0.994)', offset: 0.60 }),
-              style({ opacity: 0.88, filter: 'blur(2px)  brightness(0.9)  saturate(1.1)', clipPath: 'inset(1% 0 1% 0)',   transform: 'scale(0.998)', offset: 0.84 }),
-              style({ opacity: 1,    filter: 'blur(0)    brightness(1)    saturate(1)',   clipPath: 'inset(0% 0 0% 0)',   transform: 'scale(1)',     offset: 1    }),
+            style({ opacity: 0, filter: 'blur(24px) brightness(6) saturate(5)', clipPath: 'circle(0% at 50% 50%)', transform: 'scale(1.06)' }),
+            animate('780ms 80ms cubic-bezier(0.16,1,0.3,1)', keyframes([
+              style({ opacity: 0,    filter: 'blur(24px) brightness(7)    saturate(5)',   clipPath: 'circle(0% at 50% 50%)',    transform: 'scale(1.06)',  offset: 0    }),
+              style({ opacity: 0.18, filter: 'blur(20px) brightness(5.5)  saturate(4)',   clipPath: 'circle(6% at 50% 50%)',    transform: 'scale(1.04)',  offset: 0.12 }),
+              style({ opacity: 0.45, filter: 'blur(12px) brightness(3.5)  saturate(2.8)', clipPath: 'circle(24% at 50% 50%)',   transform: 'scale(1.022)', offset: 0.35 }),
+              style({ opacity: 0.72, filter: 'blur(5px)  brightness(2)    saturate(1.8)', clipPath: 'circle(55% at 50% 50%)',   transform: 'scale(1.01)',  offset: 0.60 }),
+              style({ opacity: 0.92, filter: 'blur(1.5px) brightness(1.2) saturate(1.2)', clipPath: 'circle(85% at 50% 50%)',   transform: 'scale(1.003)', offset: 0.82 }),
+              style({ opacity: 1,    filter: 'blur(0)    brightness(1)    saturate(1)',   clipPath: 'circle(150% at 50% 50%)',  transform: 'scale(1)',     offset: 1    }),
             ]))
           ], { optional: true }),
 
@@ -69,8 +71,13 @@ import * as THREE from 'three';
 
     <!-- Holographic scan overlay (on route change) -->
     <div class="scan-overlay" [class.active]="scanning" aria-hidden="true">
+      <div class="scan-hex"></div>
       <div class="scan-beam b1"></div>
       <div class="scan-beam b2"></div>
+      <div class="scan-beam b3"></div>
+      <div class="scan-ring r1"></div>
+      <div class="scan-ring r2"></div>
+      <div class="scan-ring r3"></div>
     </div>
 
     <app-navbar />
@@ -160,63 +167,88 @@ import * as THREE from 'three';
     /* ── Scan overlay — on route change ── */
     .scan-overlay {
       position: fixed; inset: 0; pointer-events: none; z-index: 9998;
-      opacity: 0; transition: opacity 0.06s ease;
-      background: rgba(0,212,255,0.018);
+      opacity: 0; transition: opacity 0.05s ease;
+      background: rgba(0,212,255,0.012);
     }
     .scan-overlay.active { opacity: 1; }
 
-    /* Vignette flash at transition peak */
+    /* Radial flash at transition peak */
     .scan-overlay::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 50%, rgba(0,212,255,0.06) 0%, transparent 65%);
+      background: radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.14) 0%, rgba(0,212,255,0.1) 25%, transparent 65%);
       opacity: 0;
     }
-    .scan-overlay.active::before { animation: flashPulse 0.82s ease forwards; }
+    .scan-overlay.active::before { animation: flashPulse 0.86s ease forwards; }
 
     .scan-overlay::after {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 46%, transparent 45%, rgba(0,0,15,0.5) 100%);
-      opacity: 0; transition: opacity 0.12s;
+      background: radial-gradient(ellipse at 50% 46%, transparent 40%, rgba(0,0,15,0.55) 100%);
+      opacity: 0; transition: opacity 0.1s;
     }
     .scan-overlay.active::after { opacity: 1; }
 
+    /* Hex grid flash */
+    .scan-hex {
+      position: absolute; inset: 0; opacity: 0; pointer-events: none;
+      background-image:
+        repeating-linear-gradient(0deg,   transparent, transparent 23px, rgba(0,212,255,0.05) 23px, rgba(0,212,255,0.05) 24px),
+        repeating-linear-gradient(60deg,  transparent, transparent 23px, rgba(0,212,255,0.05) 23px, rgba(0,212,255,0.05) 24px),
+        repeating-linear-gradient(120deg, transparent, transparent 23px, rgba(0,212,255,0.05) 23px, rgba(0,212,255,0.05) 24px);
+    }
+    .scan-overlay.active .scan-hex { animation: hexFlash 0.82s ease forwards; }
+    @keyframes hexFlash {
+      0%   { opacity: 0; }
+      18%  { opacity: 1; }
+      55%  { opacity: 0.45; }
+      100% { opacity: 0; }
+    }
+
     /* Scan beams */
     .scan-beam {
-      position: absolute; left: 0; right: 0; height: 2px;
+      position: absolute; left: 0; right: 0;
       background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(0,212,255,0.3) 10%,
-        rgba(160,240,255,0.98) 40%,
-        rgba(255,255,255,1) 50%,
-        rgba(160,240,255,0.98) 60%,
-        rgba(0,212,255,0.3) 90%,
+        transparent 0%, rgba(0,212,255,0.25) 8%,
+        rgba(160,240,255,0.95) 38%, rgba(255,255,255,1) 50%,
+        rgba(160,240,255,0.95) 62%, rgba(0,212,255,0.25) 92%,
         transparent 100%
       );
-      box-shadow:
-        0 0 8px rgba(255,255,255,0.9),
-        0 0 24px rgba(0,212,255,1),
-        0 0 60px rgba(0,212,255,0.5),
-        0 0 120px rgba(0,212,255,0.2);
+      box-shadow: 0 0 10px rgba(255,255,255,0.95), 0 0 28px rgba(0,212,255,1), 0 0 70px rgba(0,212,255,0.55), 0 0 140px rgba(0,212,255,0.22);
     }
-    .b1 { top: -3px; }
-    .b2 { top: -3px; opacity: 0.22; filter: hue-rotate(180deg); }
-    .scan-overlay.active .b1 { animation: scanDown  0.72s cubic-bezier(0.38,0,0.62,1) forwards; }
-    .scan-overlay.active .b2 { animation: scanDown2 0.72s cubic-bezier(0.38,0,0.62,1) 0.12s forwards; }
+    .b1 { top: -3px; height: 2px; }
+    .b2 { top: -3px; height: 1px; opacity: 0.2; filter: blur(1px); }
+    .b3 { top: -3px; height: 1px; opacity: 0.35; filter: hue-rotate(200deg); }
+    .scan-overlay.active .b1 { animation: scanDown  0.70s cubic-bezier(0.38,0,0.68,1) forwards; }
+    .scan-overlay.active .b2 { animation: scanDown2 0.70s cubic-bezier(0.38,0,0.68,1) 0.10s forwards; }
+    .scan-overlay.active .b3 { animation: scanDown3 0.44s cubic-bezier(0.42,0,1,0.65) 0.04s forwards; }
 
-    @keyframes scanDown {
-      0%   { top: -3px;   opacity: 1; }
-      15%  { opacity: 1; }
-      85%  { opacity: 0.6; }
-      100% { top: 100vh;  opacity: 0; }
+    @keyframes scanDown  { 0% { top:-3px; opacity:1; } 15% { opacity:1; } 80% { opacity:0.7; } 100% { top:100vh; opacity:0; } }
+    @keyframes scanDown2 { 0% { top:-3px; opacity:0.25; } 100% { top:100vh; opacity:0; } }
+    @keyframes scanDown3 { 0% { top:-3px; opacity:0.45; } 100% { top:65vh;  opacity:0; } }
+
+    /* Arc-reactor rings — expand from center */
+    .scan-ring {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      top: 50%; left: 50%; width: 0; height: 0;
+      transform: translate(-50%, -50%); opacity: 0;
     }
-    @keyframes scanDown2 {
-      0%   { top: -3px;   opacity: 0.3; }
-      100% { top: 100vh;  opacity: 0; }
+    .r1 { border: 1.5px solid rgba(0,212,255,0.92); box-shadow: 0 0 18px rgba(0,212,255,0.8), 0 0 50px rgba(0,212,255,0.35); }
+    .r2 { border: 1px   solid rgba(160,240,255,0.65); box-shadow: 0 0 12px rgba(0,212,255,0.5); }
+    .r3 { border: 1px   solid rgba(255,255,255,0.38); }
+    .scan-overlay.active .r1 { animation: ringPulse 0.75s cubic-bezier(0.1,0.8,0.35,1) 0.03s forwards; }
+    .scan-overlay.active .r2 { animation: ringPulse 0.75s cubic-bezier(0.1,0.8,0.35,1) 0.11s forwards; }
+    .scan-overlay.active .r3 { animation: ringPulse 0.75s cubic-bezier(0.1,0.8,0.35,1) 0.20s forwards; }
+
+    @keyframes ringPulse {
+      0%   { width:0;       height:0;       opacity:0.95; transform:translate(-50%,-50%); }
+      55%  { opacity:0.4; }
+      100% { width:200vmax; height:200vmax; opacity:0;    transform:translate(-50%,-50%); }
     }
+
     @keyframes flashPulse {
       0%   { opacity: 0; }
-      25%  { opacity: 1; }
-      55%  { opacity: 0.6; }
+      14%  { opacity: 1; }
+      38%  { opacity: 0.7; }
+      68%  { opacity: 0.3; }
       100% { opacity: 0; }
     }
 
@@ -350,7 +382,7 @@ export class App implements AfterViewInit, OnDestroy {
   constructor() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) this.scanning = true;
-      if (event instanceof NavigationEnd)   setTimeout(() => this.scanning = false, 820);
+      if (event instanceof NavigationEnd)   setTimeout(() => this.scanning = false, 920);
     });
   }
 
