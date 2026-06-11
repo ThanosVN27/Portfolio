@@ -36,8 +36,8 @@
 }
 
 .panel-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
-.panel-tag { font-family: 'Courier New', monospace; font-size: 0.58rem; letter-spacing: 0.16em; color: rgba(0,212,255,0.4); }
-.panel-tag.dim { color: rgba(0,212,255,0.2); }
+.panel-tag { font-family: 'Courier New', monospace; font-size: 0.58rem; letter-spacing: 0.16em; color: rgba(0,212,255,0.65); }
+.panel-tag.dim { color: rgba(0,212,255,0.45); }
 
 /* ── Contact layout ──────────────────────────── */
 .contact-layout { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; }
@@ -50,11 +50,11 @@
 label {
   display: flex; align-items: center; justify-content: space-between;
   font-family: 'Courier New', monospace; font-size: 0.58rem;
-  letter-spacing: 0.18em; color: rgba(0,212,255,0.4);
+  letter-spacing: 0.18em; color: rgba(0,212,255,0.72);
 }
 
 .char-count {
-  font-size: 0.5rem; color: rgba(255,255,255,0.2); letter-spacing: 0.06em;
+  font-size: 0.5rem; color: rgba(255,255,255,0.42); letter-spacing: 0.06em;
   &.warn { color: rgba(255,154,60,0.7); }
 }
 
@@ -72,7 +72,7 @@ input, textarea {
   border-radius: 8px; padding: 12px 16px; color: rgba(255,255,255,0.88);
   font-family: var(--font); font-size: 1rem; transition: all 0.2s; resize: vertical;
   &:focus { outline: none; border-color: rgba(0,212,255,0.45); box-shadow: 0 0 0 3px rgba(0,212,255,0.08); background: rgba(0,212,255,0.06); }
-  &::placeholder { color: rgba(255,255,255,0.2); }
+  &::placeholder { color: rgba(255,255,255,0.38); }
 }
 
 .btn-send {
@@ -97,7 +97,7 @@ input, textarea {
 .loc-item { display: flex; flex-direction: column; gap: 3px; }
 .loc-key {
   font-family: 'Courier New', monospace; font-size: 0.44rem;
-  color: rgba(0,212,255,0.3); letter-spacing: 0.12em;
+  color: rgba(0,212,255,0.6); letter-spacing: 0.12em;
 }
 .loc-val {
   font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.72);
@@ -122,9 +122,9 @@ input, textarea {
   border-radius: 8px; font-size: 1.1rem; flex-shrink: 0; color: rgba(0,212,255,0.7);
 }
 .cl-text { flex: 1; min-width: 0; }
-.cl-label { display: block; font-family: 'Courier New', monospace; font-size: 0.58rem; color: rgba(0,212,255,0.4); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px; }
-.cl-value { display: block; font-size: 0.92rem; font-weight: 500; color: rgba(255,255,255,0.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cl-arrow { font-size: 1rem; color: rgba(255,255,255,0.25); transition: all 0.2s; flex-shrink: 0; }
+.cl-label { display: block; font-family: 'Courier New', monospace; font-size: 0.58rem; color: rgba(0,212,255,0.65); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px; }
+.cl-value { display: block; font-size: 0.92rem; font-weight: 500; color: rgba(255,255,255,0.85); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cl-arrow { font-size: 1rem; color: rgba(255,255,255,0.4); transition: all 0.2s; flex-shrink: 0; }
 
 @media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .pg-title { font-size: 2.2rem; } }
