@@ -6,6 +6,7 @@ interface Project {
   tags: string[]; accentTag: string; github: string;
   status: 'ACADÉMIQUE' | 'PERSONNEL';
   period: string; team: string; icon: string;
+  featured?: boolean;
 }
 
 @Component({
@@ -25,7 +26,7 @@ export class ProjectsPage implements AfterViewInit, OnDestroy {
 
   allProjects: Project[] = [
     {
-      num: '01', title: 'Audit Time', icon: '🎮',
+      num: '01', title: 'Audit Time', icon: '🎮', featured: true,
       description: 'Jeu sérieux 2D (Godot 4.5) — auditeur interne explorant une université. NPCs dynamiques, quêtes et scoring temps-réel.',
       tags: ['GDScript', 'Godot 4.5', 'Git'], accentTag: 'Godot', github: 'https://github.com/ThanosVN27/Projet_AuditTime',
       status: 'ACADÉMIQUE', period: '15 semaines', team: '4 pers.',
@@ -89,6 +90,19 @@ export class ProjectsPage implements AfterViewInit, OnDestroy {
   });
 
   setFilter(f: string) { this.activeFilter.set(f); }
+
+  filterCount(f: string): number {
+    if (f === 'Tous') return this.allProjects.length;
+    if (f === 'Web') return this.allProjects.filter(p => p.tags.some(t => t.includes('HTML') || t.includes('Web'))).length;
+    if (f === 'Android') return this.allProjects.filter(p => p.accentTag === 'Android' || p.tags.some(t => t.includes('Android'))).length;
+    return this.allProjects.filter(p => p.accentTag === f || p.tags.includes(f)).length;
+  }
+
+  get totalAcademic(): number { return this.allProjects.filter(p => p.status === 'ACADÉMIQUE').length; }
+  get totalPersonal(): number  { return this.allProjects.filter(p => p.status === 'PERSONNEL').length; }
+  get uniqueTechs(): number   { return new Set(this.allProjects.map(p => p.accentTag)).size; }
+
+  fNum(n: string): string { return 'P_' + n.padStart(3, '0'); }
 
   techColor(tag: string): string {
     const m: Record<string, string> = {

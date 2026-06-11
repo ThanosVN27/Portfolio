@@ -1,59 +1,98 @@
-<section class="pg-header">
-  <canvas #crystalCanvas class="crystal-canvas" aria-hidden="true"></canvas>
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<section class="pj-header">
+  <canvas #crystalCanvas class="pj-canvas" aria-hidden="true"></canvas>
   <div class="container">
-    <div class="pg-tag-row">
-      <span class="pg-num">03</span>
-      <span class="pg-label">// PROJETS</span>
-      <div class="pg-line"></div>
+    <div class="pj-eyebrow">
+      <span class="pj-code">03</span>
+      <span class="pj-slash">// PROJETS</span>
+      <div class="pj-rule"></div>
     </div>
-    <h1 class="pg-title">Mes <span class="pg-accent">réalisations</span></h1>
-    <p class="pg-intro">Projets académiques et personnels réalisés lors de mon BUT Informatique.</p>
-    <div class="filters">
+    <h1 class="pj-title">Mes <span class="pj-hi">réalisations</span></h1>
+    <p class="pj-sub">Projets académiques et personnels — BUT Informatique, IUT Strasbourg.</p>
+
+    <div class="pj-filters">
       @for (f of filters; track f) {
-        <button class="filter-btn" [class.active]="activeFilter() === f" (click)="setFilter(f)">{{ f }}</button>
+        <button class="pj-filter" [class.on]="activeFilter() === f" (click)="setFilter(f)">
+          {{ f }}<span class="pj-fc">{{ filterCount(f) }}</span>
+        </button>
       }
+    </div>
+
+    <div class="pj-stats">
+      <div class="pj-stat">
+        <span class="pj-sn">{{ allProjects.length }}</span>
+        <span class="pj-sl">projets</span>
+      </div>
+      <div class="pj-sdiv"></div>
+      <div class="pj-stat">
+        <span class="pj-sn">{{ totalAcademic }}</span>
+        <span class="pj-sl">académiques</span>
+      </div>
+      <div class="pj-sdiv"></div>
+      <div class="pj-stat">
+        <span class="pj-sn alt">{{ totalPersonal }}</span>
+        <span class="pj-sl">personnel</span>
+      </div>
+      <div class="pj-sdiv"></div>
+      <div class="pj-stat">
+        <span class="pj-sn pur">{{ uniqueTechs }}</span>
+        <span class="pj-sl">technos</span>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="content-section last reveal" #reveal>
+<!-- ═══════════════════ GRILLE ═══════════════════ -->
+<section class="pj-body reveal" #reveal>
   <div class="container">
-    <div class="sh-row">
-      <span class="sh-tag">// LAB</span>
-      <div class="sh-line"></div>
-      <span class="sh-count">{{ filtered().length }} projets</span>
+    <div class="pj-lab-row">
+      <span class="pj-lab">// LAB</span>
+      <div class="pj-lab-line"></div>
+      <span class="pj-lab-n">{{ filtered().length }} {{ filtered().length > 1 ? 'projets' : 'projet' }}</span>
     </div>
-    <div class="projects-grid">
-      @for (project of filtered(); track project.num) {
-        <article class="hud-card project-card" [style.--tc]="techColor(project.accentTag)">
-          <div class="pc-top">
-            <span class="pc-num">// {{ project.num }}</span>
-            @if (project.github !== '#') {
-              <a [href]="project.github" class="pc-gh-badge" target="_blank" rel="noopener">GITHUB →</a>
+
+    <div class="pj-grid">
+      @for (p of filtered(); track p.num; let i = $index) {
+        <article class="pj-card" [style.--i]="i">
+
+          <span class="pj-tl"></span>
+          <span class="pj-br"></span>
+
+          <div class="pj-top">
+            <code class="pj-id">// {{ fNum(p.num) }}</code>
+            @if (p.github !== '#') {
+              <a [href]="p.github" class="pj-gh" target="_blank" rel="noopener">GITHUB</a>
             }
           </div>
-          <div class="pc-icon">{{ project.icon }}</div>
-          <h3 class="pc-title">{{ project.title }}</h3>
-          <p class="pc-desc">{{ project.description }}</p>
-          <div class="pc-footer">
-            <div class="pc-tags">
-              <span class="pc-tag accent">{{ project.accentTag }}</span>
-              @for (tag of project.tags; track tag) {
-                <span class="pc-tag">{{ tag }}</span>
-              }
-            </div>
-            <div class="pc-meta">
-              <span class="pc-status" [class.personal]="project.status === 'PERSONNEL'">{{ project.status }}</span>
-              <span class="pc-dot">·</span>
-              <span class="pc-team">{{ project.team }}</span>
-            </div>
+
+          <span class="pj-icon">{{ p.icon }}</span>
+
+          <h3 class="pj-name">{{ p.title }}</h3>
+          <p class="pj-text">{{ p.description }}</p>
+
+          <div class="pj-chips">
+            <span class="pj-chip hi">{{ p.accentTag }}</span>
+            @for (t of p.tags; track t) {
+              <span class="pj-chip">{{ t }}</span>
+            }
           </div>
+
+          <div class="pj-foot">
+            @if (p.github !== '#') {
+              <a [href]="p.github" class="pj-link" target="_blank" rel="noopener">GITHUB →</a>
+            } @else {
+              <span></span>
+            }
+            <span class="pj-meta">{{ p.period }} · {{ p.team }}</span>
+          </div>
+
         </article>
       }
     </div>
+
     @if (filtered().length === 0) {
-      <div class="no-results">
-        <span class="nr-icon">◈</span>
+      <div class="pj-empty">
+        <span class="pj-empty-ico">◈</span>
         <p>Aucun projet pour ce filtre.</p>
       </div>
     }
