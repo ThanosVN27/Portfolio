@@ -377,13 +377,26 @@ export class App implements AfterViewInit, OnDestroy {
     animate();
   }
 
-  scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  scrollToTop() { this.smoothTop(380); }
+
+  private smoothTop(duration: number) {
+    const start = window.scrollY;
+    if (start === 0) return;
+    const t0 = performance.now();
+    const step = (now: number) => {
+      const p = Math.min((now - t0) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      window.scrollTo(0, Math.round(start * (1 - ease)));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
 
   constructor() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.scanning = true;
-        window.scrollTo(0, 0);
+        this.smoothTop(220);
       }
       if (event instanceof NavigationEnd) setTimeout(() => this.scanning = false, 920);
     });
