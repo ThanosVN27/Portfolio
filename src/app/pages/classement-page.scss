@@ -11,12 +11,12 @@
   @media (max-width: 900px) { display: none; }
 }
 .pg-tag-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-.pg-num   { font-family: 'Courier New', monospace; font-size: 0.58rem; color: rgba(255,200,60,0.3); letter-spacing: 0.2em; }
-.pg-label { font-family: 'Courier New', monospace; font-size: 0.6rem; color: rgba(255,200,60,0.55); letter-spacing: 0.18em; }
+.pg-num   { font-family: 'Fira Code', monospace; font-size: 0.58rem; color: rgba(255,200,60,0.5); letter-spacing: 0.2em; }
+.pg-label { font-family: 'Fira Code', monospace; font-size: 0.6rem; color: rgba(255,200,60,0.55); letter-spacing: 0.18em; }
 .pg-line  { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(255,200,60,0.15), transparent); }
 .pg-title { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 14px; color: #fff; }
 .pg-accent { color: #ffc83c; text-shadow: 0 0 28px rgba(255,200,60,0.35); }
-.pg-intro  { font-size: 1.08rem; color: rgba(255,255,255,0.45); max-width: 520px; line-height: 1.72; margin-bottom: 20px; }
+.pg-intro  { font-size: 1.08rem; color: rgba(255,255,255,0.62); max-width: 520px; line-height: 1.72; margin-bottom: 20px; }
 
 /* Tier legend in header */
 .tier-row {
@@ -24,11 +24,11 @@
 }
 .tier-badge {
   width: 26px; height: 26px; border-radius: 6px; display: inline-flex; align-items: center;
-  justify-content: center; font-weight: 800; font-size: 0.82rem; font-family: 'Courier New', monospace;
+  justify-content: center; font-weight: 800; font-size: 0.82rem; font-family: 'Fira Code', monospace;
 }
 .tier-desc {
-  font-family: 'Courier New', monospace; font-size: 0.54rem;
-  color: rgba(255,255,255,0.38); letter-spacing: 0.08em; margin-right: 6px;
+  font-family: 'Fira Code', monospace; font-size: 0.54rem;
+  color: rgba(255,255,255,0.58); letter-spacing: 0.08em; margin-right: 6px;
 }
 .tier-sep { color: rgba(255,255,255,0.18); font-size: 0.8rem; margin: 0 4px; }
 
@@ -47,8 +47,8 @@
   &::before { content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,200,60,0.4), transparent); }
 }
 .panel-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.panel-tag { font-family: 'Courier New', monospace; font-size: 0.58rem; letter-spacing: 0.16em; color: rgba(255,200,60,0.45); }
-.hud-total { font-family: 'Courier New', monospace; font-size: 0.52rem; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; }
+.panel-tag { font-family: 'Fira Code', monospace; font-size: 0.58rem; letter-spacing: 0.16em; color: rgba(255,200,60,0.68); }
+.hud-total { font-family: 'Fira Code', monospace; font-size: 0.52rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; }
 
 /* ── Toolbar ── */
 .film-toolbar { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
@@ -66,7 +66,7 @@
 .search-input {
   background: none; border: none; outline: none; color: rgba(255,255,255,0.82);
   font-family: var(--font); font-size: 0.9rem; padding: 10px 0; width: 260px; max-width: 100%;
-  &::placeholder { color: rgba(255,255,255,0.22); }
+  &::placeholder { color: rgba(255,255,255,0.4); }
 }
 .search-clear {
   background: none; border: none; color: rgba(255,255,255,0.3); font-size: 0.8rem;
@@ -77,8 +77,8 @@
 .film-filters { display: flex; gap: 8px; flex-wrap: wrap; }
 .filter-btn {
   padding: 7px 16px; border-radius: 5px; cursor: pointer;
-  font-family: 'Courier New', monospace; font-size: 0.62rem; letter-spacing: 0.08em;
-  background: rgba(255,200,60,0.04); border: 1px solid rgba(255,200,60,0.14); color: rgba(255,255,255,0.45);
+  font-family: 'Fira Code', monospace; font-size: 0.62rem; letter-spacing: 0.08em;
+  background: rgba(255,200,60,0.04); border: 1px solid rgba(255,200,60,0.14); color: rgba(255,255,255,0.62);
   transition: all 0.2s;
   &:hover { border-color: rgba(255,200,60,0.35); color: rgba(255,255,255,0.85); }
   &.active {
@@ -89,7 +89,7 @@
 .btn-add {
   padding: 8px 18px; border-radius: 6px;
   background: rgba(255,200,60,0.1); border: 1px solid rgba(255,200,60,0.35);
-  color: #ffc83c; font-family: 'Courier New', monospace; font-size: 0.62rem; letter-spacing: 0.1em;
+  color: #ffc83c; font-family: 'Fira Code', monospace; font-size: 0.62rem; letter-spacing: 0.1em;
   cursor: pointer; transition: all 0.2s;
   &:hover { background: rgba(255,200,60,0.2); box-shadow: 0 0 18px rgba(255,200,60,0.18); }
 }
@@ -107,7 +107,7 @@
   &.active-admin { background: rgba(74,222,128,0.1); border-color: rgba(74,222,128,0.35); color: #4ade80; }
 }
 .sync-badge {
-  font-family: 'Courier New', monospace; font-size: 0.56rem; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 4px; border: 1px solid;
+  font-family: 'Fira Code', monospace; font-size: 0.56rem; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 4px; border: 1px solid;
   &.syncing { color: rgba(0,212,255,0.8); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.06); }
   &.synced  { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.06); }
 }
@@ -121,15 +121,15 @@
   background: linear-gradient(135deg, #ffc83c, #ff9a3c);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
-.stat-l { font-family: 'Courier New', monospace; font-size: 0.5rem; color: rgba(255,255,255,0.3); letter-spacing: 0.12em; }
+.stat-l { font-family: 'Fira Code', monospace; font-size: 0.5rem; color: rgba(255,255,255,0.55); letter-spacing: 0.12em; }
 .stat-vsep { width: 1px; height: 38px; background: rgba(255,200,60,0.12); }
 .tier-dist-row { display: flex; gap: 14px; align-items: center; }
 .td-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .td-badge {
   width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center;
-  justify-content: center; font-weight: 800; font-size: 0.85rem; font-family: 'Courier New', monospace;
+  justify-content: center; font-weight: 800; font-size: 0.85rem; font-family: 'Fira Code', monospace;
 }
-.td-count { font-family: 'Courier New', monospace; font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.6); }
+.td-count { font-family: 'Fira Code', monospace; font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.6); }
 
 /* ── Poster grid ── */
 .rank-grid {
@@ -170,13 +170,13 @@
 .rank-tier {
   position: absolute; top: 9px; left: 9px; z-index: 15;
   width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center;
-  justify-content: center; font-weight: 800; font-size: 0.88rem; font-family: 'Courier New', monospace;
+  justify-content: center; font-weight: 800; font-size: 0.88rem; font-family: 'Fira Code', monospace;
   backdrop-filter: blur(8px);
 }
 .overlay-body  { display: flex; flex-direction: column; gap: 4px; }
 .overlay-body h3 { font-size: 0.8rem; font-weight: 700; line-height: 1.25; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.9); }
 .card-meta     { display: flex; align-items: center; gap: 5px; }
-.rank-year     { font-size: 0.62rem; color: rgba(255,255,255,0.5); font-family: 'Courier New', monospace; }
+.rank-year     { font-size: 0.62rem; color: rgba(255,255,255,0.68); font-family: 'Fira Code', monospace; }
 .rank-cat      { font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
 .score-badge   { font-size: 0.82rem; font-weight: 800; color: #fff; margin-left: auto; }
 .score-bar     { height: 3px; background: rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden; }
@@ -203,7 +203,7 @@
 .score-fill.tier-b { background: linear-gradient(90deg, #00d4ff, #0ea5e9); }
 .score-fill.tier-c { background: rgba(120,120,160,0.4); }
 
-.no-results { text-align: center; padding: 80px 0; color: rgba(255,255,255,0.3); }
+.no-results { text-align: center; padding: 80px 0; color: rgba(255,255,255,0.55); }
 .nr-icon    { display: block; font-size: 2rem; margin-bottom: 16px; opacity: 0.3; }
 
 /* ── Modals ── */
@@ -218,7 +218,7 @@
 }
 .modal-header { display: flex; justify-content: space-between; align-items: center; }
 .modal-close  { background: none; border: none; color: rgba(255,255,255,0.3); font-size: 1.1rem; cursor: pointer; &:hover { color: #fff; } }
-.form-group   { display: flex; flex-direction: column; gap: 7px; label { font-family: 'Courier New', monospace; font-size: 0.52rem; color: rgba(255,200,60,0.45); letter-spacing: 0.12em; } }
+.form-group   { display: flex; flex-direction: column; gap: 7px; label { font-family: 'Fira Code', monospace; font-size: 0.52rem; color: rgba(255,200,60,0.7); letter-spacing: 0.12em; } }
 .form-row     { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
 input, select, textarea {
   background: rgba(255,200,60,0.04); border: 1px solid rgba(255,200,60,0.14); border-radius: 8px;
@@ -228,14 +228,14 @@ input, select, textarea {
 }
 select option { background: #080c18; }
 .score-range { padding: 0; height: 4px; cursor: pointer; accent-color: #ffc83c; }
-.range-labels { display: flex; justify-content: space-between; font-family: 'Courier New', monospace; font-size: 0.5rem; color: rgba(255,255,255,0.3); margin-top: 4px; }
+.range-labels { display: flex; justify-content: space-between; font-family: 'Fira Code', monospace; font-size: 0.5rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
 .modal-footer { display: flex; gap: 12px; justify-content: flex-end; button:disabled { opacity: 0.4; cursor: not-allowed; } }
 
 .pin-modal  { max-width: 360px; }
-.pin-desc   { font-size: 0.85rem; color: rgba(255,255,255,0.4); margin: 0; }
+.pin-desc   { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin: 0; }
 .pin-input  { font-size: 1rem; letter-spacing: 0.3em; text-align: center; }
 .pin-input.pin-error { border-color: rgba(255,107,157,0.5); box-shadow: 0 0 0 3px rgba(255,107,157,0.1); }
-.pin-err-msg { font-family: 'Courier New', monospace; font-size: 0.58rem; color: rgba(255,107,157,0.8); letter-spacing: 0.1em; }
+.pin-err-msg { font-family: 'Fira Code', monospace; font-size: 0.58rem; color: rgba(255,107,157,0.8); letter-spacing: 0.1em; }
 
 @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

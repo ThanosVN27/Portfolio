@@ -18,12 +18,12 @@
   @media (max-width: 900px) { display: none; }
 }
 .pj-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-.pj-code  { font-family: 'Fira Code', monospace; font-size: 0.55rem; color: rgba(0,212,255,0.28); letter-spacing: 0.2em; }
+.pj-code  { font-family: 'Fira Code', monospace; font-size: 0.55rem; color: rgba(0,212,255,0.5); letter-spacing: 0.2em; }
 .pj-slash { font-family: 'Fira Code', monospace; font-size: 0.6rem; color: rgba(0,212,255,0.52); letter-spacing: 0.16em; }
 .pj-rule  { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0,212,255,0.14), transparent); }
 .pj-title { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -0.02em; color: #fff; margin: 0 0 12px; }
 .pj-hi    { color: #00d4ff; text-shadow: 0 0 28px rgba(0,212,255,0.35); }
-.pj-sub   { font-size: 1rem; color: rgba(255,255,255,0.38); max-width: 500px; line-height: 1.7; margin-bottom: 28px; }
+.pj-sub   { font-size: 1rem; color: rgba(255,255,255,0.58); max-width: 500px; line-height: 1.7; margin-bottom: 28px; }
 
 /* ── Filters ─────────────────────────────────── */
 .pj-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
@@ -32,8 +32,8 @@
   padding: 6px 14px; border: 1px solid rgba(0,212,255,0.14); border-radius: 2px;
   background: transparent; cursor: pointer;
   font-family: 'Fira Code', monospace; font-size: 0.62rem; letter-spacing: 0.07em;
-  color: rgba(255,255,255,0.38); transition: all 0.18s;
-  &:hover { border-color: rgba(0,212,255,0.32); color: rgba(255,255,255,0.72); background: rgba(0,212,255,0.06); }
+  color: rgba(255,255,255,0.6); transition: all 0.18s;
+  &:hover { border-color: rgba(0,212,255,0.32); color: rgba(255,255,255,0.85); background: rgba(0,212,255,0.06); }
   &.on {
     background: rgba(0,212,255,0.1); border-color: rgba(0,212,255,0.48); color: #00d4ff;
     .pj-fc { background: rgba(0,212,255,0.2); color: #00d4ff; }
@@ -42,7 +42,7 @@
 .pj-fc {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 16px; height: 15px; padding: 0 4px; border-radius: 2px;
-  background: rgba(0,212,255,0.07); color: rgba(0,212,255,0.4);
+  background: rgba(0,212,255,0.07); color: rgba(0,212,255,0.65);
   font-size: 0.48rem; margin-left: 7px; transition: all 0.18s;
 }
 
@@ -59,7 +59,7 @@
   &.alt { color: rgba(74,222,128,0.78); text-shadow: 0 0 14px rgba(74,222,128,0.28); }
   &.pur { color: rgba(167,139,250,0.78); text-shadow: 0 0 14px rgba(167,139,250,0.28); }
 }
-.pj-sl   { font-family: 'Fira Code', monospace; font-size: 0.44rem; color: rgba(255,255,255,0.2); letter-spacing: 0.12em; text-transform: uppercase; }
+.pj-sl   { font-family: 'Fira Code', monospace; font-size: 0.44rem; color: rgba(255,255,255,0.48); letter-spacing: 0.12em; text-transform: uppercase; }
 .pj-sdiv { width: 1px; background: rgba(0,212,255,0.08); flex-shrink: 0; }
 
 /* ── Body ────────────────────────────────────── */
@@ -74,7 +74,7 @@
 .pj-lab-row { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
 .pj-lab      { font-family: 'Fira Code', monospace; font-size: 0.6rem; letter-spacing: 0.18em; color: rgba(0,212,255,0.5); white-space: nowrap; }
 .pj-lab-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0,212,255,0.18), transparent); }
-.pj-lab-n    { font-family: 'Fira Code', monospace; font-size: 0.55rem; color: rgba(0,212,255,0.28); white-space: nowrap; }
+.pj-lab-n    { font-family: 'Fira Code', monospace; font-size: 0.55rem; color: rgba(0,212,255,0.55); white-space: nowrap; }
 
 /* ── Grid ────────────────────────────────────── */
 .pj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -123,7 +123,7 @@
 .pj-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .pj-id {
   font-family: 'Fira Code', monospace; font-size: 0.53rem; letter-spacing: 0.08em;
-  color: rgba(0,212,255,0.4);
+  color: rgba(0,212,255,0.6);
 }
 .pj-gh {
   font-family: 'Fira Code', monospace; font-size: 0.49rem; letter-spacing: 0.1em;
@@ -145,7 +145,7 @@
 
 /* Description */
 .pj-text {
-  font-size: 0.83rem; color: rgba(160,195,220,0.5); line-height: 1.72;
+  font-size: 0.83rem; color: rgba(175,205,228,0.7); line-height: 1.72;
   flex: 1; margin-bottom: 14px;
 }
 
@@ -156,7 +156,7 @@
   font-family: 'Fira Code', monospace; font-size: 0.5rem;
   letter-spacing: 0.06em; text-transform: uppercase;
   background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.14);
-  color: rgba(0,212,255,0.62);
+  color: rgba(0,212,255,0.78);
   &.hi {
     background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.3);
     color: #00d4ff; font-weight: 700;
@@ -171,12 +171,12 @@
 }
 .pj-link {
   font-family: 'Fira Code', monospace; font-size: 0.5rem; letter-spacing: 0.1em;
-  color: rgba(0,212,255,0.45); text-decoration: none; transition: color 0.18s;
+  color: rgba(0,212,255,0.65); text-decoration: none; transition: color 0.18s;
   &:hover { color: #00d4ff; }
 }
 .pj-meta {
   font-family: 'Fira Code', monospace; font-size: 0.42rem;
-  color: rgba(255,255,255,0.18); letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.42); letter-spacing: 0.05em;
 }
 
 /* Empty */

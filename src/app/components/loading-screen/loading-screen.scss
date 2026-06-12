@@ -110,7 +110,7 @@
 .data-panel {
   position: absolute;
   top: 80px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 0.7rem;
   line-height: 1.9;
   z-index: 5;
@@ -247,7 +247,7 @@
 .core-initials {
   font-size: 2.2rem;
   font-weight: 800;
-  font-family: 'Courier New', monospace;
+  font-family: 'Fira Code', monospace;
   letter-spacing: 0.18em;
   color: #00d4ff;
   text-shadow: 0 0 22px rgba(0,212,255,0.85), 0 0 50px rgba(0,212,255,0.25);
@@ -264,7 +264,7 @@
   font-size: 0.6rem;
   letter-spacing: 0.22em;
   color: rgba(0,212,255,0.6);
-  font-family: 'Courier New', monospace;
+  font-family: 'Fira Code', monospace;
   text-transform: uppercase;
   animation: blink 1.4s ease-in-out infinite;
 
@@ -294,7 +294,7 @@
 
 /* Boot terminal */
 .boot-terminal {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 0.7rem;
   color: rgba(0,212,255,0.65);
   line-height: 1.7;
@@ -341,7 +341,7 @@
 }
 
 .progress-label {
-  font-family: 'Courier New', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 0.62rem;
   letter-spacing: 0.12em;
   color: rgba(0,212,255,0.35);

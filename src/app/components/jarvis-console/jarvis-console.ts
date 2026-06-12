@@ -64,10 +64,10 @@ interface Line { type: 'input' | 'output' | 'error' | 'info' | 'success'; text: 
       padding: 10px 20px; border-bottom: 1px solid rgba(0,212,255,0.1);
       background: rgba(0,212,255,0.035);
     }
-    .jc-title  { font-family: 'Courier New', monospace; font-size: 0.58rem; letter-spacing: 0.2em; color: rgba(0,212,255,0.85); }
+    .jc-title  { font-family: 'Fira Code', monospace; font-size: 0.58rem; letter-spacing: 0.2em; color: rgba(0,212,255,0.85); }
     .jc-header-right { display: flex; align-items: center; gap: 14px; }
-    .jc-status { font-family: 'Courier New', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: rgba(74,222,128,0.8); animation: blink 2.2s ease-in-out infinite; }
-    .jc-esc    { font-family: 'Courier New', monospace; font-size: 0.5rem; color: rgba(255,255,255,0.25); padding: 2px 6px; border: 1px solid rgba(255,255,255,0.12); border-radius: 3px; }
+    .jc-status { font-family: 'Fira Code', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: rgba(74,222,128,0.8); animation: blink 2.2s ease-in-out infinite; }
+    .jc-esc    { font-family: 'Fira Code', monospace; font-size: 0.5rem; color: rgba(255,255,255,0.25); padding: 2px 6px; border: 1px solid rgba(255,255,255,0.12); border-radius: 3px; }
     @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
     .jc-log {
@@ -76,7 +76,7 @@ interface Line { type: 'input' | 'output' | 'error' | 'info' | 'success'; text: 
       scrollbar-width: thin; scrollbar-color: rgba(0,212,255,0.2) transparent;
     }
     .jc-line {
-      font-family: 'Courier New', monospace; font-size: 0.74rem;
+      font-family: 'Fira Code', monospace; font-size: 0.74rem;
       line-height: 1.55; display: flex; gap: 8px; align-items: flex-start;
     }
     .jc-input   { color: rgba(255,255,255,0.9); }
@@ -94,7 +94,7 @@ interface Line { type: 'input' | 'output' | 'error' | 'info' | 'success'; text: 
     }
     .jc-input {
       flex: 1; background: none; border: none; outline: none;
-      font-family: 'Courier New', monospace; font-size: 0.8rem;
+      font-family: 'Fira Code', monospace; font-size: 0.8rem;
       color: rgba(255,255,255,0.92); caret-color: #00d4ff;
       &::placeholder { color: rgba(255,255,255,0.18); }
     }

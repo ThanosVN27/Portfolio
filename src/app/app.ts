@@ -319,7 +319,7 @@ import * as THREE from 'three';
     /* Data readout */
     .scan-data {
       position: absolute; bottom: 28px; right: 28px; pointer-events: none;
-      font-family: 'Courier New', monospace; font-size: 0.42rem;
+      font-family: 'Fira Code', monospace; font-size: 0.42rem;
       letter-spacing: 0.24em; color: rgba(0,212,255,0.72);
       opacity: 0; text-transform: uppercase;
       text-shadow: 0 0 8px rgba(0,212,255,0.6);

@@ -76,7 +76,7 @@ import * as THREE from 'three';
       display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 40px;
     }
     .nf-label {
-      font-family: 'Courier New', monospace; font-size: 0.6rem; letter-spacing: 0.2em;
+      font-family: 'Fira Code', monospace; font-size: 0.6rem; letter-spacing: 0.2em;
       color: rgba(0,212,255,0.35);
     }
     .nf-tag-line { width: 60px; height: 1px; background: rgba(0,212,255,0.18); }
@@ -106,7 +106,7 @@ import * as THREE from 'three';
     }
 
     .nf-sub {
-      font-family: 'Courier New', monospace; font-size: 0.7rem;
+      font-family: 'Fira Code', monospace; font-size: 0.7rem;
       color: rgba(0,212,255,0.4); letter-spacing: 0.12em; margin-bottom: 6px;
       &.dim { color: rgba(255,255,255,0.2); margin-bottom: 40px; }
     }
@@ -116,7 +116,7 @@ import * as THREE from 'three';
       padding: 14px 36px; border-radius: 8px;
       background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.28);
       color: #00d4ff; text-decoration: none;
-      font-family: 'Courier New', monospace; font-size: 0.75rem; letter-spacing: 0.14em;
+      font-family: 'Fira Code', monospace; font-size: 0.75rem; letter-spacing: 0.14em;
       transition: all 0.22s; backdrop-filter: blur(12px);
       &:hover {
         background: rgba(0,212,255,0.15); border-color: rgba(0,212,255,0.6);

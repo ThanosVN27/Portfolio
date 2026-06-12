@@ -122,8 +122,8 @@ import * as THREE from 'three';
     }
 
     .si-l {
-      font-family: 'Courier New', monospace; font-size: 0.6rem;
-      color: rgba(0,212,255,0.42); letter-spacing: 0.14em; text-transform: uppercase;
+      font-family: 'Fira Code', monospace; font-size: 0.6rem;
+      color: rgba(0,212,255,0.65); letter-spacing: 0.14em; text-transform: uppercase;
     }
 
     .si-div {
@@ -154,8 +154,8 @@ import * as THREE from 'three';
     }
 
     .nav-tag {
-      font-family: 'Courier New', monospace; font-size: 0.6rem;
-      letter-spacing: 0.18em; color: rgba(0,212,255,0.4); white-space: nowrap;
+      font-family: 'Fira Code', monospace; font-size: 0.6rem;
+      letter-spacing: 0.18em; color: rgba(0,212,255,0.65); white-space: nowrap;
     }
 
     .nav-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0,212,255,0.18), transparent); }
@@ -201,8 +201,8 @@ import * as THREE from 'three';
     }
 
     .nc-num {
-      font-family: 'Courier New', monospace; font-size: 0.52rem;
-      color: rgba(0,212,255,0.25); letter-spacing: 0.12em;
+      font-family: 'Fira Code', monospace; font-size: 0.52rem;
+      color: rgba(0,212,255,0.5); letter-spacing: 0.12em;
     }
 
     .nc-icon {
@@ -211,21 +211,21 @@ import * as THREE from 'three';
     }
 
     h3 { font-size: 1.08rem; font-weight: 700; margin: 4px 0 0; }
-    p  { color: rgba(255,255,255,0.45); font-size: 0.9rem; line-height: 1.7; flex: 1; }
+    p  { color: rgba(255,255,255,0.62); font-size: 0.9rem; line-height: 1.7; flex: 1; }
 
     .nc-footer {
       display: flex; align-items: center; justify-content: space-between; margin-top: 4px;
     }
 
     .nc-tag {
-      font-family: 'Courier New', monospace; font-size: 0.52rem;
-      color: rgba(0,212,255,0.22); letter-spacing: 0.14em;
-      border: 1px solid rgba(0,212,255,0.1); border-radius: 3px; padding: 2px 8px;
+      font-family: 'Fira Code', monospace; font-size: 0.52rem;
+      color: rgba(0,212,255,0.5); letter-spacing: 0.14em;
+      border: 1px solid rgba(0,212,255,0.2); border-radius: 3px; padding: 2px 8px;
     }
 
     .nc-arrow {
       font-size: 1rem; transition: all 0.22s;
-      color: rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.42);
     }
 
     @media (max-width: 900px) { .nav-grid { grid-template-columns: 1fr 1fr; } }
