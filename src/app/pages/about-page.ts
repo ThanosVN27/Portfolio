@@ -27,7 +27,7 @@ export class AboutPage implements AfterViewInit, OnDestroy {
       { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
     );
     this.revealEls.forEach(el => obs.observe(el.nativeElement));
-    if (window.innerWidth >= 768) this.initDodec();
+    this.initDodec();
   }
 
   ngOnDestroy() {

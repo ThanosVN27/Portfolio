@@ -8,7 +8,7 @@
 .film-canvas {
   position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
   width: 200px; height: 200px; pointer-events: none; opacity: 0.65;
-  @media (max-width: 900px) { display: none; }
+  @media (max-width: 900px) { width: 120px; height: 120px; right: 14px; opacity: 0.32; }
 }
 .pg-tag-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
 .pg-num   { font-family: 'Fira Code', monospace; font-size: 0.58rem; color: rgba(255,200,60,0.5); letter-spacing: 0.2em; }

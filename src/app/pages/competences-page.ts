@@ -104,7 +104,7 @@ export class CompetencesPage implements AfterViewInit, OnDestroy {
     );
     const firstSection = document.querySelector('.content-section');
     if (firstSection) barsObs.observe(firstSection);
-    if (window.innerWidth >= 768) this.initSphere();
+    this.initSphere();
   }
 
   ngOnDestroy() {

@@ -119,7 +119,7 @@ export class ProjectsPage implements AfterViewInit, OnDestroy {
       { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
     );
     this.revealEls.forEach(el => obs.observe(el.nativeElement));
-    if (window.innerWidth >= 768) this.initCrystal();
+    this.initCrystal();
   }
 
   ngOnDestroy() {

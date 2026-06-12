@@ -44,11 +44,13 @@ export class Hero implements AfterViewInit, OnDestroy {
   private coreSpinVel = 0.0028;         // vitesse de rotation du noyau (accélère au survol)
   private innerBase!: Float32Array;     // positions d'origine du nuage interne (cible de retour après répulsion)
   private reduceMotion = false;         // respecte prefers-reduced-motion
+  private isMobile = false;             // budget allégé sur petit écran (particules, pixelRatio)
 
   ngAfterViewInit() {
     // Détecte la préférence d'accessibilité avant d'initialiser la scène
     this.reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (window.innerWidth >= 768) this.initThree();
+    this.isMobile = window.innerWidth < 768;
+    this.initThree(); // active sur tous les appareils — les budgets s'adaptent
     this.typeNext();
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('resize', this.onResize);
@@ -88,9 +90,9 @@ export class Hero implements AfterViewInit, OnDestroy {
   private initThree() {
     const canvas = this.canvasRef.nativeElement;
     const w = window.innerWidth, h = window.innerHeight;
-    this.renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    this.renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !this.isMobile });
     this.renderer.setSize(w, h);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.isMobile ? 1.5 : 2));
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(62, w / h, 0.1, 1000);
     this.camera.position.z = 5;
@@ -169,7 +171,7 @@ export class Hero implements AfterViewInit, OnDestroy {
     this.scene.add(this.constellationLines);
 
     // Inner particle cloud — dense near core, breathes with the icosahedron
-    const innerCount = 450;
+    const innerCount = this.isMobile ? 200 : 450; // budget réduit sur mobile
     const iPos = new Float32Array(innerCount * 3);
     for (let i = 0; i < innerCount; i++) {
       const r = 0.8 + Math.random() * 1.6;
@@ -201,7 +203,7 @@ export class Hero implements AfterViewInit, OnDestroy {
   }
 
   private buildParticles(): THREE.Points {
-    const count   = 1800;
+    const count   = this.isMobile ? 650 : 1800; // budget réduit sur mobile
     const pos     = new Float32Array(count * 3);
     const col     = new Float32Array(count * 3);
     const palette = [
@@ -234,7 +236,7 @@ export class Hero implements AfterViewInit, OnDestroy {
 
     // ── Détection du survol du noyau + projection du curseur dans la scène ──
     let hoverTarget = 0;
-    if (!this.reduceMotion) {
+    if (!this.reduceMotion && !this.isMobile) { // pas de pointeur sur tactile
       this.pointerNDC.set(this.mouse.x, -this.mouse.y); // NDC : axe Y inversé par rapport à l'écran
       this.raycaster.setFromCamera(this.pointerNDC, this.camera);
       if (this.raycaster.intersectObject(this.hitProxy, false).length > 0) hoverTarget = 1;
@@ -305,7 +307,7 @@ export class Hero implements AfterViewInit, OnDestroy {
 
     // Nuage interne — répulsion élastique autour du curseur + contre-rotation + pulsation
     if (this.innerCloud) {
-      if (!this.reduceMotion) {
+      if (!this.reduceMotion && !this.isMobile) {
         this.innerCloud.updateMatrixWorld();
         this.pointerLocal.copy(this.pointerWorld);
         this.innerCloud.worldToLocal(this.pointerLocal); // curseur exprimé dans le repère local du nuage

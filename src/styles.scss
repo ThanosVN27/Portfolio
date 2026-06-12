@@ -127,6 +127,20 @@ section {
 .reveal-d4 { transition-delay: 0.48s; }
 
 /* ════════════════════════════════════════════════
+   Hologram layer — titres holographiques + scanlines
+   ════════════════════════════════════════════════ */
+
+/* Grands titres : dégradé holographique blanc → cyan + halo doux */
+.pg-title, .pj-title, .section-title {
+  background: linear-gradient(180deg, #ffffff 0%, #e8f9ff 55%, #8fd9ff 125%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 36px rgba(0,212,255,0.16);
+}
+/* Les mots accentués retrouvent leur couleur pleine (cyan / or) */
+.pg-accent, .pj-hi { -webkit-text-fill-color: currentColor; }
+
+/* ════════════════════════════════════════════════
    Global JARVIS polish — selection, focus, micro-FX
    ════════════════════════════════════════════════ */
 
@@ -144,6 +158,29 @@ h1, h2, h3 { text-wrap: balance; }
 .btn:active, button:active { transform: scale(0.97); }
 
 @media (prefers-reduced-motion: no-preference) {
+
+  /* Hologram flicker — micro-coupures lumineuses sur les grands titres */
+  .pg-title, .pj-title {
+    animation: holoFlicker 8s linear infinite;
+  }
+  @keyframes holoFlicker {
+    0%, 90.8%, 93.4%, 100% { opacity: 1; }
+    91.4% { opacity: 0.8; }
+    92.2% { opacity: 0.96; }
+    96.2% { opacity: 1; }
+    96.8% { opacity: 0.87; }
+    97.4% { opacity: 1; }
+  }
+
+  /* Scanlines holographiques qui défilent dans les cartes HUD */
+  .hud-card::after {
+    content: ''; position: absolute; left: 0; right: 0; top: -100%; height: 200%;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg,
+      rgba(0,212,255,0.045) 0px, rgba(0,212,255,0.045) 1px, transparent 1px, transparent 6px);
+    animation: holoDrift 16s linear infinite;
+  }
+  @keyframes holoDrift { to { transform: translateY(50%); } }
 
   /* Accent words breathe — applies on every page header */
   .pg-accent, .pj-hi {

@@ -7,7 +7,7 @@
 .dodec-canvas {
   position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
   width: 180px; height: 180px; pointer-events: none; opacity: 0.6;
-  @media (max-width: 900px) { display: none; }
+  @media (max-width: 900px) { width: 110px; height: 110px; right: 14px; opacity: 0.32; }
 }
 .pg-tag-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
 .pg-num   { font-family: 'Fira Code', monospace; font-size: 0.58rem; color: rgba(0,212,255,0.5); letter-spacing: 0.2em; }

@@ -319,7 +319,7 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
   tierLabel(s: number) { if (s >= 9.5) return 'S'; if (s >= 8.5) return 'A'; if (s >= 7) return 'B'; return 'C'; }
   tierClass(s: number) { if (s >= 9.5) return 'tier-s'; if (s >= 8.5) return 'tier-a'; if (s >= 7) return 'tier-b'; return 'tier-c'; }
 
-  ngAfterViewInit() { if (window.innerWidth >= 768) this.initFilm(); }
+  ngAfterViewInit() { this.initFilm(); }
 
   ngOnDestroy() {
     cancelAnimationFrame(this.filmAnimId);

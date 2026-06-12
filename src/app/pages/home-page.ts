@@ -135,7 +135,8 @@ import * as THREE from 'three';
     .nav-orb-canvas {
       position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
       width: 220px; height: 220px; pointer-events: none; opacity: 0.5; z-index: 0;
-      @media (max-width: 1100px) { display: none; }
+      @media (max-width: 1100px) { width: 150px; height: 150px; opacity: 0.28; right: 2%; }
+      @media (max-width: 768px)  { display: none; }
     }
 
     /* ── Nav section ─────────────────────────────── */
@@ -312,7 +313,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (window.innerWidth >= 1100) this.initNavOrb();
+    if (window.innerWidth >= 768) this.initNavOrb();
     const revealObs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } }),
       { threshold: 0.1 }

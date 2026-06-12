@@ -393,7 +393,7 @@ export class App implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (window.innerWidth >= 768) this.initAmbient();
+    this.initAmbient(); // tous appareils — budget réduit sur mobile
   }
 
   ngOnDestroy() {
@@ -415,7 +415,7 @@ export class App implements AfterViewInit, OnDestroy {
     this.ambientRenderer.setPixelRatio(1);
 
     // ── Drifting particle field ──────────────────────
-    const pCount = 200;
+    const pCount = window.innerWidth < 768 ? 90 : 200;
     const pPos   = new Float32Array(pCount * 3);
     const pCol   = new Float32Array(pCount * 3);
     const pVel   = new Float32Array(pCount * 3);
