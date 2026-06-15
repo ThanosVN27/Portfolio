@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+/* Polices chargées via <link> dans index.html (Inter · Fira Code · Orbitron) */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -15,6 +15,7 @@
   --gradient: linear-gradient(135deg, #7c6fff, #00d4ff);
   --font: 'Inter', sans-serif;
   --mono: 'Fira Code', monospace;
+  --display: 'Orbitron', 'Inter', sans-serif;
   --radius: 16px;
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -26,11 +27,13 @@ body {
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.75;
+  letter-spacing: -0.011em;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-feature-settings: 'kern' 1, 'liga' 1;
+  font-optical-sizing: auto;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
 }
 
 ::-webkit-scrollbar { width: 5px; }
@@ -130,7 +133,11 @@ section {
    Hologram layer — titres holographiques + scanlines
    ════════════════════════════════════════════════ */
 
-/* Grands titres : dégradé holographique blanc → cyan + halo doux */
+/* Grands titres : police d'affichage Orbitron + dégradé holographique + halo */
+.pg-title, .pj-title {
+  font-family: var(--display);
+  font-weight: 800;
+}
 .pg-title, .pj-title, .section-title {
   background: linear-gradient(180deg, #ffffff 0%, #e8f9ff 55%, #8fd9ff 125%);
   -webkit-background-clip: text; background-clip: text;
