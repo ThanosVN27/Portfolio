@@ -15,7 +15,7 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('filmCanvas') filmRef!: ElementRef<HTMLCanvasElement>;
   private filmRenderer?: THREE.WebGLRenderer;
   private filmAnimId!: number;
-  private readonly STORAGE_KEY = 'portfolio-classement-v15';
+  private readonly STORAGE_KEY = 'portfolio-classement-v16';
   private svc = inject(ClassementService);
 
   activeFilter = signal('Tout');
@@ -200,6 +200,33 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
     { id: 'd133', title: 'Jujutsu Kaisen (S2)',                              year: 2023, score: 9.5, category: 'Anime',     emoji: '🔮', poster: `${T}/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg` },
     // ── Fairy Tail — Final Series ─────────────────────────────────────────────
     { id: 'd134', title: 'Fairy Tail: Final Series',                         year: 2018, score: 8,   category: 'Anime',     emoji: '✨', poster: `${T}/mZAHfUEhQuWebFqVyRdBw9Y5I0i.jpg` },
+    // ── Films cultes (ajouts) ─────────────────────────────────────────────────
+    { id: 'd135', title: 'Inception',                                       year: 2010, score: 9.5, category: 'Films',     emoji: '🌀', poster: `${T}/aej3LRUga5rhgkmRP6XMFw3ejbl.jpg` },
+    { id: 'd136', title: 'The Matrix',                                      year: 1999, score: 9.5, category: 'Films',     emoji: '💊', poster: `${T}/pEoqbqtLc4CcwDUDqxmEDSWpWTZ.jpg` },
+    { id: 'd137', title: 'Gladiator',                                       year: 2000, score: 9,   category: 'Films',     emoji: '⚔️', poster: `${T}/5gJOu3t2QrznuJqjCG7FQDMI76t.jpg` },
+    { id: 'd138', title: 'Oppenheimer',                                     year: 2023, score: 9,   category: 'Films',     emoji: '💥', poster: `${T}/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg` },
+    { id: 'd139', title: 'Top Gun: Maverick',                               year: 2022, score: 8.5, category: 'Films',     emoji: '✈️', poster: `${T}/uuwi4wwG6HAHVqaEvJDx6gI773N.jpg` },
+    { id: 'd140', title: 'John Wick',                                       year: 2014, score: 8.5, category: 'Films',     emoji: '🔫', poster: `${T}/7yCzmVL0BI1aSvzgN3jCtXLtyFR.jpg` },
+    { id: 'd141', title: 'Spider-Man: Into the Spider-Verse',               year: 2018, score: 9,   category: 'Films',     emoji: '🕷️', poster: `${T}/7uPGS5CgvIjDcFUhw9HB9qYeDXf.jpg` },
+    { id: 'd142', title: 'Spider-Man: Across the Spider-Verse',             year: 2023, score: 9,   category: 'Films',     emoji: '🕸️', poster: `${T}/hvfwCeSTgsExmz9l31dKkfR83DH.jpg` },
+    // ── Séries (ajouts) ───────────────────────────────────────────────────────
+    { id: 'd143', title: 'Peaky Blinders',                                  year: 2013, score: 9,   category: 'Séries',    emoji: '🎩', poster: `${T}/wfD5hDb61sS203D0te7JbIzeyQe.jpg` },
+    { id: 'd144', title: 'The Last of Us',                                  year: 2023, score: 9,   category: 'Séries',    emoji: '🍄', poster: `${T}/4pMd9VAdqm96KA2W4X8yetgc7EF.jpg` },
+    { id: 'd145', title: 'Wednesday',                                       year: 2022, score: 8,   category: 'Séries',    emoji: '🖤', poster: `${T}/1UzED7WZJgzEIeVz1xiuZ1529nb.jpg` },
+    { id: 'd146', title: 'La Casa de Papel',                                year: 2017, score: 8.5, category: 'Séries',    emoji: '🎭', poster: `${T}/u5Ye3LqV5LqTGjLqtkTCkA4m63W.jpg` },
+    { id: 'd147', title: 'Dark',                                            year: 2017, score: 9.5, category: 'Séries',    emoji: '🕳️', poster: `${T}/vbG0zu0lIVDZZaUVOZuBIE9kno3.jpg` },
+    { id: 'd148', title: 'Chernobyl',                                       year: 2019, score: 9.5, category: 'Séries',    emoji: '☢️', poster: `${T}/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg` },
+    { id: 'd149', title: 'Sherlock',                                        year: 2010, score: 9,   category: 'Séries',    emoji: '🔎', poster: `${T}/nBRtABdAHf4SWSAWHelXz0H6tY9.jpg` },
+    { id: 'd150', title: 'Vikings',                                         year: 2013, score: 8.5, category: 'Séries',    emoji: '🪓', poster: `${T}/xmcOeS0BKCBg5MwM3dfMrSUqyNh.jpg` },
+    // ── Anime (ajouts) ────────────────────────────────────────────────────────
+    { id: 'd151', title: 'Chainsaw Man',                                    year: 2022, score: 9,   category: 'Anime',     emoji: '🪚', poster: `${T}/npdB6eFzizki0WaZ1OvKcJrWe97.jpg` },
+    { id: 'd152', title: 'Spy x Family',                                    year: 2022, score: 8.5, category: 'Anime',     emoji: '🔫', poster: `${T}/7NAvPYPAu7MeHwP8E9sn81PqsRh.jpg` },
+    { id: 'd153', title: 'Vinland Saga',                                    year: 2019, score: 9.5, category: 'Anime',     emoji: '⚔️', poster: `${T}/vUHlpA5c1NXkds59reY3HMb4Abs.jpg` },
+    { id: 'd154', title: 'Tokyo Ghoul',                                     year: 2014, score: 8.5, category: 'Anime',     emoji: '👁️', poster: `${T}/eKxblpRtHiMHLW5sjq7ZLGsGBOh.jpg` },
+    { id: 'd155', title: 'Steins;Gate',                                     year: 2011, score: 9.5, category: 'Anime',     emoji: '⏱️', poster: `${T}/bj9lZLRey7ZTWNbA9o3L0tW0HfW.jpg` },
+    { id: 'd156', title: 'Re:Zero',                                         year: 2016, score: 9,   category: 'Anime',     emoji: '🔄', poster: `${T}/5MrRCj7z92YLWMXHeWKp19eJPYv.jpg` },
+    { id: 'd157', title: 'Blue Lock',                                       year: 2022, score: 8.5, category: 'Anime',     emoji: '⚽', poster: `${T}/fcKH1NQzoTXiYO1OrhaFFwTKhBp.jpg` },
+    { id: 'd158', title: 'Dr. Stone',                                       year: 2019, score: 8.5, category: 'Anime',     emoji: '🪨', poster: `${T}/xfpSBNhBdQyrN3dTigqRVrOvSh1.jpg` },
   ];
 
   async ngOnInit() {
