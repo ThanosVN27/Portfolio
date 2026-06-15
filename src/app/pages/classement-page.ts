@@ -1,4 +1,5 @@
-import { Component, signal, computed, OnInit, AfterViewInit, OnDestroy, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, signal, computed, OnInit, AfterViewInit, OnDestroy, inject, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ClassementService, Entry } from '../services/classement.service';
 import { TmdbService, UpcomingMovie } from '../services/tmdb.service';
@@ -19,6 +20,7 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
   private readonly STORAGE_KEY = 'portfolio-classement-v18';
   private svc = inject(ClassementService);
   private tmdb = inject(TmdbService);
+  private sanitizer = inject(DomSanitizer);
 
   // ── Sorties ciné à venir (flux TMDB, auto-refresh) ──
   upcoming    = signal<UpcomingMovie[]>([]);
@@ -26,6 +28,19 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
   upError     = signal(false);
   private upcomingTimer?: ReturnType<typeof setInterval>;
   private readonly REFRESH_MS = 60 * 60 * 1000; // rafraîchit toutes les heures
+
+  // ── Modale bande-annonce ──
+  showTrailer    = signal(false);
+  trailerTitle   = signal('');
+  trailerLoading = signal(false);
+  trailerError   = signal(false);
+  private trailerKey = signal<string | null>(null);
+  trailerEmbedUrl = computed<SafeResourceUrl | null>(() => {
+    const k = this.trailerKey();
+    return k
+      ? this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${k}?autoplay=1&rel=0`)
+      : null;
+  });
 
   activeFilter = signal('Tout');
   searchQuery  = signal('');
@@ -373,11 +388,55 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
 
   get tmdbReady(): boolean { return this.tmdb.hasKey; }
 
-  /** Formate une date ISO en jour mois court (ex: 12 juin). */
+  /** Formate une date ISO en français (ex: lun. 12 juin 2026). */
   formatDate(iso: string): string {
-    if (!iso) return '';
+    if (!iso) return 'Date à confirmer';
     const d = new Date(iso + 'T00:00:00');
-    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    if (isNaN(d.getTime())) return 'Date à confirmer';
+    const s = d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  /** Compte à rebours lisible jusqu'à la sortie (J-3, DEMAIN, AUJOURD'HUI…). */
+  countdown(iso: string): string {
+    if (!iso) return '';
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const d = new Date(iso + 'T00:00:00');
+    if (isNaN(d.getTime())) return '';
+    const days = Math.round((d.getTime() - today.getTime()) / 86400000);
+    if (days <= 0) return "AUJOURD'HUI";
+    if (days === 1) return 'DEMAIN';
+    if (days < 7) return `J-${days}`;
+    if (days < 31) return `${Math.round(days / 7)} SEM.`;
+    return `${Math.round(days / 30)} MOIS`;
+  }
+
+  /** Ouvre la bande-annonce d'un film à venir dans une modale. */
+  async openTrailer(m: UpcomingMovie) {
+    this.trailerTitle.set(m.title);
+    this.trailerKey.set(null);
+    this.trailerError.set(false);
+    this.trailerLoading.set(true);
+    this.showTrailer.set(true);
+    try {
+      const key = await this.tmdb.getTrailerKey(m.id);
+      if (key) this.trailerKey.set(key);
+      else this.trailerError.set(true);
+    } catch {
+      this.trailerError.set(true);
+    } finally {
+      this.trailerLoading.set(false);
+    }
+  }
+
+  closeTrailer() {
+    this.showTrailer.set(false);
+    this.trailerKey.set(null); // stoppe la lecture YouTube
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    if (this.showTrailer()) this.closeTrailer();
   }
 
   filtered = computed(() => {

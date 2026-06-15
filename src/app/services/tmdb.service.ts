@@ -50,4 +50,32 @@ export class TmdbService {
         releaseDate: (m['release_date'] as string) ?? '',
       }));
   }
+
+  /**
+   * Récupère la clé YouTube de la meilleure bande-annonce d'un film.
+   * Essaie le français puis l'anglais, et privilégie un trailer officiel.
+   */
+  async getTrailerKey(movieId: number): Promise<string | null> {
+    if (!this.hasKey) return null;
+
+    for (const lang of ['fr-FR', 'en-US']) {
+      const url = `https://api.themoviedb.org/3/movie/${movieId}/videos`
+        + `?language=${lang}&api_key=${this.key}`;
+      const res = await fetch(url);
+      if (!res.ok) continue;
+
+      const data = await res.json();
+      const vids = (data.results as Array<Record<string, unknown>> ?? [])
+        .filter(v => v['site'] === 'YouTube' && v['key']);
+
+      const pick =
+        vids.find(v => v['type'] === 'Trailer' && v['official'] === true) ??
+        vids.find(v => v['type'] === 'Trailer') ??
+        vids.find(v => v['type'] === 'Teaser') ??
+        vids[0];
+
+      if (pick) return pick['key'] as string;
+    }
+    return null;
+  }
 }

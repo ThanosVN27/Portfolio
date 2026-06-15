@@ -120,18 +120,19 @@
       } @else {
         <div class="up-rail">
           @for (m of upcoming(); track m.id) {
-            <div class="up-card">
+            <button class="up-card" (click)="openTrailer(m)" [title]="'Voir la bande-annonce de ' + m.title">
               <div class="up-poster">
                 @if (m.poster) {
                   <img [src]="m.poster" [alt]="m.title" loading="lazy" (error)="onImgError($event)" />
                 }
-                <span class="up-soon">BIENTÔT</span>
+                <span class="up-soon">{{ countdown(m.releaseDate) }}</span>
+                <span class="up-play">▶</span>
               </div>
               <div class="up-meta">
                 <span class="up-title">{{ m.title }}</span>
                 <span class="up-date">📅 {{ formatDate(m.releaseDate) }}</span>
               </div>
-            </div>
+            </button>
           }
         </div>
       }
@@ -254,6 +255,33 @@
           {{ isEditing() ? 'SAUVEGARDER' : 'AJOUTER' }}
         </button>
       </div>
+    </div>
+  </div>
+}
+
+<!-- ── Modale bande-annonce ────────────────────────────────────── -->
+@if (showTrailer()) {
+  <div class="modal-overlay" (click)="closeTrailer()">
+    <div class="trailer-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <span class="panel-tag">// BANDE-ANNONCE · {{ trailerTitle() }}</span>
+        <button class="modal-close" (click)="closeTrailer()">✕</button>
+      </div>
+      @if (trailerLoading()) {
+        <div class="trailer-state"><span class="spinner">⟳</span> Chargement de la bande-annonce…</div>
+      } @else if (trailerError() || !trailerEmbedUrl()) {
+        <div class="trailer-state">Aucune bande-annonce disponible pour ce titre.</div>
+      } @else {
+        <div class="trailer-frame">
+          <iframe
+            [src]="trailerEmbedUrl()"
+            title="Bande-annonce"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+        </div>
+      }
     </div>
   </div>
 }
