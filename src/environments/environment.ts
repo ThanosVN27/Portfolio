@@ -10,5 +10,5 @@ export const environment = {
   adminPin: '2705',
   // Clé API TMDB (gratuite) pour le flux des sorties ciné à venir.
   // Obtenir une clé : https://www.themoviedb.org/settings/api — laisser vide désactive la section.
-  tmdbApiKey: ''
+  tmdbApiKey: '3ed8fd9cb1c678e4fbc6ff9b80d72c8f'
 };
