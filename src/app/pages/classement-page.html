@@ -89,6 +89,54 @@
       </div>
     </div>
 
+    <!-- À l'affiche bientôt — flux TMDB auto-refresh -->
+    <div class="upcoming-hud hud-card">
+      <div class="panel-bar">
+        <span class="panel-tag">// À L'AFFICHE BIENTÔT · CINÉMA</span>
+        <span class="up-actions">
+          @if (upLoading()) {
+            <span class="up-state">⟳ MAJ…</span>
+          } @else if (tmdbReady && upcoming().length) {
+            <span class="up-state ok">● LIVE · {{ upcoming().length }}</span>
+          }
+          @if (tmdbReady) {
+            <button class="up-refresh" (click)="loadUpcoming()" title="Rafraîchir">↻</button>
+          }
+        </span>
+      </div>
+
+      @if (!tmdbReady) {
+        <div class="up-config">
+          <p>Active le flux <strong>live</strong> des sorties ciné : ajoute ta clé TMDB gratuite dans <code>src/environments/environment.ts</code> → <code>tmdbApiKey</code>. La liste se rechargera ensuite automatiquement.</p>
+          <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener" class="up-link">Obtenir une clé TMDB →</a>
+        </div>
+      } @else if (upError()) {
+        <div class="up-config">
+          <p>Impossible de charger les sorties (clé invalide ou réseau).</p>
+          <button class="up-link" (click)="loadUpcoming()">Réessayer →</button>
+        </div>
+      } @else if (!upLoading() && upcoming().length === 0) {
+        <div class="up-config"><p>Aucune sortie à venir trouvée pour le moment.</p></div>
+      } @else {
+        <div class="up-rail">
+          @for (m of upcoming(); track m.id) {
+            <div class="up-card">
+              <div class="up-poster">
+                @if (m.poster) {
+                  <img [src]="m.poster" [alt]="m.title" loading="lazy" (error)="onImgError($event)" />
+                }
+                <span class="up-soon">BIENTÔT</span>
+              </div>
+              <div class="up-meta">
+                <span class="up-title">{{ m.title }}</span>
+                <span class="up-date">📅 {{ formatDate(m.releaseDate) }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
     <!-- Poster grid -->
     <div class="rank-grid">
       @for (entry of filtered(); track entry.id; let i = $index) {

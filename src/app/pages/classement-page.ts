@@ -1,6 +1,7 @@
 import { Component, signal, computed, OnInit, AfterViewInit, OnDestroy, inject, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ClassementService, Entry } from '../services/classement.service';
+import { TmdbService, UpcomingMovie } from '../services/tmdb.service';
 import * as THREE from 'three';
 
 const T = 'https://image.tmdb.org/t/p/w300';
@@ -15,8 +16,16 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('filmCanvas') filmRef!: ElementRef<HTMLCanvasElement>;
   private filmRenderer?: THREE.WebGLRenderer;
   private filmAnimId!: number;
-  private readonly STORAGE_KEY = 'portfolio-classement-v16';
+  private readonly STORAGE_KEY = 'portfolio-classement-v17';
   private svc = inject(ClassementService);
+  private tmdb = inject(TmdbService);
+
+  // ── Sorties ciné à venir (flux TMDB, auto-refresh) ──
+  upcoming    = signal<UpcomingMovie[]>([]);
+  upLoading   = signal(false);
+  upError     = signal(false);
+  private upcomingTimer?: ReturnType<typeof setInterval>;
+  private readonly REFRESH_MS = 60 * 60 * 1000; // rafraîchit toutes les heures
 
   activeFilter = signal('Tout');
   searchQuery  = signal('');
@@ -227,6 +236,55 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
     { id: 'd156', title: 'Re:Zero',                                         year: 2016, score: 9,   category: 'Anime',     emoji: '🔄', poster: `${T}/5MrRCj7z92YLWMXHeWKp19eJPYv.jpg` },
     { id: 'd157', title: 'Blue Lock',                                       year: 2022, score: 8.5, category: 'Anime',     emoji: '⚽', poster: `${T}/fcKH1NQzoTXiYO1OrhaFFwTKhBp.jpg` },
     { id: 'd158', title: 'Dr. Stone',                                       year: 2019, score: 8.5, category: 'Anime',     emoji: '🪨', poster: `${T}/xfpSBNhBdQyrN3dTigqRVrOvSh1.jpg` },
+    // ── Films cultes (lot 2) ──────────────────────────────────────────────────
+    { id: 'd159', title: 'The Godfather',                                   year: 1972, score: 10,  category: 'Films',     emoji: '🎩', poster: `${T}/k3uIbYtiuK8pwbCcbma29nTqmgG.jpg` },
+    { id: 'd160', title: 'The Shawshank Redemption',                        year: 1994, score: 9.5, category: 'Films',     emoji: '⛓️', poster: `${T}/t30GjttOdb5At1sYy8b3TOwFgWV.jpg` },
+    { id: 'd161', title: 'Pulp Fiction',                                    year: 1994, score: 9,   category: 'Films',     emoji: '🔫', poster: `${T}/4TBdF7nFw2aKNM0gPOlDNq3v3se.jpg` },
+    { id: 'd162', title: 'Forrest Gump',                                    year: 1994, score: 9,   category: 'Films',     emoji: '🏃', poster: `${T}/zi6RNYK1vXjIvpSBgjatXRcFYh2.jpg` },
+    { id: 'd163', title: 'Fight Club',                                      year: 1999, score: 9,   category: 'Films',     emoji: '🧼', poster: `${T}/t1i10ptOivG4hV7erkX3tmKpiqm.jpg` },
+    { id: 'd164', title: 'Titanic',                                         year: 1997, score: 9,   category: 'Films',     emoji: '🚢', poster: `${T}/vpsvHLkoeKUjceIMeNSqCp3xEyY.jpg` },
+    { id: 'd165', title: 'Parasite',                                        year: 2019, score: 9.5, category: 'Films',     emoji: '🪜', poster: `${T}/7hLSzZX2jROmEXz2aEoh6JKUFy2.jpg` },
+    { id: 'd166', title: 'Whiplash',                                        year: 2014, score: 9,   category: 'Films',     emoji: '🥁', poster: `${T}/3XriEpTdnplQRzyphAC0cu3emns.jpg` },
+    { id: 'd167', title: 'Mad Max: Fury Road',                              year: 2015, score: 8.5, category: 'Films',     emoji: '🏜️', poster: `${T}/oLy2V6AWSEfdPgKOtrSGnwB3Q2R.jpg` },
+    { id: 'd168', title: 'Django Unchained',                                year: 2012, score: 9,   category: 'Films',     emoji: '🤠', poster: `${T}/vRXUnWrXUgXRoX0BaEcuNMfyeQt.jpg` },
+    { id: 'd169', title: 'The Wolf of Wall Street',                         year: 2013, score: 8.5, category: 'Films',     emoji: '💰', poster: `${T}/dQIQZbJXn1pflQw3nwvXLJX0dHa.jpg` },
+    { id: 'd170', title: 'Dunkirk',                                         year: 2017, score: 8.5, category: 'Films',     emoji: '🪖', poster: `${T}/1VOKlC35yrwVKlfBSN52NY4zoF2.jpg` },
+    { id: 'd171', title: 'Tenet',                                           year: 2020, score: 8,   category: 'Films',     emoji: '⏳', poster: `${T}/72SOtZnFhCumLRZhoXlX8g2IkgF.jpg` },
+    { id: 'd172', title: 'The Prestige',                                    year: 2006, score: 9,   category: 'Films',     emoji: '🪄', poster: `${T}/37Fr7lY4QBHsuxlLJIfTNxW6nGW.jpg` },
+    { id: 'd173', title: 'Jurassic Park',                                   year: 1993, score: 9,   category: 'Films',     emoji: '🦖', poster: `${T}/i268GVIlp777W1Ykws5R3LYYLIw.jpg` },
+    { id: 'd174', title: 'Back to the Future',                              year: 1985, score: 9,   category: 'Films',     emoji: '🚗', poster: `${T}/iCgFtDUZxN8iUzNBCisjUrBmg2q.jpg` },
+    { id: 'd175', title: 'Blade Runner 2049',                               year: 2017, score: 8.5, category: 'Films',     emoji: '🤖', poster: `${T}/qWD9E0Wgn8w6nMMutCNFAUiSHrX.jpg` },
+    { id: 'd176', title: 'The Hobbit: An Unexpected Journey',               year: 2012, score: 8,   category: 'Films',     emoji: '💍', poster: `${T}/mdy9mG31U7jSB8edfRELv53Yfjp.jpg` },
+    // ── Séries (lot 2) ────────────────────────────────────────────────────────
+    { id: 'd177', title: 'Better Call Saul',                               year: 2015, score: 9,   category: 'Séries',    emoji: '⚖️', poster: `${T}/7KyuCBjxsr4sNQga16DcN9ccEyf.jpg` },
+    { id: 'd178', title: 'Loki',                                            year: 2021, score: 8.5, category: 'Séries',    emoji: '🐍', poster: `${T}/zNwEwSXojMrQapZHQx5fO8iph4R.jpg` },
+    { id: 'd179', title: 'Westworld',                                       year: 2016, score: 8.5, category: 'Séries',    emoji: '🤠', poster: `${T}/iblRK215A0oz3ewTtIIXO9XcW1N.jpg` },
+    { id: 'd180', title: 'The Office',                                      year: 2005, score: 9,   category: 'Séries',    emoji: '📎', poster: `${T}/2dApsoX4bd98szjrbj5i3syYOh2.jpg` },
+    { id: 'd181', title: 'Friends',                                         year: 1994, score: 9,   category: 'Séries',    emoji: '☕', poster: `${T}/2koX1xLkpTQM4IZebYvKysFW1Nh.jpg` },
+    { id: 'd182', title: 'Black Mirror',                                    year: 2011, score: 8.5, category: 'Séries',    emoji: '📺', poster: `${T}/9acfIYfBuB4GFVROipM9YrqxsXd.jpg` },
+    { id: 'd183', title: 'Severance',                                       year: 2022, score: 9,   category: 'Séries',    emoji: '🧠', poster: `${T}/xmjW474DJ27bqTYNvS4MvraJgiQ.jpg` },
+    { id: 'd184', title: 'Fargo',                                           year: 2014, score: 8.5, category: 'Séries',    emoji: '❄️', poster: `${T}/a3VW6khsyUVKrG0GBCWFG3NzWPX.jpg` },
+    { id: 'd185', title: 'True Detective',                                  year: 2014, score: 8.5, category: 'Séries',    emoji: '🕵️', poster: `${T}/v1pOP44wChdvxoGhnjSmhnzyDje.jpg` },
+    { id: 'd186', title: 'Brooklyn Nine-Nine',                             year: 2013, score: 8.5, category: 'Séries',    emoji: '🚓', poster: `${T}/A3SymGlOHefSKbz1bCOz56moupS.jpg` },
+    { id: 'd187', title: 'Mr. Robot',                                       year: 2015, score: 8.5, category: 'Séries',    emoji: '💻', poster: `${T}/kv1nRqgebSsREnd7vdC2pSGjpLo.jpg` },
+    // ── Star Wars (séries) ────────────────────────────────────────────────────
+    { id: 'd188', title: 'The Mandalorian',                                year: 2019, score: 8.5, category: 'Star Wars', emoji: '🪖', poster: `${T}/s8lHYTNYM919rDFvMs33tOeMbYf.jpg` },
+    { id: 'd189', title: 'Andor',                                           year: 2022, score: 9,   category: 'Star Wars', emoji: '🔫', poster: `${T}/uoopC4EHcTV7ISmwUBHINWQ5QOA.jpg` },
+    // ── Anime (lot 2) ─────────────────────────────────────────────────────────
+    { id: 'd190', title: 'Code Geass',                                      year: 2006, score: 9.5, category: 'Anime',     emoji: '♟️', poster: `${T}/x316WCogkeIwNY4JR8zTCHbI2nQ.jpg` },
+    { id: 'd191', title: 'Cowboy Bebop',                                    year: 1998, score: 9,   category: 'Anime',     emoji: '🚀', poster: `${T}/xDiXDfZwC6XYC6fxHI1jl3A3Ill.jpg` },
+    { id: 'd192', title: 'Mob Psycho 100',                                  year: 2016, score: 9,   category: 'Anime',     emoji: '💢', poster: `${T}/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg` },
+    { id: 'd193', title: 'Haikyu!!',                                        year: 2014, score: 9,   category: 'Anime',     emoji: '🏐', poster: `${T}/8WEr48swcqe89Zsy5sdrGCASlIg.jpg` },
+    { id: 'd194', title: 'Black Clover',                                    year: 2017, score: 8,   category: 'Anime',     emoji: '🍀', poster: `${T}/kaMisKeOoTBPxPkbC3OW7Wgt6ON.jpg` },
+    { id: 'd195', title: 'Dandadan',                                        year: 2024, score: 9,   category: 'Anime',     emoji: '👽', poster: `${T}/6qfZAOEUFIrbUH3JvePclx1nXzz.jpg` },
+    { id: 'd196', title: 'Kaiju No. 8',                                     year: 2024, score: 8.5, category: 'Anime',     emoji: '👹', poster: `${T}/bJxGs0w5RAhaX4fIUQu511rvm0S.jpg` },
+    { id: 'd197', title: 'The Apothecary Diaries',                          year: 2023, score: 9,   category: 'Anime',     emoji: '🌿', poster: `${T}/47pSay5Ao7SFeyQBZVkW5ifyhAZ.jpg` },
+    { id: 'd198', title: 'Fire Force',                                      year: 2019, score: 8,   category: 'Anime',     emoji: '🔥', poster: `${T}/w39RbZShri0HsN1Vxm2vkNkC7Xo.jpg` },
+    { id: 'd199', title: 'Sword Art Online',                               year: 2012, score: 8,   category: 'Anime',     emoji: '⚔️', poster: `${T}/pfypXhbWken5dBGbNqb9PAPyrAw.jpg` },
+    { id: 'd200', title: 'Konosuba',                                        year: 2016, score: 8.5, category: 'Anime',     emoji: '💧', poster: `${T}/uTsj1GfOboLCAt1781wbifbXi2K.jpg` },
+    { id: 'd201', title: 'Your Name',                                       year: 2016, score: 9.5, category: 'Anime',     emoji: '☄️', poster: `${T}/zyHjvVRgKOt9wgVx4ikp2kGArGF.jpg` },
+    { id: 'd202', title: 'Demon Slayer: Mugen Train',                       year: 2020, score: 9,   category: 'Anime',     emoji: '🚂', poster: `${T}/t3BCcQNhUAP5l93TbOfp3Hk1v2S.jpg` },
+    { id: 'd203', title: 'Bleach',                                          year: 2004, score: 8.5, category: 'Anime',     emoji: '⚔️', poster: `${T}/5iVUUnE2tgBPypACYNobCKHagfV.jpg` },
   ];
 
   async ngOnInit() {
@@ -242,6 +300,40 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(remote));
       }
     } catch { /* ignore */ }
+
+    // Sorties ciné : chargement initial + rafraîchissement automatique
+    this.loadUpcoming();
+    this.upcomingTimer = setInterval(() => this.loadUpcoming(), this.REFRESH_MS);
+    document.addEventListener('visibilitychange', this.onVisibility);
+  }
+
+  /** Recharge le flux des sorties ciné quand l'onglet redevient visible. */
+  private onVisibility = () => {
+    if (document.visibilityState === 'visible') this.loadUpcoming();
+  };
+
+  /** Charge les sorties ciné à venir depuis TMDB. */
+  async loadUpcoming() {
+    if (!this.tmdb.hasKey) return;       // pas de clé → section en mode configuration
+    if (this.upLoading()) return;        // évite les appels concurrents
+    this.upLoading.set(true);
+    this.upError.set(false);
+    try {
+      this.upcoming.set(await this.tmdb.getUpcoming('FR'));
+    } catch {
+      this.upError.set(true);
+    } finally {
+      this.upLoading.set(false);
+    }
+  }
+
+  get tmdbReady(): boolean { return this.tmdb.hasKey; }
+
+  /** Formate une date ISO en jour mois court (ex: 12 juin). */
+  formatDate(iso: string): string {
+    if (!iso) return '';
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
   }
 
   filtered = computed(() => {
@@ -351,6 +443,8 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     cancelAnimationFrame(this.filmAnimId);
     this.filmRenderer?.dispose();
+    if (this.upcomingTimer) clearInterval(this.upcomingTimer);
+    document.removeEventListener('visibilitychange', this.onVisibility);
   }
 
   private initFilm() {

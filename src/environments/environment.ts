@@ -7,5 +7,8 @@ export const environment = {
     messagingSenderId: '260610731130',
     appId: '1:260610731130:web:65d1ddf3fe3cb510779fc3'
   },
-  adminPin: '2705'
+  adminPin: '2705',
+  // Clé API TMDB (gratuite) pour le flux des sorties ciné à venir.
+  // Obtenir une clé : https://www.themoviedb.org/settings/api — laisser vide désactive la section.
+  tmdbApiKey: ''
 };
