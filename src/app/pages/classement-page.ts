@@ -16,7 +16,7 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('filmCanvas') filmRef!: ElementRef<HTMLCanvasElement>;
   private filmRenderer?: THREE.WebGLRenderer;
   private filmAnimId!: number;
-  private readonly STORAGE_KEY = 'portfolio-classement-v17';
+  private readonly STORAGE_KEY = 'portfolio-classement-v18';
   private svc = inject(ClassementService);
   private tmdb = inject(TmdbService);
 
@@ -285,6 +285,50 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
     { id: 'd201', title: 'Your Name',                                       year: 2016, score: 9.5, category: 'Anime',     emoji: '☄️', poster: `${T}/zyHjvVRgKOt9wgVx4ikp2kGArGF.jpg` },
     { id: 'd202', title: 'Demon Slayer: Mugen Train',                       year: 2020, score: 9,   category: 'Anime',     emoji: '🚂', poster: `${T}/t3BCcQNhUAP5l93TbOfp3Hk1v2S.jpg` },
     { id: 'd203', title: 'Bleach',                                          year: 2004, score: 8.5, category: 'Anime',     emoji: '⚔️', poster: `${T}/5iVUUnE2tgBPypACYNobCKHagfV.jpg` },
+    // ── Marvel — séries ───────────────────────────────────────────────────────
+    { id: 'd204', title: 'WandaVision',                                     year: 2021, score: 8.5, category: 'Marvel',    emoji: '📺', poster: `${T}/AXnCR7WE8BKlzsabQtUITySChn.jpg` },
+    { id: 'd205', title: 'The Falcon and the Winter Soldier',              year: 2021, score: 7.5, category: 'Marvel',    emoji: '🦅', poster: `${T}/6NrUwEWDxZI2XffOnw3nuibukmX.jpg` },
+    { id: 'd206', title: 'What If...?',                                     year: 2021, score: 7.5, category: 'Marvel',    emoji: '❓', poster: `${T}/mj98hl3XsRcxYdw99arNavsSBDP.jpg` },
+    { id: 'd207', title: 'Hawkeye',                                         year: 2021, score: 7.5, category: 'Marvel',    emoji: '🏹', poster: `${T}/cybZ7FoeBoBJPieKvSp4wh2yCMR.jpg` },
+    { id: 'd208', title: 'Moon Knight',                                     year: 2022, score: 8,   category: 'Marvel',    emoji: '🌙', poster: `${T}/xrkDlkL6u26DLeBw2Cao8pYtrYH.jpg` },
+    { id: 'd209', title: 'Ms. Marvel',                                      year: 2022, score: 7,   category: 'Marvel',    emoji: '✨', poster: `${T}/3x1eRyuz2NOOSXODDcDl9EjGRQ.jpg` },
+    { id: 'd210', title: 'She-Hulk: Attorney at Law',                       year: 2022, score: 6.5, category: 'Marvel',    emoji: '💚', poster: `${T}/poWy1hDzaIFv6UaYtFDNcNfiM2C.jpg` },
+    { id: 'd211', title: 'Secret Invasion',                                 year: 2023, score: 6,   category: 'Marvel',    emoji: '👽', poster: `${T}/AbqvJTbFEOmL8vHk54lVolqQg8Y.jpg` },
+    { id: 'd212', title: 'Echo',                                            year: 2024, score: 6.5, category: 'Marvel',    emoji: '🎯', poster: `${T}/vYAmCQ0ZbumwLJncUG8hPomb5R7.jpg` },
+    { id: 'd213', title: 'Agatha All Along',                                year: 2024, score: 7.5, category: 'Marvel',    emoji: '🧙', poster: `${T}/mGsxKwXUjojitRv2E9qMTbxbBRd.jpg` },
+    { id: 'd214', title: "X-Men '97",                                       year: 2024, score: 9,   category: 'Marvel',    emoji: '⚡', poster: `${T}/9Ycz7yYRf9V4jk3YXwcZhFtbNcF.jpg` },
+    { id: 'd215', title: 'Daredevil: Born Again',                           year: 2025, score: 8.5, category: 'Marvel',    emoji: '😈', poster: `${T}/7UMmvMvhSw1jBgdz0NzLo9pa93g.jpg` },
+    { id: 'd216', title: 'Ironheart',                                       year: 2025, score: 6.5, category: 'Marvel',    emoji: '🤖', poster: `${T}/dtpiECNwAeLnGJSU3HTWhcQGHk1.jpg` },
+    { id: 'd217', title: 'Marvel Zombies',                                  year: 2025, score: 7,   category: 'Marvel',    emoji: '🧟', poster: `${T}/9CbKyXIbDKBSKKs7BOFnMiJxWal.jpg` },
+    { id: 'd218', title: 'Agents of S.H.I.E.L.D.',                          year: 2013, score: 8,   category: 'Marvel',    emoji: '🛡️', poster: `${T}/j6pen1MBLKbBoXrzrHSxfsd0lrC.jpg` },
+    { id: 'd219', title: 'Agent Carter',                                    year: 2015, score: 7.5, category: 'Marvel',    emoji: '🎩', poster: `${T}/fe79VYyLp5ZBstpJ4oukpuUT3B.jpg` },
+    { id: 'd220', title: 'Daredevil',                                       year: 2015, score: 9,   category: 'Marvel',    emoji: '😈', poster: `${T}/jwhi2cBENpdMYJUkmVTJ6Fcrokf.jpg` },
+    { id: 'd221', title: 'Jessica Jones',                                   year: 2015, score: 8,   category: 'Marvel',    emoji: '🔍', poster: `${T}/d8OS8nKmv45BjGXsWTOxRdiFm1X.jpg` },
+    { id: 'd222', title: 'Luke Cage',                                       year: 2016, score: 7.5, category: 'Marvel',    emoji: '💪', poster: `${T}/whnbD6LEjHenvda3A2cV2Vky531.jpg` },
+    { id: 'd223', title: 'Iron Fist',                                       year: 2017, score: 6.5, category: 'Marvel',    emoji: '👊', poster: `${T}/v6qcpqlpyRqZzmIehW3eOssTW5K.jpg` },
+    { id: 'd224', title: 'The Punisher',                                    year: 2017, score: 8.5, category: 'Marvel',    emoji: '💀', poster: `${T}/74VbBYHmpjgeES1zkRo1DwHkWnE.jpg` },
+    { id: 'd225', title: 'The Defenders',                                   year: 2017, score: 7,   category: 'Marvel',    emoji: '🛡️', poster: `${T}/k8UOUmPzCHrflLHxvNhogsJGo8D.jpg` },
+    // ── DC — séries ───────────────────────────────────────────────────────────
+    { id: 'd226', title: 'Peacemaker',                                      year: 2022, score: 9,   category: 'DC',        emoji: '🕊️', poster: `${T}/zS3B0E62iVX9cmiEkToD2JMrne0.jpg` },
+    { id: 'd227', title: 'Titans',                                          year: 2018, score: 7.5, category: 'DC',        emoji: '⚡', poster: `${T}/8e6QiSexmYKaiHGPvbhaFMmQEhc.jpg` },
+    { id: 'd228', title: 'Doom Patrol',                                     year: 2019, score: 8,   category: 'DC',        emoji: '🦸', poster: `${T}/muIcIHBEGXiSzz7RNGisnTR3xU4.jpg` },
+    { id: 'd229', title: 'The Sandman',                                     year: 2022, score: 8,   category: 'DC',        emoji: '💤', poster: `${T}/iJGvK70qYSxrqaBDp8bF40YIg59.jpg` },
+    { id: 'd230', title: 'Watchmen',                                        year: 2019, score: 8.5, category: 'DC',        emoji: '🕰️', poster: `${T}/m8rWq3j73ZGhDuSCZWMMoE9ePH1.jpg` },
+    { id: 'd231', title: 'Gotham',                                          year: 2014, score: 8,   category: 'DC',        emoji: '🦇', poster: `${T}/qWZDd8X79Caky51mpS35xFtgE3p.jpg` },
+    { id: 'd232', title: 'Arrow',                                           year: 2012, score: 8,   category: 'DC',        emoji: '🏹', poster: `${T}/4DVLTc7oVCzHOSmZzlDHefCKyqq.jpg` },
+    { id: 'd233', title: 'The Flash',                                       year: 2014, score: 7.5, category: 'DC',        emoji: '⚡', poster: `${T}/Hrta0iq8KEQbdOpSnki2gUMowk.jpg` },
+    { id: 'd234', title: 'Smallville',                                      year: 2001, score: 8,   category: 'DC',        emoji: '🌽', poster: `${T}/el4r3RABoLe5Hh6U2I3OybBjrme.jpg` },
+    { id: 'd235', title: 'Superman & Lois',                                 year: 2021, score: 8,   category: 'DC',        emoji: '🦸', poster: `${T}/vlv1gn98GqMnKHLSh0dNciqGfBl.jpg` },
+    { id: 'd236', title: 'Stargirl',                                        year: 2020, score: 7,   category: 'DC',        emoji: '⭐', poster: `${T}/JJxVsQPPiuLcArALotMHsCubeo.jpg` },
+    { id: 'd237', title: 'Sweet Tooth',                                     year: 2021, score: 7.5, category: 'DC',        emoji: '🦌', poster: `${T}/rgMfhcrVZjuy5b7Pn0KzCRCEnMX.jpg` },
+    { id: 'd238', title: 'Pennyworth',                                      year: 2019, score: 7,   category: 'DC',        emoji: '🎩', poster: `${T}/hBz89EHXocJcT0ltZpGEMKETF0L.jpg` },
+    { id: 'd239', title: 'Creature Commandos',                             year: 2024, score: 7.5, category: 'DC',        emoji: '👹', poster: `${T}/bB3G6Ug1jfsOUptb0RJsqrgMVta.jpg` },
+    { id: 'd240', title: 'Supergirl',                                       year: 2015, score: 7,   category: 'DC',        emoji: '🦸', poster: `${T}/cFO65xb0xiXKqk5BmgHawCXB1i0.jpg` },
+    { id: 'd241', title: "DC's Legends of Tomorrow",                        year: 2016, score: 7,   category: 'DC',        emoji: '⏳', poster: `${T}/tAwfCIwA2BHR4H6j5hENvI3dbAl.jpg` },
+    { id: 'd242', title: 'Batwoman',                                        year: 2019, score: 6,   category: 'DC',        emoji: '🦇', poster: `${T}/pBpxKiitMuYXvtsXNSzya8DKKzV.jpg` },
+    { id: 'd243', title: 'Lucifer',                                         year: 2016, score: 8,   category: 'DC',        emoji: '😈', poster: `${T}/tU34L2zd8sWxypSxAwg01mksLdq.jpg` },
+    { id: 'd244', title: 'Constantine',                                     year: 2014, score: 7,   category: 'DC',        emoji: '🔮', poster: `${T}/pPIyqVAyMQUmg0oaXh6nZoPG8Ev.jpg` },
+    { id: 'd245', title: 'Harley Quinn',                                    year: 2019, score: 8.5, category: 'DC',        emoji: '🃏', poster: `${T}/9Dm1SEh8Wxt8LNNg02exHQ595zg.jpg` },
   ];
 
   async ngOnInit() {
