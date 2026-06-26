@@ -1,0 +1,105 @@
+<!-- ── Header ──────────────────────────────────────────────────── -->
+<section class="pg-header">
+  <div class="container">
+    <div class="pg-tag-row">
+      <span class="pg-num">06</span>
+      <span class="pg-label">// CINÉ-QUIZ</span>
+      <div class="pg-line"></div>
+    </div>
+    <h1 class="pg-title">Movie <span class="pg-accent">Quiz</span></h1>
+    <p class="pg-intro">Devine le titre d'après son poster — {{ totalCatalogue }} films, séries et animés. 4 propositions, 15 secondes par question.</p>
+  </div>
+</section>
+
+<section class="content-section last">
+  <div class="container quiz-wrap">
+
+    <!-- ── Écran d'accueil ──────────────────────────────────── -->
+    @if (state() === 'start') {
+      <div class="quiz-card hud-card">
+        <div class="panel-bar">
+          <span class="panel-tag">// CONFIGURATION</span>
+          <span class="panel-tag dim">SÉLECTION CATÉGORIE</span>
+        </div>
+        <h2 class="q-h">Choisis ta catégorie</h2>
+        <div class="cat-grid">
+          @for (c of cats; track c) {
+            <button class="cat-btn" [class.on]="category() === c" (click)="category.set(c)">
+              <span class="cat-name">{{ c }}</span>
+              <span class="cat-count">{{ catCount(c) }}</span>
+            </button>
+          }
+        </div>
+        <div class="start-row">
+          <span class="best-chip">★ Record : {{ selBest() }}/{{ selCount() }}</span>
+          <button class="q-start" (click)="start(category())">▶ DÉMARRER</button>
+        </div>
+      </div>
+    }
+
+    <!-- ── Partie en cours ──────────────────────────────────── -->
+    @if (state() === 'playing' && question(); as q) {
+      <div class="quiz-hud">
+        <div class="qh-item"><span class="qh-l">QUESTION</span><span class="qh-v">{{ qIndex() + 1 }}/{{ total() }}</span></div>
+        <div class="qh-item"><span class="qh-l">SCORE</span><span class="qh-v gold">{{ score() }}</span></div>
+        <div class="qh-item"><span class="qh-l">SÉRIE</span><span class="qh-v">{{ streak() }} 🔥</span></div>
+      </div>
+
+      <div class="timer-bar">
+        <div class="timer-fill" [style.width.%]="timeLeft() / 15 * 100" [class.low]="timeLeft() <= 5"></div>
+      </div>
+
+      <div class="q-body">
+        <div class="q-poster">
+          @if (q.answer.poster) {
+            <img [src]="q.answer.poster" alt="Poster mystère" (error)="onImgError($event)" />
+          } @else {
+            <div class="q-poster-fallback">{{ q.answer.emoji }}</div>
+          }
+          @if (revealed()) {
+            <span class="q-reveal-badge" [class.ok]="isCorrect()">{{ isCorrect() ? '✓ BRAVO' : '✕ RATÉ' }}</span>
+          }
+        </div>
+
+        <div class="q-side">
+          <p class="q-ask">Quel est ce titre ?</p>
+          <div class="opt-list">
+            @for (o of q.options; track o.id) {
+              <button class="opt" [class]="optState(o)" [disabled]="revealed()" (click)="answer(o)">
+                <span class="opt-emoji">{{ o.emoji }}</span>
+                <span class="opt-title">{{ o.title }}</span>
+                <span class="opt-year">{{ o.year }}</span>
+              </button>
+            }
+          </div>
+          @if (revealed()) {
+            <button class="q-next" (click)="next()">
+              {{ qIndex() + 1 >= total() ? 'VOIR LE SCORE →' : 'QUESTION SUIVANTE →' }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- ── Résultat ─────────────────────────────────────────── -->
+    @if (state() === 'done') {
+      <div class="quiz-card hud-card result">
+        <div class="panel-bar">
+          <span class="panel-tag">// RÉSULTAT</span>
+          <span class="panel-tag dim">{{ category() }}</span>
+        </div>
+        <div class="result-score">{{ score() }}<span class="rs-total">/{{ total() }}</span></div>
+        <p class="result-msg">{{ resultMsg() }}</p>
+        <div class="result-meta">
+          <span class="rm-chip">★ Record : {{ best() }}/{{ total() }}</span>
+          <span class="rm-chip">🔥 Meilleure série : {{ bestStreak() }}</span>
+        </div>
+        <div class="result-actions">
+          <button class="q-start" (click)="restart()">↻ REJOUER</button>
+          <button class="q-ghost" (click)="toStart()">CHANGER DE CATÉGORIE</button>
+        </div>
+      </div>
+    }
+
+  </div>
+</section>
