@@ -45,6 +45,8 @@ export class Hero implements AfterViewInit, OnDestroy {
   private innerBase!: Float32Array;     // positions d'origine du nuage interne (cible de retour après répulsion)
   private reduceMotion = false;         // respecte prefers-reduced-motion
   private isMobile = false;             // budget allégé sur petit écran (particules, pixelRatio)
+  private heroVisible = true;           // ne rend la scène que si le hero est à l'écran (perf)
+  private heroObs?: IntersectionObserver;
 
   ngAfterViewInit() {
     // Détecte la préférence d'accessibilité avant d'initialiser la scène
@@ -54,11 +56,19 @@ export class Hero implements AfterViewInit, OnDestroy {
     this.typeNext();
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('resize', this.onResize);
+
+    // Met la scène 3D en pause quand le hero quitte l'écran (économise GPU au scroll)
+    this.heroObs = new IntersectionObserver(
+      entries => { this.heroVisible = entries[0].isIntersecting; },
+      { threshold: 0 }
+    );
+    this.heroObs.observe(this.canvasRef.nativeElement);
   }
 
   ngOnDestroy() {
     cancelAnimationFrame(this.animId);
     if (this.typingTimer) clearTimeout(this.typingTimer);
+    this.heroObs?.disconnect();
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('resize', this.onResize);
     // Libère la sphère proxy (non rattachée à la scène, donc non nettoyée ailleurs)
@@ -92,7 +102,7 @@ export class Hero implements AfterViewInit, OnDestroy {
     const w = window.innerWidth, h = window.innerHeight;
     this.renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !this.isMobile });
     this.renderer.setSize(w, h);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.isMobile ? 1.5 : 2));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(62, w / h, 0.1, 1000);
     this.camera.position.z = 5;
@@ -171,7 +181,7 @@ export class Hero implements AfterViewInit, OnDestroy {
     this.scene.add(this.constellationLines);
 
     // Inner particle cloud — dense near core, breathes with the icosahedron
-    const innerCount = this.isMobile ? 200 : 450; // budget réduit sur mobile
+    const innerCount = this.isMobile ? 180 : 300; // budget réduit (perf)
     const iPos = new Float32Array(innerCount * 3);
     for (let i = 0; i < innerCount; i++) {
       const r = 0.8 + Math.random() * 1.6;
@@ -203,7 +213,7 @@ export class Hero implements AfterViewInit, OnDestroy {
   }
 
   private buildParticles(): THREE.Points {
-    const count   = this.isMobile ? 650 : 1800; // budget réduit sur mobile
+    const count   = this.isMobile ? 600 : 1100; // budget réduit (perf)
     const pos     = new Float32Array(count * 3);
     const col     = new Float32Array(count * 3);
     const palette = [
@@ -232,6 +242,7 @@ export class Hero implements AfterViewInit, OnDestroy {
 
   private animate = () => {
     this.animId = requestAnimationFrame(this.animate);
+    if (!this.heroVisible) return; // hero hors écran → on saute tout le travail
     const t = this.clock.getElapsedTime();
 
     // ── Détection du survol du noyau + projection du curseur dans la scène ──

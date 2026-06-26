@@ -171,8 +171,8 @@ import * as THREE from 'three';
       padding: 26px 22px; text-decoration: none; color: var(--text);
       transition: all 0.25s ease;
       border: 1px solid rgba(0,212,255,0.1); border-radius: 14px;
-      background: rgba(4,12,28,0.7); backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px); position: relative; overflow: hidden;
+      background: rgba(4,12,28,0.7); backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px); position: relative; overflow: hidden;
 
       &::before {
         content: ''; position: absolute; top: 0; left: 20%; right: 20%; height: 1px;
@@ -270,7 +270,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
     this.navRenderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     this.navRenderer.setSize(S, S);
-    this.navRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.navRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     // Core: torus knot (purple/cyan)
     const knot = new THREE.Mesh(

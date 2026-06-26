@@ -159,7 +159,7 @@ export class NotFoundPage implements AfterViewInit, OnDestroy {
 
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     this.renderer.setSize(W, H);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     // ── Central broken icosahedron ──────────────────
     const icoGeo  = new THREE.IcosahedronGeometry(1.5, 2);

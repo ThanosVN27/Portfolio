@@ -306,7 +306,7 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
     const size = 200;
     const renderer = new THREE.WebGLRenderer({ canvas: el, alpha: true, antialias: true });
     renderer.setSize(size, size);
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
     this.filmRenderer = renderer;
 
     const scene = new THREE.Scene();

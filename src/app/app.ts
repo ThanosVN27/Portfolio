@@ -34,7 +34,7 @@ import * as THREE from 'three';
             style({ opacity: 0, filter: 'blur(28px) brightness(8) saturate(6)', clipPath: 'circle(0% at 50% 50%)', transform: 'scale(1.08)' }),
             animate('820ms 55ms cubic-bezier(0.22,1.12,0.36,1)', keyframes([
               style({ opacity: 0,    filter: 'blur(28px) brightness(9)    saturate(6)',   clipPath: 'circle(0% at 50% 50%)',   transform: 'scale(1.08)',  offset: 0    }),
-              style({ opacity: 0.08, filter: 'blur(24px) brightness(12)   saturate(8)',   clipPath: 'circle(1.5% at 50% 50%)', transform: 'scale(1.06)',  offset: 0.07 }),
+              style({ opacity: 0.08, filter: 'blur(14px) brightness(12)   saturate(8)',   clipPath: 'circle(1.5% at 50% 50%)', transform: 'scale(1.06)',  offset: 0.07 }),
               style({ opacity: 0.32, filter: 'blur(17px) brightness(5.5)  saturate(4.5)', clipPath: 'circle(10% at 50% 50%)',  transform: 'scale(1.04)',  offset: 0.22 }),
               style({ opacity: 0.60, filter: 'blur(8px)  brightness(3)    saturate(2.8)', clipPath: 'circle(30% at 50% 50%)',  transform: 'scale(1.02)',  offset: 0.44 }),
               style({ opacity: 0.82, filter: 'blur(3px)  brightness(1.7)  saturate(1.5)', clipPath: 'circle(62% at 50% 50%)',  transform: 'scale(1.007)', offset: 0.67 }),
@@ -489,8 +489,11 @@ export class App implements AfterViewInit, OnDestroy {
     scene.add(gridFloor, gridRoof);
 
     const posAttr = pGeo.attributes['position'] as THREE.BufferAttribute;
+    let frame = 0;
     const animate = () => {
       this.ambientAnimId = requestAnimationFrame(animate);
+      // Throttle à ~30 fps : le fond est subtil, inutile de le rendre à 60 fps
+      if ((frame++ & 1) === 1) return;
       const arr = posAttr.array as Float32Array;
       for (let i = 0; i < pCount; i++) {
         arr[i*3]   += pVel[i*3];

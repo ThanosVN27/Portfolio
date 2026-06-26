@@ -29,7 +29,7 @@
 .sh-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0,212,255,0.18), transparent); }
 
 .hud-card {
-  background: rgba(4,12,28,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(4,12,28,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(0,212,255,0.11); border-radius: 14px; padding: 24px;
   position: relative; overflow: hidden;
   &::before { content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.4), transparent); }
