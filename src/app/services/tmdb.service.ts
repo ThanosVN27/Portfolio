@@ -51,21 +51,67 @@ export class TmdbService {
       }));
   }
 
-  /**
-   * Récupère la clé YouTube de la meilleure bande-annonce d'un film.
-   * Essaie le français puis l'anglais, et privilégie un trailer officiel.
-   */
+  /** Bande-annonce d'un film par son id TMDB (utilisé par les sorties à venir). */
   async getTrailerKey(movieId: number): Promise<string | null> {
+    return this.getTrailerKeyFor('movie', movieId);
+  }
+
+  /**
+   * Bande-annonce d'un titre du catalogue (film OU série) par recherche.
+   * Matching par titre exact puis par année pour viser la bonne fiche.
+   */
+  async getTrailerByTitle(title: string, year?: number, preferTv?: boolean): Promise<string | null> {
+    if (!this.hasKey) return null;
+
+    // Nettoie les suffixes de saison/édition entre parenthèses (« (S1) », « (2009) »…)
+    const cleanTitle = title.replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+
+    const url = `https://api.themoviedb.org/3/search/multi`
+      + `?language=fr-FR&include_adult=false&query=${encodeURIComponent(cleanTitle)}&api_key=${this.key}`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    const cands = (data.results as Array<Record<string, unknown>> ?? [])
+      .filter(r => (r['media_type'] === 'movie' || r['media_type'] === 'tv') && r['id']);
+    if (!cands.length) return null;
+
+    const norm = (s: string) => (s || '').toLowerCase().normalize('NFD')
+      .replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
+    const tNorm = norm(cleanTitle);
+    const yearOf = (r: Record<string, unknown>) =>
+      parseInt(String(r['release_date'] ?? r['first_air_date'] ?? '').slice(0, 4)) || 0;
+
+    // Score = pertinence TMDB (ordre) ajustée par titre exact / contenu / année / type attendu
+    const scored = cands.map((r, i) => {
+      const n = norm(String(r['title'] ?? r['name']));
+      let s = -i;
+      if (n === tNorm) s += 100;
+      else if (tNorm.length >= 4 && n.includes(tNorm)) s += 55;
+      if (year && Math.abs(yearOf(r) - year) <= 1) s += 50;
+      if (preferTv !== undefined && ((preferTv && r['media_type'] === 'tv') || (!preferTv && r['media_type'] === 'movie'))) s += 40;
+      return { r, s, v: Number(r['vote_count']) || 0 };
+    });
+    scored.sort((a, b) => (b.s - a.s) || (b.v - a.v));
+
+    // Parcourt les meilleurs candidats jusqu'à en trouver un avec une bande-annonce
+    for (const { r } of scored.slice(0, 5)) {
+      const key = await this.getTrailerKeyFor(r['media_type'] as string, r['id'] as number);
+      if (key) return key;
+    }
+    return null;
+  }
+
+  /** Meilleure bande-annonce YouTube pour un média donné (FR puis EN, trailer officiel prioritaire). */
+  private async getTrailerKeyFor(mediaType: string, id: number): Promise<string | null> {
     if (!this.hasKey) return null;
 
     for (const lang of ['fr-FR', 'en-US']) {
-      const url = `https://api.themoviedb.org/3/movie/${movieId}/videos`
-        + `?language=${lang}&api_key=${this.key}`;
-      const res = await fetch(url);
+      const res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/videos`
+        + `?language=${lang}&api_key=${this.key}`);
       if (!res.ok) continue;
 
-      const data = await res.json();
-      const vids = (data.results as Array<Record<string, unknown>> ?? [])
+      const vids = ((await res.json()).results as Array<Record<string, unknown>> ?? [])
         .filter(v => v['site'] === 'YouTube' && v['key']);
 
       const pick =

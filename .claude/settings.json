@@ -43,7 +43,8 @@
       "WebSearch",
       "WebFetch(domain:image.tmdb.org)",
       "Bash(npm run *)",
-      "WebFetch(domain:api.themoviedb.org)"
+      "WebFetch(domain:api.themoviedb.org)",
+      "Bash(node -e ' *)"
     ],
     "additionalDirectories": [
       "\\tmp"

@@ -44,6 +44,7 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
 
   activeFilter = signal('Tout');
   searchQuery  = signal('');
+  sortMode     = signal<'score' | 'year' | 'title'>('score');
   showModal    = signal(false);
   isEditing    = signal(false);
   editingId    = signal<string | null>(null);
@@ -146,6 +147,33 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** Ouvre la bande-annonce d'une entrée du catalogue (recherche par titre). */
+  async openTrailerForEntry(entry: Entry) {
+    if (!this.tmdb.hasKey) return;
+    this.trailerTitle.set(entry.title);
+    this.trailerKey.set(null);
+    this.trailerError.set(false);
+    this.trailerLoading.set(true);
+    this.showTrailer.set(true);
+    try {
+      const preferTv = (entry.category === 'Anime' || entry.category === 'Séries') ? true : undefined;
+      const key = await this.tmdb.getTrailerByTitle(entry.title, entry.year, preferTv);
+      if (key) this.trailerKey.set(key);
+      else this.trailerError.set(true);
+    } catch {
+      this.trailerError.set(true);
+    } finally {
+      this.trailerLoading.set(false);
+    }
+  }
+
+  /** Pioche une entrée au hasard (selon le filtre courant) et lance sa bande-annonce. */
+  randomSurprise() {
+    const list = this.filtered();
+    if (!list.length) return;
+    this.openTrailerForEntry(list[Math.floor(Math.random() * list.length)]);
+  }
+
   closeTrailer() {
     this.showTrailer.set(false);
     this.trailerKey.set(null); // stoppe la lecture YouTube
@@ -159,9 +187,14 @@ export class ClassementPage implements OnInit, AfterViewInit, OnDestroy {
   filtered = computed(() => {
     const f = this.activeFilter();
     const q = this.searchQuery().toLowerCase().trim();
+    const mode = this.sortMode();
     let list = f === 'Tout' ? [...this.entries()] : this.entries().filter(e => e.category === f);
     if (q) list = list.filter(e => e.title.toLowerCase().includes(q) || e.category.toLowerCase().includes(q));
-    return list.sort((a, b) => b.score - a.score);
+    return list.sort((a, b) => {
+      if (mode === 'year')  return b.year - a.year;
+      if (mode === 'title') return a.title.localeCompare(b.title, 'fr');
+      return b.score - a.score;
+    });
   });
 
   stats = computed(() => {

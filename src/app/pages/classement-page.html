@@ -61,6 +61,19 @@
           }
         </div>
       </div>
+
+      <!-- Tri + pioche au hasard -->
+      <div class="toolbar-row sort-row">
+        <div class="sort-group">
+          <span class="sort-lbl">TRIER</span>
+          <button class="sort-btn" [class.on]="sortMode() === 'score'" (click)="sortMode.set('score')">Note ▾</button>
+          <button class="sort-btn" [class.on]="sortMode() === 'year'"  (click)="sortMode.set('year')">Année ▾</button>
+          <button class="sort-btn" [class.on]="sortMode() === 'title'" (click)="sortMode.set('title')">A → Z</button>
+        </div>
+        @if (tmdbReady) {
+          <button class="btn-surprise" (click)="randomSurprise()" title="Bande-annonce au hasard">🎲 Surprise</button>
+        }
+      </div>
     </div>
 
     <!-- Stats HUD card -->
@@ -141,13 +154,15 @@
     <!-- Poster grid -->
     <div class="rank-grid">
       @for (entry of filtered(); track entry.id; let i = $index) {
-        <div class="rank-card" [style.--cat-color]="catColor(entry.category)" [style.animation-delay]="(i * 28) + 'ms'">
+        <div class="rank-card" [class.clickable]="tmdbReady" [style.--cat-color]="catColor(entry.category)" [style.animation-delay]="(i * 28) + 'ms'"
+             (click)="openTrailerForEntry(entry)">
           <div class="poster-wrap">
             <div class="poster-fallback">{{ entry.emoji }}</div>
             @if (entry.poster) {
               <img [src]="entry.poster" [alt]="entry.title" (error)="onImgError($event)" loading="lazy" />
             }
           </div>
+          @if (tmdbReady) { <span class="rank-play">▶</span> }
           <div class="card-overlay">
             <span class="rank-tier" [class]="tierClass(entry.score)">{{ tierLabel(entry.score) }}</span>
             <div class="overlay-body">
@@ -164,8 +179,8 @@
           </div>
           @if (adminMode()) {
             <div class="card-actions">
-              <button class="act-btn edit-btn" (click)="openEdit(entry)" title="Modifier">✎</button>
-              <button class="act-btn del-btn" (click)="removeEntry(entry.id)" title="Supprimer">✕</button>
+              <button class="act-btn edit-btn" (click)="$event.stopPropagation(); openEdit(entry)" title="Modifier">✎</button>
+              <button class="act-btn del-btn" (click)="$event.stopPropagation(); removeEntry(entry.id)" title="Supprimer">✕</button>
             </div>
           }
         </div>

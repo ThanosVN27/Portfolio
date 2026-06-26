@@ -73,6 +73,27 @@
   cursor: pointer; padding: 0; &:hover { color: rgba(255,255,255,0.7); }
 }
 
+/* Tri + surprise */
+.sort-row { margin-top: 4px; }
+.sort-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sort-lbl { font-family: 'Fira Code', monospace; font-size: 0.55rem; letter-spacing: 0.16em; color: rgba(255,255,255,0.4); }
+.sort-btn {
+  padding: 6px 13px; border-radius: 5px; cursor: pointer;
+  font-family: 'Fira Code', monospace; font-size: 0.6rem; letter-spacing: 0.06em;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5);
+  transition: all 0.18s;
+  &:hover { border-color: rgba(255,200,60,0.35); color: rgba(255,255,255,0.85); }
+  &.on { background: rgba(255,200,60,0.12); border-color: rgba(255,200,60,0.5); color: #ffc83c; }
+}
+.btn-surprise {
+  padding: 7px 16px; border-radius: 6px; cursor: pointer;
+  background: linear-gradient(135deg, rgba(124,111,255,0.16), rgba(255,200,60,0.14));
+  border: 1px solid rgba(255,200,60,0.4); color: #ffd87a;
+  font-family: 'Fira Code', monospace; font-size: 0.64rem; letter-spacing: 0.08em;
+  transition: all 0.2s;
+  &:hover { box-shadow: 0 0 20px rgba(255,200,60,0.22); transform: translateY(-2px); border-color: rgba(255,200,60,0.7); }
+}
+
 /* Filters */
 .film-filters { display: flex; gap: 8px; flex-wrap: wrap; }
 .filter-btn {
@@ -237,12 +258,24 @@
   animation: cardIn 0.32s ease both; cursor: default;
   box-shadow: 0 4px 20px rgba(0,0,0,0.5);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  &.clickable { cursor: pointer; }
   &:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 48px rgba(0,0,0,0.7), 0 0 0 1px var(--cat-color, rgba(255,200,60,0.4));
     .card-overlay { background: linear-gradient(transparent 18%, rgba(0,0,0,0.97) 58%); }
     .card-actions { opacity: 1; }
+    .rank-play { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   }
+}
+.rank-play {
+  position: absolute; top: 42%; left: 50%; z-index: 14;
+  transform: translate(-50%, -50%) scale(0.6); opacity: 0;
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: #fff; padding-left: 3px;
+  background: rgba(255,200,60,0.22); border: 1.5px solid rgba(255,200,60,0.8);
+  backdrop-filter: blur(6px); box-shadow: 0 0 22px rgba(255,200,60,0.5);
+  transition: opacity 0.22s ease, transform 0.22s ease; pointer-events: none;
 }
 @keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(0.97); } to { opacity: 1; transform: none; } }
 
