@@ -72,6 +72,7 @@ import * as THREE from 'three';
       <div class="ah-corner ah-tr"></div>
       <div class="ah-corner ah-bl"></div>
       <div class="ah-corner ah-br"></div>
+      <div class="holo-sweep"></div>
     </div>
 
     <!-- Holographic scan overlay (on route change) -->
@@ -163,6 +164,25 @@ import * as THREE from 'three';
       background: repeating-linear-gradient(
         0deg, transparent 0px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px
       );
+    }
+
+    /* Balayage holographique descendant (très subtil) */
+    .holo-sweep {
+      position: absolute; left: 0; right: 0; top: -160px; height: 160px; pointer-events: none;
+      background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(0,212,255,0.04) 42%,
+        rgba(0,212,255,0.08) 50%,
+        rgba(0,212,255,0.04) 58%,
+        transparent 100%);
+      animation: holoSweep 7.5s linear infinite;
+    }
+    @media (prefers-reduced-motion: reduce) { .holo-sweep { display: none; } }
+    @keyframes holoSweep {
+      0%   { transform: translateY(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(calc(100vh + 160px)); opacity: 0; }
     }
 
     /* Very subtle cyan vignette border */
@@ -343,7 +363,7 @@ import * as THREE from 'three';
     /* ── Ambient Three.js background ── */
     .ambient-bg {
       position: fixed; inset: 0; width: 100vw; height: 100vh;
-      pointer-events: none; z-index: 1; opacity: 0.13;
+      pointer-events: none; z-index: 1; opacity: 0.2;
     }
   `]
 })
@@ -456,6 +476,18 @@ export class App implements AfterViewInit, OnDestroy {
     const shape3 = makeWireShape(new THREE.TetrahedronGeometry(1.2, 0), '#00d4ff',  0,  2.5, -10);
     scene.add(shape1, shape2, shape3);
 
+    // ── Sol + plafond holographiques (grille HUD qui défile) ──
+    const makeGrid = (y: number) => {
+      const g = new THREE.GridHelper(60, 30, new THREE.Color('#00d4ff'), new THREE.Color('#16465e'));
+      const m = g.material as THREE.LineBasicMaterial;
+      m.transparent = true; m.opacity = 0.18;
+      g.position.set(0, y, -2);
+      return g;
+    };
+    const gridFloor = makeGrid(-7);
+    const gridRoof  = makeGrid(7);
+    scene.add(gridFloor, gridRoof);
+
     const posAttr = pGeo.attributes['position'] as THREE.BufferAttribute;
     const animate = () => {
       this.ambientAnimId = requestAnimationFrame(animate);
@@ -475,6 +507,9 @@ export class App implements AfterViewInit, OnDestroy {
       shape2.rotation.z += 0.0004;
       shape3.rotation.x += 0.0005;
       shape3.rotation.y += 0.0007;
+      // Défilement infini des grilles (1 cellule = 2 unités → boucle nette)
+      gridFloor.position.z = (gridFloor.position.z + 0.02) % 2 - 2;
+      gridRoof.position.z = gridFloor.position.z;
       this.ambientRenderer!.render(scene, camera);
     };
     animate();

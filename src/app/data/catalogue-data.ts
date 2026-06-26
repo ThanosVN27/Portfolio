@@ -1,6 +1,6 @@
 import { Entry } from '../services/classement.service';
 
-// Catalogue partagé (classement + quiz). Posters TMDB vérifiés.
+// Catalogue du classement (source unique). Posters TMDB vérifiés.
 const T = 'https://image.tmdb.org/t/p/w300';
 
 export const CATALOGUE: Entry[] = [] = [

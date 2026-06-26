@@ -120,9 +120,14 @@ section {
 }
 
 .reveal {
-  opacity: 0; transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
-  &.visible { opacity: 1; transform: translateY(0); }
+  opacity: 0; transform: translateY(28px); filter: blur(8px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+              transform 0.7s cubic-bezier(0.22,1,0.36,1),
+              filter 0.7s cubic-bezier(0.22,1,0.36,1);
+  &.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { filter: none; transition: opacity 0.4s ease; transform: none; }
 }
 .reveal-d1 { transition-delay: 0.12s; }
 .reveal-d2 { transition-delay: 0.22s; }
@@ -166,9 +171,15 @@ h1, h2, h3 { text-wrap: balance; }
 
 @media (prefers-reduced-motion: no-preference) {
 
-  /* Hologram flicker — micro-coupures lumineuses sur les grands titres */
+  /* Hologram flicker + glitch chromatique (RGB split) sur les grands titres */
   .pg-title, .pj-title {
-    animation: holoFlicker 8s linear infinite;
+    animation: holoFlicker 8s linear infinite, holoChroma 6s ease-in-out infinite;
+  }
+  @keyframes holoChroma {
+    0%, 90%, 100% { filter: none; }
+    93% { filter: drop-shadow(-2px 0 rgba(255,40,90,0.55)) drop-shadow(2px 0 rgba(0,212,255,0.55)); }
+    95% { filter: drop-shadow(2px 0 rgba(255,40,90,0.55)) drop-shadow(-2px 0 rgba(0,212,255,0.55)); }
+    97% { filter: drop-shadow(-1px 0 rgba(255,40,90,0.4)) drop-shadow(1px 0 rgba(0,212,255,0.4)); }
   }
   @keyframes holoFlicker {
     0%, 90.8%, 93.4%, 100% { opacity: 1; }

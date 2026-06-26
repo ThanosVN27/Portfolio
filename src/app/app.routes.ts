@@ -6,7 +6,6 @@ export const routes: Routes = [
   { path: 'competences', data: { anim: 'Competences' }, loadComponent: () => import('./pages/competences-page').then(m => m.CompetencesPage) },
   { path: 'projets',     data: { anim: 'Projets' },     loadComponent: () => import('./pages/projects-page').then(m => m.ProjectsPage) },
   { path: 'films',       data: { anim: 'Films' },       loadComponent: () => import('./pages/classement-page').then(m => m.ClassementPage) },
-  { path: 'quiz',        data: { anim: 'Quiz' },        loadComponent: () => import('./pages/quiz-page').then(m => m.QuizPage) },
   { path: 'contact',     data: { anim: 'Contact' },     loadComponent: () => import('./pages/contact-page').then(m => m.ContactPage) },
   { path: '**',          data: { anim: '404' },        loadComponent: () => import('./pages/not-found-page').then(m => m.NotFoundPage) },
 ];
